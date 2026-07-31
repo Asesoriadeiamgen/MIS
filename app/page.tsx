@@ -58,13 +58,13 @@ export default async function Home() {
       <WelcomeGateOverlay />
 
       <section className="bg-soft-bg">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-4 py-16 text-center md:py-20">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-4 pb-10 pt-6 text-center sm:pt-8">
           <Image
             src="/logo-full.png"
             alt="María Isabel Sosa — Asesora y Coach en Imagen"
             width={520}
             height={484}
-            className="h-auto w-64 sm:w-80"
+            className="h-auto w-52 sm:w-64"
             priority
           />
           <h1 className="max-w-2xl font-serif text-3xl leading-tight sm:text-4xl">
