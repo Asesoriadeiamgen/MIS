@@ -1,13 +1,14 @@
-// TODO: falta CONTACT_EMAIL y INSTAGRAM_ACCOUNTS reales antes de lanzar.
 export const SITE_NAME = "María Isabel Sosa";
 export const SITE_TAGLINE = "Asesora y Coach en Imagen";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://tudominio.com.ar";
 export const SITE_DESCRIPTION =
   "Asesoría de imagen y coaching personal: colorimetría, guardarropa, personal shopper e imagen ejecutiva, online y presencial.";
-export const CONTACT_EMAIL = "contacto@tudominio.com";
+export const CONTACT_EMAIL = "misasesoraimagen@gmail.com";
 // Código de país + número, sin "+" ni espacios (Argentina: 549 + código de área sin 0 + número sin 15).
 export const WHATSAPP_NUMBER = "549351657715";
-export const INSTAGRAM_ACCOUNTS = [{ href: "https://instagram.com/tumarca", label: "@tumarca" }];
+export const INSTAGRAM_ACCOUNTS = [
+  { href: "https://instagram.com/mariaisabel.imagen", label: "@mariaisabel.imagen" },
+];
 
 // Diccionario de términos del rubro (asesoría de imagen): se usa para derivar
 // etiquetas visibles y palabras clave a partir del título/descripción de cada
