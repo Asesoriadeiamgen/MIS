@@ -64,7 +64,7 @@ export default async function Home() {
             alt="María Isabel Sosa — Asesora y Coach en Imagen"
             width={520}
             height={484}
-            className="h-auto w-80 sm:w-[26rem]"
+            className="h-auto w-64 sm:w-80"
             priority
           />
           <h1 className="max-w-2xl font-serif text-3xl leading-tight sm:text-4xl">
