@@ -73,12 +73,12 @@ function LoginForm() {
           {loading ? "Ingresando..." : "Ingresar"}
         </button>
       </form>
-      <p className="mt-4 text-sm text-[#2b2622]/60">
+      <p className="mt-4 text-sm text-[#1a1a1a]/60">
         <Link href="/cuenta/recuperar" className="underline">
           ¿Olvidaste tu contraseña?
         </Link>
       </p>
-      <p className="mt-2 text-sm text-[#2b2622]/60">
+      <p className="mt-2 text-sm text-[#1a1a1a]/60">
         ¿No tenés cuenta?{" "}
         <Link href="/cuenta/registro" className="underline">
           Registrate

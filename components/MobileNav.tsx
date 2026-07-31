@@ -6,11 +6,14 @@ import CartBadge from "@/components/CartBadge";
 import { IconMenu, IconClose } from "@/components/icons";
 
 const SECTIONS = [
-  { href: "/libros", label: "Libros" },
-  { href: "/agendas", label: "Agendas" },
-  { href: "/artesanias", label: "Artesanías" },
-  { href: "/varios", label: "Varios" },
-  { href: "/cursos", label: "Cursos" },
+  { href: "/sobre-mi", label: "Sobre mí" },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/packs", label: "Packs" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/blog", label: "Blog" },
+  { href: "/tienda", label: "Tienda" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/agenda", label: "Agendá tu turno" },
 ];
 
 export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
@@ -19,7 +22,7 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   return (
     <>
-      <nav className="hidden items-center gap-6 text-xs font-medium uppercase tracking-widest md:flex">
+      <nav className="hidden items-center gap-5 text-xs font-medium uppercase tracking-widest lg:flex">
         {SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} className="hover:text-lilac-deep">
             {s.label}
@@ -42,13 +45,13 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={open}
-        className="flex items-center justify-center p-2 text-[#2b2622] md:hidden"
+        className="flex items-center justify-center p-2 text-[#1a1a1a] lg:hidden"
       >
         {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#fffdfb] px-4 py-4 shadow-sm md:hidden">
+        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#ffffff] px-4 py-4 shadow-sm lg:hidden">
           <div className="flex flex-col gap-4 text-sm font-medium uppercase tracking-widest">
             {SECTIONS.map((s) => (
               <Link key={s.href} href={s.href} onClick={close} className="hover:text-lilac-deep">

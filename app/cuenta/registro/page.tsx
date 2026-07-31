@@ -183,7 +183,7 @@ export default function RegistroPage() {
           {loading ? "Creando cuenta..." : "Crear cuenta"}
         </button>
       </form>
-      <p className="mt-6 text-sm text-[#2b2622]/60">
+      <p className="mt-6 text-sm text-[#1a1a1a]/60">
         ¿Ya tenés cuenta?{" "}
         <Link href="/cuenta/login" className="underline">
           Iniciar sesión

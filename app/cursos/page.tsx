@@ -25,11 +25,11 @@ export default async function CursosPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <h1 className="mb-2 font-serif text-3xl">Cursos</h1>
-      <p className="mb-8 text-[#2b2622]/70">
+      <p className="mb-8 text-[#1a1a1a]/70">
         Cursos y talleres con fecha de inicio y duración. Consultá por WhatsApp antes de anotarte.
       </p>
       {!cursos || cursos.length === 0 ? (
-        <p className="text-sm text-[#2b2622]/50">Todavía no hay cursos publicados.</p>
+        <p className="text-sm text-[#1a1a1a]/50">Todavía no hay cursos publicados.</p>
       ) : (
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
           {cursos.map((curso) => (

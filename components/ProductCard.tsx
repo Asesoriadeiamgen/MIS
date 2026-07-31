@@ -22,14 +22,14 @@ export default function ProductCard(props: {
             className="h-full w-full object-contain transition group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-widest text-[#2b2622]/30">
+          <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-widest text-[#1a1a1a]/30">
             Sin imagen
           </div>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-4">
         <h3 className="font-serif text-lg leading-snug">{props.title}</h3>
-        {props.subtitle && <p className="text-xs text-[#2b2622]/50">{props.subtitle}</p>}
+        {props.subtitle && <p className="text-xs text-[#1a1a1a]/50">{props.subtitle}</p>}
         <p className="mt-auto border-t border-black/10 pt-2 font-semibold">
           {formatPrice(props.price)}
         </p>

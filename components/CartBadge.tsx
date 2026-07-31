@@ -13,7 +13,7 @@ export default function CartBadge() {
     <Link href="/carrito" className="relative hover:text-lilac-deep">
       Carrito
       {count > 0 && (
-        <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#2b2622] px-1 text-[10px] normal-case tracking-normal text-white">
+        <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#1a1a1a] px-1 text-[10px] normal-case tracking-normal text-white">
           {count}
         </span>
       )}

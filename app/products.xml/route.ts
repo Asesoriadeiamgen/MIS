@@ -44,48 +44,36 @@ function itemXml(item: FeedItem): string {
 export async function GET() {
   const supabase = await createClient();
 
-  const [{ data: agendas }, { data: artesanias }, { data: varios }] = await Promise.all([
-    supabase
-      .from("agendas")
-      .select("*")
-      .eq("is_active", true)
-      .not("base_price", "is", null),
-    supabase
-      .from("artesanias")
-      .select("*")
-      .eq("is_active", true)
-      .not("price", "is", null),
-    supabase
-      .from("varios_products")
-      .select("*")
-      .eq("is_active", true)
-      .not("price", "is", null),
+  const [{ data: books }, { data: cursos }, { data: packs }] = await Promise.all([
+    supabase.from("books").select("*").eq("is_active", true).not("price", "is", null),
+    supabase.from("cursos").select("*").eq("is_active", true).not("price", "is", null),
+    supabase.from("packs").select("*").eq("is_active", true).not("price", "is", null),
   ]);
 
   const items: FeedItem[] = [
-    ...(agendas ?? []).map((a) => ({
-      id: `agenda-${a.id}`,
-      title: `Agenda ${a.name} personalizada`,
-      description: a.description || "",
-      link: `${SITE_URL}/agendas/${a.id}`,
-      imageLink: a.cover_url || firstImageUrl(a.image_urls),
-      price: a.base_price as number,
+    ...(books ?? []).map((b) => ({
+      id: `libro-${b.id}`,
+      title: b.title,
+      description: b.description || "",
+      link: `${SITE_URL}/libros/${b.id}`,
+      imageLink: b.cover_url,
+      price: b.price as number,
     })),
-    ...(artesanias ?? []).map((a) => ({
-      id: `artesania-${a.id}`,
-      title: `${a.name} — Artesanía hecha a mano`,
-      description: a.description || "",
-      link: `${SITE_URL}/artesanias/${a.id}`,
-      imageLink: firstImageUrl(a.image_urls),
-      price: a.price as number,
+    ...(cursos ?? []).map((c) => ({
+      id: `curso-${c.id}`,
+      title: c.name,
+      description: c.description || "",
+      link: `${SITE_URL}/cursos/${c.id}`,
+      imageLink: firstImageUrl(c.image_urls),
+      price: c.price as number,
     })),
-    ...(varios ?? []).map((v) => ({
-      id: `varios-${v.id}`,
-      title: v.name,
-      description: v.description || "",
-      link: `${SITE_URL}/varios/${v.id}`,
-      imageLink: v.image_url,
-      price: v.price as number,
+    ...(packs ?? []).map((p) => ({
+      id: `pack-${p.id}`,
+      title: p.name,
+      description: p.description || "",
+      link: `${SITE_URL}/packs/${p.id}`,
+      imageLink: firstImageUrl(p.image_urls),
+      price: p.price as number,
     })),
   ];
 

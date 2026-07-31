@@ -127,7 +127,7 @@ export default function CartView(props: { userEmail: string | null }) {
               </div>
               <div className="flex-1">
                 <p className="font-medium">{item.title}</p>
-                {summary && <p className="text-xs text-[#2b2622]/50">{summary}</p>}
+                {summary && <p className="text-xs text-[#1a1a1a]/50">{summary}</p>}
                 <p className="mt-1 text-sm font-semibold">{formatPrice(item.unitPrice)}</p>
                 <div className="mt-2 flex items-center gap-2">
                   <label className={LABEL}>Cantidad</label>
@@ -174,7 +174,7 @@ export default function CartView(props: { userEmail: string | null }) {
       </div>
 
       <div className="mt-6 flex flex-col gap-2 border-t border-black/12 pt-6">
-        <div className="flex items-center justify-between text-sm text-[#2b2622]/70">
+        <div className="flex items-center justify-between text-sm text-[#1a1a1a]/70">
           <span>Subtotal</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
@@ -190,7 +190,7 @@ export default function CartView(props: { userEmail: string | null }) {
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-[#2b2622]/60">
+      <p className="mt-4 text-xs text-[#1a1a1a]/60">
         El costo de envío es adicional al precio del producto y se coordina por WhatsApp.
       </p>
 

@@ -17,11 +17,27 @@ sitios nuevos para otros clientes. Antes de tocar cuentas externas:
 2. **Reemplazar imágenes**: `public/logo-icon.png`, `public/logo-full.png`, `app/icon.png` y
    `app/favicon.ico` todavía son los de Lua Azul (el build los necesita para no romperse, por eso
    no se borraron). Reemplazalos por los del cliente nuevo antes de lanzar.
-3. **Cliente actual: Isabel.** Las cuentas de pago y de infraestructura (Mercado Pago, dominio, y
-   opcionalmente Supabase/Vercel) van a nombre de ella, no del desarrollador — ver la tabla de
-   cuentas más abajo. Yo (Claude) no puedo crear esas cuentas por ustedes: requieren datos
-   personales/de pago de Isabel y aceptar términos de servicio, así que ese paso lo hacen ella o
-   vos directamente en cada sitio.
+3. **Cliente actual: Isabel.** Todas las cuentas — GitHub, Vercel, Supabase, Resend, Mercado Pago
+   y el dominio — van a nombre de ella, no del desarrollador. Yo (Claude) no puedo crear ninguna
+   de esas cuentas: requieren sus datos personales/de pago y aceptar términos de servicio de cada
+   servicio, así que ese paso lo hace ella (o vos, con sus datos y su ok) directamente en cada
+   sitio. Una vez creadas, yo puedo ayudar a configurar cada una (SQL, variables de entorno,
+   conectar el repo a Vercel, etc.) si tengo acceso o si me van pasando lo que hace falta.
+
+## 0.1 GitHub (antes que nada — el resto depende de esto)
+
+Este repo hoy es local, sin remoto. Para conectarlo:
+
+1. Isabel crea una cuenta en [github.com](https://github.com) (gratis).
+2. Crea un repositorio nuevo, **vacío** (sin README/licencia, para no pisar lo que ya hay acá) —
+   por ejemplo `isabel-sitio` — en público o privado, como prefiera.
+3. Te agrega como **colaborador** (Settings → Collaborators, con tu usuario de GitHub) para que
+   puedas pushear código sin que ella tenga que compartirte su contraseña.
+4. Con eso, desde acá:
+   ```bash
+   git remote add origin https://github.com/<usuario-de-isabel>/<nombre-repo>.git
+   git push -u origin master
+   ```
 
 ## 1. Supabase (base de datos, login y archivos)
 

@@ -1,30 +1,34 @@
-// TODO: personalizar con los datos reales del cliente antes de lanzar.
-export const SITE_NAME = "Tu Marca";
+// TODO: falta CONTACT_EMAIL y INSTAGRAM_ACCOUNTS reales antes de lanzar.
+export const SITE_NAME = "María Isabel Sosa";
+export const SITE_TAGLINE = "Asesora y Coach en Imagen";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://tudominio.com.ar";
 export const SITE_DESCRIPTION =
-  "Catálogo online con carrito de compra, pagos y productos personalizables.";
+  "Asesoría de imagen y coaching personal: colorimetría, guardarropa, personal shopper e imagen ejecutiva, online y presencial.";
 export const CONTACT_EMAIL = "contacto@tudominio.com";
-// Código de país + número, sin "+" ni espacios (ej. Argentina: 549 + código de área sin 0 + número sin 15).
-export const WHATSAPP_NUMBER = "5491100000000";
+// Código de país + número, sin "+" ni espacios (Argentina: 549 + código de área sin 0 + número sin 15).
+export const WHATSAPP_NUMBER = "549351657715";
 export const INSTAGRAM_ACCOUNTS = [{ href: "https://instagram.com/tumarca", label: "@tumarca" }];
 
-// Diccionario de términos del rubro real de la tienda: se usa para derivar
+// Diccionario de términos del rubro (asesoría de imagen): se usa para derivar
 // etiquetas visibles y palabras clave a partir del título/descripción de cada
-// producto, sin depender de un campo manual que haya que cargar a mano.
-// Estos son solo ejemplos genéricos — reemplazar por el vocabulario del rubro de cada cliente.
+// servicio/producto, sin depender de un campo manual que haya que cargar a mano.
 const TAG_DICTIONARY: { pattern: RegExp; tag: string }[] = [
-  { pattern: /agenda/i, tag: "Agenda Personalizada" },
-  { pattern: /artesan/i, tag: "Artesanía Hecha a Mano" },
-  { pattern: /\bpdf\b|digital|descargar/i, tag: "Libro Digital" },
+  { pattern: /colorimetr[ií]a|color/i, tag: "Colorimetría" },
+  { pattern: /guardarropa|closet|armario/i, tag: "Guardarropa" },
+  { pattern: /personal shopper/i, tag: "Personal Shopper" },
+  { pattern: /ejecutiv|corporativ/i, tag: "Imagen Ejecutiva" },
+  { pattern: /evento/i, tag: "Eventos Especiales" },
+  { pattern: /\bpdf\b|digital|descargar|guía|ebook/i, tag: "Guía Digital" },
   { pattern: /curso|taller|seminario|capacitaci[oó]n/i, tag: "Curso" },
 ];
 
 const TYPE_FALLBACK_TAG: Record<string, string> = {
-  libro: "Libro Digital",
-  agenda: "Agenda Personalizada",
-  artesania: "Artesanía Hecha a Mano",
-  varios: SITE_NAME,
+  libro: "Guía Digital",
+  agenda: SITE_NAME,
+  artesania: SITE_NAME,
+  varios: "Servicio",
   curso: "Curso",
+  pack: "Pack",
 };
 
 export function deriveTags(

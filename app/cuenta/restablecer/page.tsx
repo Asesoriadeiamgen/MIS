@@ -49,7 +49,7 @@ export default function RestablecerPage() {
       <h1 className="mb-8 font-serif text-3xl">Elegir nueva contraseña</h1>
 
       {done ? (
-        <p className="text-sm text-[#2b2622]/80">Contraseña actualizada. Te estamos redirigiendo...</p>
+        <p className="text-sm text-[#1a1a1a]/80">Contraseña actualizada. Te estamos redirigiendo...</p>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>

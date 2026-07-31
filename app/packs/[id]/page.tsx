@@ -1,0 +1,128 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { formatPrice } from "@/lib/format";
+import AddToCartButton from "@/components/AddToCartButton";
+import ProductTags from "@/components/ProductTags";
+import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
+import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { LABEL } from "@/lib/ui";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: pack } = await supabase.from("packs").select("*").eq("id", id).single();
+  if (!pack) return {};
+
+  const description = truncateDescription(pack.description);
+  return {
+    title: pack.name,
+    description,
+    alternates: { canonical: `/packs/${id}` },
+    ...buildSocialMeta({
+      title: pack.name,
+      description,
+      path: `/packs/${id}`,
+      image: pack.image_urls?.[0],
+    }),
+  };
+}
+
+export default async function PackDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const supabase = await createClient();
+
+  const { data: pack } = await supabase.from("packs").select("*").eq("id", id).single();
+  if (!pack) notFound();
+
+  const tags = deriveTags("varios", pack.name, pack.description);
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pack.name,
+    description: pack.description || undefined,
+    image: pack.image_urls?.[0] || undefined,
+    url: `${SITE_URL}/packs/${id}`,
+    offers:
+      pack.price !== null
+        ? {
+            "@type": "Offer",
+            priceCurrency: "ARS",
+            price: pack.price,
+            availability: "https://schema.org/InStock",
+            url: `${SITE_URL}/packs/${id}`,
+          }
+        : undefined,
+  };
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Inicio", path: "/" },
+    { name: "Packs", path: "/packs" },
+    { name: pack.name, path: `/packs/${id}` },
+  ]);
+
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-2">
+          {(pack.image_urls?.length ? pack.image_urls : [null]).map((url, i) => (
+            <div key={i} className="aspect-[4/5] overflow-hidden rounded-sm bg-lilac/10">
+              {url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={url} alt={`${pack.name} - foto ${i + 1}`} className="h-full w-full object-cover" />
+              ) : null}
+            </div>
+          ))}
+        </div>
+        <div>
+          <h1 className="text-2xl font-semibold">{pack.name}</h1>
+          <p className="mt-2 text-xl font-semibold">{formatPrice(pack.price)}</p>
+
+          {pack.sessions_count && (
+            <p className="mt-3 text-sm text-[#1a1a1a]/70">
+              <span className={LABEL}>Sesiones: </span>
+              {pack.sessions_count}
+            </p>
+          )}
+
+          {pack.description && <p className="mt-4 text-sm text-[#1a1a1a]/70">{pack.description}</p>}
+          <ProductTags tags={tags} />
+
+          <div className="mt-6">
+            <WhatsappDeliveryNote
+              label={
+                pack.price !== null
+                  ? "Consultá por WhatsApp antes de comprar."
+                  : "Consultá el precio por WhatsApp."
+              }
+              message={`Hola! Quiero consultar sobre el pack "${pack.name}".`}
+            />
+          </div>
+
+          {pack.price !== null && (
+            <div className="mt-6">
+              <AddToCartButton
+                productType="pack"
+                productId={pack.id}
+                title={pack.name}
+                unitPrice={pack.price}
+                image={pack.image_urls?.[0] ?? undefined}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

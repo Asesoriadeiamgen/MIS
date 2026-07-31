@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -25,28 +25,35 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
+// Cursiva del isologo (la firma "Asesora y Coach en Imagen"): se usa para
+// acentos de marca, no para texto de lectura extensa.
+const alexBrush = Alex_Brush({
+  variable: "--font-alex-brush",
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Catálogo online`,
+    default: `${SITE_NAME} - Asesoría de Imagen`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
-  // TODO: personalizar con las palabras clave del rubro de este cliente.
-  keywords: ["catálogo online", "tienda online", SITE_NAME],
+  keywords: ["asesoría de imagen", "coaching de imagen", "colorimetría", "personal shopper", SITE_NAME],
   authors: [{ name: SITE_NAME }],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "es_AR",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Catálogo online`,
+    title: `${SITE_NAME} - Asesoría de Imagen`,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Catálogo online`,
+    title: `${SITE_NAME} - Asesoría de Imagen`,
     description: SITE_DESCRIPTION,
   },
   robots: {
@@ -56,7 +63,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1a4077",
+  themeColor: "#1a1a1a",
 };
 
 export default function RootLayout({
@@ -77,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${alexBrush.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script

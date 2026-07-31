@@ -4,13 +4,17 @@ import { createClient } from "@/lib/supabase/server";
 
 const LINKS = [
   { href: "/admin", label: "Panel" },
-  { href: "/admin/libros", label: "Libros" },
-  { href: "/admin/agendas", label: "Agendas" },
-  { href: "/admin/artesanias", label: "Artesanías" },
-  { href: "/admin/varios", label: "Varios" },
+  { href: "/admin/servicios", label: "Servicios" },
+  { href: "/admin/packs", label: "Packs" },
+  { href: "/admin/portfolio", label: "Portfolio" },
+  { href: "/admin/testimonios", label: "Testimonios" },
+  { href: "/admin/blog", label: "Blog" },
+  { href: "/admin/faq", label: "FAQ" },
+  { href: "/admin/agenda", label: "Agenda" },
+  { href: "/admin/libros", label: "Ebooks/Guías" },
   { href: "/admin/cursos", label: "Cursos" },
   { href: "/admin/cupones", label: "Cupones" },
-  { href: "/admin/codigos-libros", label: "Códigos libros" },
+  { href: "/admin/codigos-libros", label: "Códigos ebooks" },
   { href: "/admin/pedidos", label: "Pedidos" },
   { href: "/admin/usuarios", label: "Usuarios" },
 ];

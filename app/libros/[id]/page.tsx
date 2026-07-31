@@ -93,7 +93,7 @@ export default async function LibroDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-        <div className="aspect-[3/4] overflow-hidden rounded-sm bg-pink-soft">
+        <div className="aspect-[3/4] overflow-hidden rounded-sm bg-lilac/10">
           {book.cover_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={book.cover_url} alt={book.title} className="h-full w-full object-contain" />
@@ -101,9 +101,9 @@ export default async function LibroDetailPage({
         </div>
         <div>
           <h1 className="font-serif text-3xl">{book.title}</h1>
-          {book.author && <p className="mt-1 text-[#2b2622]/60">{book.author}</p>}
+          {book.author && <p className="mt-1 text-[#1a1a1a]/60">{book.author}</p>}
           <p className="mt-4 text-xl font-semibold">{formatPrice(book.price)}</p>
-          {book.description && <p className="mt-4 text-sm text-[#2b2622]/80">{book.description}</p>}
+          {book.description && <p className="mt-4 text-sm text-[#1a1a1a]/80">{book.description}</p>}
           <ProductTags tags={tags} />
 
           {hasAccess ? (

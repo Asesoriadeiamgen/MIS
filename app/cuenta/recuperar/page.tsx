@@ -36,7 +36,7 @@ export default function RecuperarPage() {
       <h1 className="mb-8 font-serif text-3xl">Recuperar contraseña</h1>
 
       {sent ? (
-        <p className="text-sm text-[#2b2622]/80">
+        <p className="text-sm text-[#1a1a1a]/80">
           Si el email <strong>{email}</strong> tiene una cuenta, te enviamos un link para elegir una
           contraseña nueva. Revisá tu casilla de entrada (y la carpeta de spam).
         </p>
@@ -62,7 +62,7 @@ export default function RecuperarPage() {
         </form>
       )}
 
-      <p className="mt-6 text-sm text-[#2b2622]/60">
+      <p className="mt-6 text-sm text-[#1a1a1a]/60">
         <Link href="/cuenta/login" className="underline">
           Volver a iniciar sesión
         </Link>

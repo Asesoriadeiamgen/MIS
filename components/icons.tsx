@@ -58,6 +58,65 @@ export function IconCurso({ className }: IconProps) {
   );
 }
 
+export function IconServicio({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M12 3.5l1.6 4.3 4.3 1.6-4.3 1.6-1.6 4.3-1.6-4.3-4.3-1.6 4.3-1.6z" />
+      <path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" />
+    </svg>
+  );
+}
+
+export function IconPack({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <rect x="4" y="9.5" width="16" height="10.5" rx="1" />
+      <path d="M4 13.5h16" />
+      <path d="M9 9.5V7a3 3 0 0 1 6 0v2.5" />
+    </svg>
+  );
+}
+
+export function IconPortfolio({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <rect x="3.5" y="4.5" width="17" height="13" rx="1.2" />
+      <circle cx="8.3" cy="9" r="1.4" />
+      <path d="M4 15.5l4.8-4 4 3 3-2.5 4.2 3.5" />
+    </svg>
+  );
+}
+
+export function IconBlog({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M5 4.5h9.5L19 9v10.5H5z" />
+      <path d="M14 4.5V9h5" />
+      <path d="M8 12.5h8M8 15.5h8M8 18h5" />
+    </svg>
+  );
+}
+
+export function IconTienda({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
+      <path d="M3.5 9.5h17l-1.5-5h-14z" />
+      <path d="M9 12.5a3 3 0 0 0 6 0" />
+    </svg>
+  );
+}
+
+export function IconFaq({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.6 9.7a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 .8-1 1.6v.4" />
+      <circle cx="12" cy="16.3" r="0.15" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export function IconInstagram({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">

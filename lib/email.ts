@@ -77,23 +77,23 @@ export async function sendBirthdayEmail(params: { to: string; name: string }) {
     to: params.to,
     subject: `¡Feliz cumpleaños${params.name ? `, ${params.name}` : ""}! 🎂`,
     html: `
-      <div style="max-width: 480px; margin: 0 auto; padding: 40px 24px; background: #fffdfb; border: 1px solid rgba(0,0,0,.08); font-family: Georgia, 'Times New Roman', serif; color: #2b2622;">
+      <div style="max-width: 480px; margin: 0 auto; padding: 40px 24px; background: #ffffff; border: 1px solid rgba(0,0,0,.08); font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a;">
         <div style="text-align: center; margin-bottom: 24px;">
           <div style="display: inline-block; width: 56px; height: 56px; border-radius: 999px; background: #e4d9f7; line-height: 56px; font-size: 26px;">🎉</div>
         </div>
         <h1 style="text-align: center; font-size: 26px; font-weight: normal; margin: 0 0 16px;">
           ¡Feliz cumpleaños${params.name ? `, ${params.name}` : ""}!
         </h1>
-        <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #2b2622cc;">
+        <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #1a1a1acc;">
           En ${SITE_NAME} festejamos tu cumpleaños. Te deseamos un día hermoso, y un año repleto de buenas realizaciones.<br/>
           Gracias por ser parte de nuestra comunidad. 💜
         </p>
         <div style="text-align: center; margin: 28px 0; padding: 16px; border: 1px dashed rgba(43,38,34,.25);">
-          <p style="margin: 0 0 8px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #2b262299;">Tu regalo</p>
+          <p style="margin: 0 0 8px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #1a1a1a99;">Tu regalo</p>
           <p style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 3px;">REGALO</p>
         </div>
         <div style="text-align: center; margin-top: 8px;">
-          <a href="${siteUrl}" style="display: inline-block; padding: 12px 28px; background: #2b2622; color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
+          <a href="${siteUrl}" style="display: inline-block; padding: 12px 28px; background: #1a1a1a; color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
             Visitá nuestro sitio
           </a>
         </div>
@@ -120,7 +120,7 @@ function customizationRowsHtml(customization: Record<string, unknown>) {
     .map(([key, value]) => {
       const label = CUSTOMIZATION_LABELS[key] || key;
       const display = typeof value === "boolean" ? (value ? "Sí" : "No") : String(value);
-      return `<tr><td style="padding:4px 16px 4px 0; color:#2b262299; font-size:13px; white-space:nowrap;">${label}</td><td style="padding:4px 0; font-size:13px;">${display}</td></tr>`;
+      return `<tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px; white-space:nowrap;">${label}</td><td style="padding:4px 0; font-size:13px;">${display}</td></tr>`;
     })
     .join("");
 }
@@ -148,9 +148,9 @@ export async function sendCustomizationEmail(params: {
     to: params.to,
     subject: `Nueva personalización: ${params.itemTitle} (#${params.orderId.slice(0, 8)})`,
     html: `
-      <div style="font-family: Arial, Helvetica, sans-serif; color: #2b2622; max-width: 520px;">
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 520px;">
         <h2 style="font-weight: normal; margin: 0 0 4px;">${params.itemTitle}</h2>
-        <p style="font-size: 12px; color: #2b262299; margin: 0 0 16px;">Pedido #${params.orderId.slice(0, 8)}</p>
+        <p style="font-size: 12px; color: #1a1a1a99; margin: 0 0 16px;">Pedido #${params.orderId.slice(0, 8)}</p>
         <table style="border-collapse: collapse;">${rows}</table>
         ${photosHtml}
       </div>
@@ -167,7 +167,7 @@ export async function sendAdminOrderNotificationEmail(params: {
   const itemsHtml = params.items
     .map(
       (i) =>
-        `<tr><td style="padding:4px 16px 4px 0; font-size:13px;">${i.title} × ${i.quantity}</td><td style="padding:4px 0; font-size:13px; color:#2b262299;">$${i.unit_price.toFixed(2)}</td></tr>`
+        `<tr><td style="padding:4px 16px 4px 0; font-size:13px;">${i.title} × ${i.quantity}</td><td style="padding:4px 0; font-size:13px; color:#1a1a1a99;">$${i.unit_price.toFixed(2)}</td></tr>`
     )
     .join("");
 
@@ -175,13 +175,70 @@ export async function sendAdminOrderNotificationEmail(params: {
     to: ADMIN_EMAIL,
     subject: `Nueva compra: pedido #${params.orderId.slice(0, 8)}`,
     html: `
-      <div style="font-family: Arial, Helvetica, sans-serif; color: #2b2622; max-width: 520px;">
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 520px;">
         <h2 style="font-weight: normal; margin: 0 0 4px;">Nueva compra confirmada</h2>
-        <p style="font-size: 12px; color: #2b262299; margin: 0 0 16px;">
+        <p style="font-size: 12px; color: #1a1a1a99; margin: 0 0 16px;">
           Pedido #${params.orderId.slice(0, 8)} — ${params.customerEmail}
         </p>
         <table style="border-collapse: collapse;">${itemsHtml}</table>
         <p style="margin-top: 16px; font-size: 15px; font-weight: bold;">Total: $${params.total.toFixed(2)}</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendTurnoConfirmationEmail(params: {
+  to: string;
+  clientName: string;
+  servicioNombre: string | null;
+  startAt: string;
+}) {
+  const when = new Date(params.startAt).toLocaleString("es-AR", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+
+  return send({
+    to: params.to,
+    subject: `Turno confirmado — ${when}`,
+    html: `
+      <p>Hola ${params.clientName}, ¡tu turno quedó confirmado!</p>
+      <p><strong>${when}</strong></p>
+      ${params.servicioNombre ? `<p>Motivo de consulta: ${params.servicioNombre}</p>` : ""}
+      <p>Cualquier cambio, escribinos por WhatsApp.</p>
+    `,
+  });
+}
+
+export async function sendTurnoAdminNotificationEmail(params: {
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string | null;
+  servicioNombre: string | null;
+  startAt: string;
+  notes: string | null;
+}) {
+  const when = new Date(params.startAt).toLocaleString("es-AR", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+
+  return send({
+    to: ADMIN_EMAIL,
+    subject: `Nuevo turno reservado — ${when}`,
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 520px;">
+        <h2 style="font-weight: normal; margin: 0 0 4px;">Nuevo turno reservado</h2>
+        <p style="font-size: 15px; font-weight: bold; margin: 8px 0;">${when}</p>
+        <table style="border-collapse: collapse;">
+          <tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px;">Nombre</td><td style="padding:4px 0; font-size:13px;">${params.clientName}</td></tr>
+          <tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px;">Email</td><td style="padding:4px 0; font-size:13px;">${params.clientEmail}</td></tr>
+          ${params.clientPhone ? `<tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px;">Teléfono</td><td style="padding:4px 0; font-size:13px;">${params.clientPhone}</td></tr>` : ""}
+          ${params.servicioNombre ? `<tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px;">Motivo</td><td style="padding:4px 0; font-size:13px;">${params.servicioNombre}</td></tr>` : ""}
+          ${params.notes ? `<tr><td style="padding:4px 16px 4px 0; color:#1a1a1a99; font-size:13px;">Notas</td><td style="padding:4px 0; font-size:13px;">${params.notes}</td></tr>` : ""}
+        </table>
       </div>
     `,
   });
@@ -214,7 +271,7 @@ export type WeeklyStats = {
 };
 
 function statRow(label: string, value: string | number) {
-  return `<tr><td style="padding:6px 16px 6px 0; font-size:14px; color:#2b262299;">${label}</td><td style="padding:6px 0; font-size:14px; font-weight:bold; text-align:right;">${value}</td></tr>`;
+  return `<tr><td style="padding:6px 16px 6px 0; font-size:14px; color:#1a1a1a99;">${label}</td><td style="padding:6px 0; font-size:14px; font-weight:bold; text-align:right;">${value}</td></tr>`;
 }
 
 export async function sendBackupEmail(params: {
@@ -228,15 +285,15 @@ export async function sendBackupEmail(params: {
     ? `<table style="width:100%; border-collapse: collapse; margin-top:4px;">${s.topProductos
         .map(([title, qty]) => statRow(title, `${qty} u.`))
         .join("")}</table>`
-    : `<p style="font-size:13px; color:#2b262299; margin:4px 0 0;">Sin ventas esta semana.</p>`;
+    : `<p style="font-size:13px; color:#1a1a1a99; margin:4px 0 0;">Sin ventas esta semana.</p>`;
 
   return send({
     to: params.to,
     subject: `Resumen semanal de ${SITE_NAME} — ${params.dateLabel}`,
     html: `
-      <div style="font-family: Arial, Helvetica, sans-serif; color: #2b2622; max-width: 560px; margin: 0 auto;">
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 560px; margin: 0 auto;">
         <h1 style="font-size:20px; font-weight:normal; margin:0 0 4px;">Resumen semanal — ${params.dateLabel}</h1>
-        <p style="font-size:12px; color:#2b262299; margin:0 0 24px;">Últimos 7 días</p>
+        <p style="font-size:12px; color:#1a1a1a99; margin:0 0 24px;">Últimos 7 días</p>
 
         <table style="width:100%; border-collapse: collapse; margin-bottom: 24px;">
           ${statRow("Usuarios nuevos", s.nuevosUsuarios)}
@@ -260,7 +317,7 @@ export async function sendBackupEmail(params: {
           ${statRow("Cursos activos", s.totales.cursos)}
         </table>
 
-        <p style="font-size:12px; color:#2b262299; border-top:1px solid rgba(43,38,34,.12); padding-top:16px;">
+        <p style="font-size:12px; color:#1a1a1a99; border-top:1px solid rgba(43,38,34,.12); padding-top:16px;">
           Estos números no incluyen visitas/tráfico del sitio — para eso revisá Google Analytics o Vercel Analytics.
           Adjuntamos también el backup completo de la base de datos en formato JSON, por si hace falta restaurar algo.
         </p>

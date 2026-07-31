@@ -20,7 +20,7 @@ export default async function AdminCodigosLibrosPage() {
       <h1 className="text-xl font-semibold mb-2">Códigos compartidos de libros</h1>
       <p className="mb-4 text-sm text-gray-500">
         Un mismo código que varias personas distintas pueden canjear, cada una una sola vez. Para
-        un código de un solo uso destinado a una sola persona, usá "Generar código gratis" en la
+        un código de un solo uso destinado a una sola persona, usá &ldquo;Generar código gratis&rdquo; en la
         lista de Libros.
       </p>
       <BookPromoCodeForm books={books ?? []} />

@@ -37,7 +37,7 @@ export default function GenerateBookCodeButton({ bookId }: { bookId: string }) {
         </button>
       </div>
       {code && (
-        <p className="text-xs text-[#2b2622]/70">
+        <p className="text-xs text-[#1a1a1a]/70">
           Código: <span className="font-mono font-semibold tracking-wider">{code}</span>
           {email && " · enviado por email"}
         </p>

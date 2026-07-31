@@ -3,9 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import ProductCard from "@/components/ProductCard";
 import { buildSocialMeta } from "@/lib/seo";
 
-const title = "Libros digitales: Flores de Bach, Reiki y cuentos infantiles";
+const title = "Ebooks y guías descargables";
 const description =
-  "Libros digitales en PDF: manual y cartas de Flores de Bach, Reiki (Byosen), cuentos infantiles y libros de desarrollo personal. Accedé pagando o con un código.";
+  "Ebooks y guías en PDF de asesoría de imagen: colorimetría, cápsulas de outfits y más. Accedé pagando o con un código.";
 
 export const metadata: Metadata = {
   title,
@@ -24,12 +24,12 @@ export default async function LibrosPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <h1 className="mb-2 font-serif text-3xl">Libros</h1>
-      <p className="mb-8 text-[#2b2622]/70">
-        Libros digitales protegidos. Accedé pagando o con un código enviado por email.
+      <h1 className="mb-2 font-serif text-3xl">Ebooks y guías</h1>
+      <p className="mb-8 text-[#1a1a1a]/70">
+        Guías digitales protegidas. Accedé pagando o con un código enviado por email.
       </p>
       {!books || books.length === 0 ? (
-        <p className="text-sm text-[#2b2622]/50">Todavía no hay libros publicados.</p>
+        <p className="text-sm text-[#1a1a1a]/50">Todavía no hay guías publicadas.</p>
       ) : (
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
           {books.map((book) => (

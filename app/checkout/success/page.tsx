@@ -15,7 +15,7 @@ export default function CheckoutSuccessPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-24 text-center">
       <h1 className="mb-3 font-serif text-3xl">¡Pago confirmado!</h1>
-      <p className="mb-8 text-[#2b2622]/70">
+      <p className="mb-8 text-[#1a1a1a]/70">
         Te enviamos un email con la confirmación. Si compraste un libro, el código de acceso llega por
         email en los próximos minutos.
       </p>

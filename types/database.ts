@@ -1,4 +1,4 @@
-export type ProductType = "libro" | "agenda" | "artesania" | "varios" | "curso";
+export type ProductType = "libro" | "agenda" | "artesania" | "varios" | "curso" | "pack";
 export type OrderStatus = "pending" | "paid" | "failed" | "cancelled";
 
 export type Profile = {
@@ -68,6 +68,104 @@ export type Curso = {
   start_time: string | null;
   image_urls: string[];
   is_active: boolean;
+  created_at: string;
+};
+
+export type Servicio = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number | null;
+  modalidad: "online" | "presencial" | "ambas";
+  image_urls: string[];
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
+export type Pack = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number | null;
+  sessions_count: number | null;
+  image_urls: string[];
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
+export type PortfolioItem = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  image_url: string | null;
+  before_image_url: string | null;
+  after_image_url: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
+export type Testimonio = {
+  id: string;
+  client_name: string;
+  quote: string;
+  photo_url: string | null;
+  rating: number | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
+export type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  cover_url: string | null;
+  published_at: string;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type Faq = {
+  id: string;
+  question: string;
+  answer: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
+export type DisponibilidadSemanal = {
+  id: string;
+  weekday: number;
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type BloqueoFecha = {
+  id: string;
+  start_at: string;
+  end_at: string;
+  reason: string | null;
+  created_at: string;
+};
+
+export type Turno = {
+  id: string;
+  start_at: string;
+  end_at: string;
+  servicio_nombre: string | null;
+  client_name: string;
+  client_email: string;
+  client_phone: string | null;
+  notes: string | null;
+  status: "confirmado" | "cancelado";
   created_at: string;
 };
 
@@ -147,6 +245,15 @@ export type Database = {
       artesanias: Table<Artesania>;
       varios_products: Table<VariosProduct>;
       cursos: Table<Curso>;
+      servicios: Table<Servicio>;
+      packs: Table<Pack>;
+      portfolio: Table<PortfolioItem>;
+      testimonios: Table<Testimonio>;
+      blog_posts: Table<BlogPost>;
+      faqs: Table<Faq>;
+      disponibilidad_semanal: Table<DisponibilidadSemanal>;
+      bloqueos_fecha: Table<BloqueoFecha>;
+      turnos: Table<Turno>;
       discount_codes: Table<DiscountCode>;
       orders: Table<
         Order,
@@ -212,6 +319,23 @@ export type Database = {
       >;
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      horarios_disponibles: {
+        Args: { p_date: string; p_duration_minutes?: number };
+        Returns: { start_at: string }[];
+      };
+      reservar_turno: {
+        Args: {
+          p_start_at: string;
+          p_duration_minutes: number;
+          p_servicio_nombre: string | null;
+          p_client_name: string;
+          p_client_email: string;
+          p_client_phone: string | null;
+          p_notes: string | null;
+        };
+        Returns: Turno;
+      };
+    };
   };
 };

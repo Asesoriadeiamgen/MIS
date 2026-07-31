@@ -41,12 +41,12 @@ export default function WelcomeGateOverlay() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-sm bg-[#fffdfb] px-6 py-10 text-center shadow-lg">
-        <p className="mb-3 text-xs font-medium uppercase tracking-widest text-[#2b2622]/60">
+      <div className="w-full max-w-md rounded-sm bg-[#ffffff] px-6 py-10 text-center shadow-lg">
+        <p className="mb-3 text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/60">
           Bienvenido
         </p>
         <h2 className="font-serif text-3xl leading-tight">{SITE_NAME}</h2>
-        <p className="mt-4 text-sm text-[#2b2622]/70">
+        <p className="mt-4 text-sm text-[#1a1a1a]/70">
           Iniciá sesión o creá una cuenta para guardar tus pedidos, tus libros y tus datos de
           envío. También podés seguir navegando sin conectarte.
         </p>
@@ -61,7 +61,7 @@ export default function WelcomeGateOverlay() {
         <button
           type="button"
           onClick={continueAsGuest}
-          className="mt-6 text-xs uppercase tracking-widest text-[#2b2622]/60 underline hover:text-[#2b2622]"
+          className="mt-6 text-xs uppercase tracking-widest text-[#1a1a1a]/60 underline hover:text-[#1a1a1a]"
         >
           Seguir como invitado
         </button>

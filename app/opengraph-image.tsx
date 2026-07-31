@@ -20,20 +20,20 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#fffdfb",
+          background: "#ffffff",
           padding: "80px",
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logoSrc} width={140} height={140} style={{ marginBottom: 24 }} />
-        <div style={{ fontSize: 76, color: "#2b2622", fontWeight: 700, letterSpacing: 2 }}>
+        <div style={{ fontSize: 76, color: "#1a1a1a", fontWeight: 700, letterSpacing: 2 }}>
           {SITE_NAME}
         </div>
         <div
           style={{
             marginTop: 24,
             fontSize: 30,
-            color: "#2b2622aa",
+            color: "#1a1a1aaa",
             textAlign: "center",
             maxWidth: 900,
           }}

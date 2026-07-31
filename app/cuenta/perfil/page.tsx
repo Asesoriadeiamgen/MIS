@@ -44,7 +44,7 @@ export default async function PerfilPage({
       <div className="mb-10 flex items-center justify-between">
         <h1 className="font-serif text-3xl">Mi cuenta</h1>
         <form action={signOut}>
-          <button type="submit" className="text-xs uppercase tracking-widest text-[#2b2622]/60 underline">
+          <button type="submit" className="text-xs uppercase tracking-widest text-[#1a1a1a]/60 underline">
             Cerrar sesión
           </button>
         </form>
@@ -52,7 +52,7 @@ export default async function PerfilPage({
 
       <section className="mb-10">
         <h2 className={`mb-2 ${LABEL}`}>Datos personales</h2>
-        <p className="mb-4 text-sm text-[#2b2622]/80">
+        <p className="mb-4 text-sm text-[#1a1a1a]/80">
           {profile?.full_name || "Sin nombre cargado"}
         </p>
 
@@ -105,7 +105,7 @@ export default async function PerfilPage({
       <section className="mb-10">
         <h2 className={`mb-3 ${LABEL}`}>Mis libros</h2>
         {!accesses || accesses.length === 0 ? (
-          <p className="text-sm text-[#2b2622]/50">Todavía no tenés libros desbloqueados.</p>
+          <p className="text-sm text-[#1a1a1a]/50">Todavía no tenés libros desbloqueados.</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {accesses.map((a) => (
@@ -128,7 +128,7 @@ export default async function PerfilPage({
       <section>
         <h2 className={`mb-3 ${LABEL}`}>Mis pedidos</h2>
         {!orders || orders.length === 0 ? (
-          <p className="text-sm text-[#2b2622]/50">Todavía no hiciste ningún pedido.</p>
+          <p className="text-sm text-[#1a1a1a]/50">Todavía no hiciste ningún pedido.</p>
         ) : (
           <ul className="flex flex-col gap-3">
             {orders.map((order) => (
@@ -137,7 +137,7 @@ export default async function PerfilPage({
                   <span className="font-medium">Pedido #{order.id.slice(0, 8)}</span>
                   <span className="capitalize">{order.status}</span>
                 </div>
-                <p className="text-sm text-[#2b2622]/70">{formatPrice(order.total)}</p>
+                <p className="text-sm text-[#1a1a1a]/70">{formatPrice(order.total)}</p>
               </li>
             ))}
           </ul>
