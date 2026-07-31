@@ -52,9 +52,6 @@ export default async function PerfilPage({
 
       <section className="mb-10">
         <h2 className={`mb-2 ${LABEL}`}>Datos personales</h2>
-        <p className="mb-4 text-sm text-[#1a1a1a]/80">
-          {profile?.full_name || "Sin nombre cargado"}
-        </p>
 
         {updated && <p className="mb-3 text-sm text-green-700">Tus datos se actualizaron.</p>}
         {emailPending && (
@@ -66,6 +63,18 @@ export default async function PerfilPage({
         {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
 
         <form action={updateProfile} className="flex max-w-sm flex-col gap-4">
+          <div>
+            <label className={`mb-1.5 block ${LABEL}`} htmlFor="full_name">
+              Nombre
+            </label>
+            <input
+              id="full_name"
+              name="full_name"
+              type="text"
+              defaultValue={profile?.full_name ?? ""}
+              className={INPUT}
+            />
+          </div>
           <div>
             <label className={`mb-1.5 block ${LABEL}`} htmlFor="email">
               Email

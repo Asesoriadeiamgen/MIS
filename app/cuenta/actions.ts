@@ -18,9 +18,10 @@ export async function updateProfile(formData: FormData) {
   if (!user) redirect("/cuenta/login?next=/cuenta/perfil");
 
   const phone = String(formData.get("phone") || "").trim();
+  const fullName = String(formData.get("full_name") || "").trim();
   const email = String(formData.get("email") || "").trim();
 
-  await supabase.from("profiles").update({ phone: phone || null }).eq("id", user.id);
+  await supabase.from("profiles").update({ phone: phone || null, full_name: fullName || null }).eq("id", user.id);
 
   if (email && email !== user.email) {
     const { error } = await supabase.auth.updateUser({ email });
