@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
   "Asesoría de imagen y coaching personal: colorimetría, guardarropa, personal shopper e imagen ejecutiva, online y presencial.";
 export const CONTACT_EMAIL = "misasesoraimagen@gmail.com";
 // Código de país + número, sin "+" ni espacios (Argentina: 549 + código de área sin 0 + número sin 15).
-export const WHATSAPP_NUMBER = "549351657715";
+export const WHATSAPP_NUMBER = "5493516577125";
 export const INSTAGRAM_ACCOUNTS = [
   { href: "https://instagram.com/mariaisabel.imagen", label: "@mariaisabel.imagen" },
 ];
