@@ -38,7 +38,7 @@ export default async function BlogPage() {
               className="flex gap-4 rounded-sm border border-black/10 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm"
             >
               {post.cover_url && (
-                <div className="aspect-square w-24 flex-shrink-0 overflow-hidden rounded-sm bg-lilac/10">
+                <div className="aspect-square w-24 flex-shrink-0 overflow-hidden rounded-sm bg-soft-bg">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={post.cover_url} alt={post.title} className="h-full w-full object-cover" />
                 </div>

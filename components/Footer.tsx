@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { IconInstagram, IconMail } from "@/components/icons";
-import { SITE_NAME, SITE_TAGLINE, CONTACT_EMAIL, INSTAGRAM_ACCOUNTS } from "@/lib/seo";
+import { SITE_NAME, CONTACT_EMAIL, INSTAGRAM_ACCOUNTS } from "@/lib/seo";
 
 const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
@@ -16,14 +16,11 @@ const SECTIONS = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-black/10 bg-lilac/5">
+    <footer className="mt-20 border-t border-black/10 bg-soft-bg">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-4 py-10 text-center">
-        <span className="flex flex-col items-center gap-1">
-          <span className="flex items-center gap-2 font-serif text-lg tracking-wide">
-            <Image src="/logo-icon.png" alt={SITE_NAME} width={28} height={28} className="h-7 w-7" />
-            {SITE_NAME}
-          </span>
-          <span className="font-script text-base text-lilac-deep">{SITE_TAGLINE}</span>
+        <span className="flex items-center gap-2">
+          <Image src="/logo-icon.png" alt="" width={32} height={32} className="h-8 w-8" />
+          <Image src="/logo-text.png" alt={SITE_NAME} width={900} height={261} className="h-8 w-auto" />
         </span>
         <nav className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/70">
           {SECTIONS.map((s) => (

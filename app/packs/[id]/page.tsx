@@ -77,7 +77,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         <div className="grid grid-cols-2 gap-2">
           {(pack.image_urls?.length ? pack.image_urls : [null]).map((url, i) => (
-            <div key={i} className="aspect-[4/5] overflow-hidden rounded-sm bg-lilac/10">
+            <div key={i} className="aspect-[4/5] overflow-hidden rounded-sm bg-soft-bg">
               {url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={url} alt={`${pack.name} - foto ${i + 1}`} className="h-full w-full object-cover" />

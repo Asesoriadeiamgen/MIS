@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <p className="text-xs text-[#1a1a1a]/50">{formatDate(post.published_at)}</p>
       <h1 className="mt-1 font-serif text-3xl">{post.title}</h1>
       {post.cover_url && (
-        <div className="mt-6 aspect-video overflow-hidden rounded-sm bg-lilac/10">
+        <div className="mt-6 aspect-video overflow-hidden rounded-sm bg-soft-bg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={post.cover_url} alt={post.title} className="h-full w-full object-cover" />
         </div>

@@ -119,7 +119,7 @@ export default function CartView(props: { userEmail: string | null }) {
           const summary = summarizeCustomization(item.customization);
           return (
             <li key={item.lineId} className="flex gap-4 rounded-sm border border-black/12 p-4">
-              <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-sm bg-lilac/40">
+              <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-sm bg-soft-bg-deep">
                 {item.image && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={item.image} alt={item.title} className="h-full w-full object-cover" />

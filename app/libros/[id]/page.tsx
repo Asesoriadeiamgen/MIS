@@ -93,7 +93,7 @@ export default async function LibroDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-        <div className="aspect-[3/4] overflow-hidden rounded-sm bg-lilac/10">
+        <div className="aspect-[3/4] overflow-hidden rounded-sm bg-soft-bg">
           {book.cover_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={book.cover_url} alt={book.title} className="h-full w-full object-contain" />

@@ -57,7 +57,7 @@ export default async function Home() {
     <div>
       <WelcomeGateOverlay />
 
-      <section className="bg-lilac/10">
+      <section className="bg-soft-bg">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-4 py-16 text-center md:py-20">
           <Image
             src="/logo-full.png"
@@ -104,7 +104,7 @@ export default async function Home() {
       </section>
 
       {testimonios && testimonios.length > 0 && (
-        <section className="bg-lilac/10">
+        <section className="bg-soft-bg">
           <div className="mx-auto max-w-5xl px-4 py-14">
             <h2 className="mb-8 text-center font-serif text-2xl">Lo que dicen mis clientas</h2>
             <div className="grid gap-5 sm:grid-cols-3">

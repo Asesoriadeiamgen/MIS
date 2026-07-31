@@ -12,7 +12,7 @@ export default function WhatsappDeliveryNote(props: { label?: string; message?: 
       href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
       target="_blank"
       rel="noreferrer"
-      className="flex items-center gap-2 rounded-sm border border-black/15 bg-lilac/25 px-4 py-3 text-sm text-[#1a1a1a] transition hover:bg-lilac/40"
+      className="flex items-center gap-2 rounded-sm border border-black/15 bg-soft-bg px-4 py-3 text-sm text-[#1a1a1a] transition hover:bg-soft-bg-deep"
     >
       <IconWhatsapp className="h-5 w-5 flex-shrink-0" />
       <span>{label}</span>

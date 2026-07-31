@@ -13,7 +13,7 @@ export default function ProductCard(props: {
       href={props.href}
       className="group flex flex-col overflow-hidden rounded-sm border border-black/12 bg-white transition hover:-translate-y-0.5 hover:shadow-sm"
     >
-      <div className="aspect-[4/5] w-full overflow-hidden bg-lilac/30">
+      <div className="aspect-[4/5] w-full overflow-hidden bg-soft-bg">
         {props.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

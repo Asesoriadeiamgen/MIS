@@ -33,17 +33,17 @@ export default async function PortfolioPage() {
             <div key={item.id} className="overflow-hidden rounded-sm border border-black/10 bg-white">
               {item.before_image_url && item.after_image_url ? (
                 <div className="grid grid-cols-2">
-                  <div className="aspect-[3/4] overflow-hidden bg-lilac/10">
+                  <div className="aspect-[3/4] overflow-hidden bg-soft-bg">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.before_image_url} alt="Antes" className="h-full w-full object-cover" />
                   </div>
-                  <div className="aspect-[3/4] overflow-hidden bg-lilac/10">
+                  <div className="aspect-[3/4] overflow-hidden bg-soft-bg">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.after_image_url} alt="Después" className="h-full w-full object-cover" />
                   </div>
                 </div>
               ) : item.image_url ? (
-                <div className="aspect-[4/3] overflow-hidden bg-lilac/10">
+                <div className="aspect-[4/3] overflow-hidden bg-soft-bg">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={item.image_url} alt={item.title ?? ""} className="h-full w-full object-cover" />
                 </div>
