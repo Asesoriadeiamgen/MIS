@@ -12,7 +12,7 @@ export default async function Navbar() {
 
   return (
     <header className="sticky top-0 z-10 border-b border-black/10 bg-[#ffffff]/90 backdrop-blur-sm">
-      <div className="relative mx-auto flex max-w-5xl items-center justify-between gap-6 px-4 py-4">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image src="/logo-icon.png" alt="" width={48} height={48} className="h-12 w-12" />
           <span className="flex flex-col items-center text-center leading-tight">
