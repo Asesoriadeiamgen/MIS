@@ -2,10 +2,27 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { BUTTON_PRIMARY, BUTTON_OUTLINE } from "@/lib/ui";
-import { IconServicio, IconPack, IconPortfolio, IconBlog, IconTienda, IconAgenda } from "@/components/icons";
+import {
+  IconPerfil,
+  IconServicio,
+  IconPack,
+  IconPortfolio,
+  IconTestimonio,
+  IconBlog,
+  IconBook,
+  IconTienda,
+  IconFaq,
+  IconAgenda,
+} from "@/components/icons";
 import WelcomeGateOverlay from "@/components/WelcomeGateOverlay";
 
 const SECTIONS = [
+  {
+    href: "/sobre-mi",
+    title: "Sobre mí",
+    description: "Formación, filosofía e historia.",
+    Icon: IconPerfil,
+  },
   {
     href: "/servicios",
     title: "Servicios",
@@ -25,16 +42,34 @@ const SECTIONS = [
     Icon: IconPortfolio,
   },
   {
+    href: "/testimonios",
+    title: "Testimonios",
+    description: "Lo que dicen mis clientas.",
+    Icon: IconTestimonio,
+  },
+  {
     href: "/blog",
     title: "Blog",
     description: "Tendencias, tips y errores comunes.",
     Icon: IconBlog,
   },
   {
+    href: "/libros",
+    title: "Ebooks",
+    description: "Guías digitales descargables.",
+    Icon: IconBook,
+  },
+  {
     href: "/tienda",
     title: "Tienda",
     description: "Ebooks, guías descargables y cursos online.",
     Icon: IconTienda,
+  },
+  {
+    href: "/faq",
+    title: "FAQ",
+    description: "Dudas comunes sobre el servicio.",
+    Icon: IconFaq,
   },
   {
     href: "/agenda",
@@ -87,16 +122,16 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-14">
-        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
+      <section className="mx-auto max-w-5xl px-4 pb-14 pt-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
           {SECTIONS.map(({ href, title, description, Icon }) => (
             <Link
               key={href}
               href={href}
-              className="group flex flex-col items-center gap-3 rounded-sm border border-black/10 bg-white px-5 py-10 text-center transition hover:-translate-y-0.5 hover:shadow-sm"
+              className="group flex flex-col items-center gap-2 rounded-sm border border-black/10 bg-white px-4 py-6 text-center transition hover:-translate-y-0.5 hover:shadow-sm"
             >
-              <Icon className="h-9 w-9 text-lilac-deep" />
-              <h2 className="font-serif text-xl">{title}</h2>
+              <Icon className="h-7 w-7 text-lilac-deep" />
+              <h2 className="font-serif text-base">{title}</h2>
               <p className="text-xs text-[#1a1a1a]/60">{description}</p>
             </Link>
           ))}

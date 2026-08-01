@@ -117,6 +117,24 @@ export function IconFaq({ className }: IconProps) {
   );
 }
 
+export function IconPerfil({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <circle cx="12" cy="8.3" r="3.3" />
+      <path d="M5 19.5c1.2-3.5 4-5.3 7-5.3s5.8 1.8 7 5.3" />
+    </svg>
+  );
+}
+
+export function IconTestimonio({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M7.5 6.5h9a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-6l-3.5 3v-3H7.5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z" />
+      <path d="M9.5 10.5h5M9.5 13h3.5" />
+    </svg>
+  );
+}
+
 export function IconInstagram({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">
