@@ -103,7 +103,7 @@ export default async function Home() {
             priority
           />
           <h1 className="max-w-2xl font-serif text-3xl leading-tight sm:text-4xl">
-            Descubrí tu mejor versión
+            Imagen, autoconocimiento y presencia
           </h1>
           <p className="max-w-xl text-[#1a1a1a]/70">
             Asesoría de imagen y coaching personal, online y presencial:
