@@ -462,12 +462,16 @@ export async function updateFaq(id: string, formData: FormData) {
 }
 
 export async function createDisponibilidad(formData: FormData) {
+  const weekdays = formData.getAll("weekday").map(Number);
+  if (weekdays.length === 0) throw new Error("Elegí al menos un día.");
+
+  const start_time = String(formData.get("start_time"));
+  const end_time = String(formData.get("end_time"));
+
   const supabase = await createClient();
-  const { error } = await supabase.from("disponibilidad_semanal").insert({
-    weekday: Number(formData.get("weekday")),
-    start_time: String(formData.get("start_time")),
-    end_time: String(formData.get("end_time")),
-  });
+  const { error } = await supabase
+    .from("disponibilidad_semanal")
+    .insert(weekdays.map((weekday) => ({ weekday, start_time, end_time })));
   if (error) throw new Error(error.message);
   revalidatePath("/admin/agenda");
 }

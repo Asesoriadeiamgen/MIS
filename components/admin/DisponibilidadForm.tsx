@@ -36,16 +36,20 @@ export default function DisponibilidadForm() {
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-wrap items-end gap-3">
+    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-wrap items-end gap-4">
       <div>
-        <label className="mb-1 block text-xs text-gray-500">Día</label>
-        <select name="weekday" className={INPUT} required>
+        <label className="mb-1 block text-xs text-gray-500">
+          Día{"(s)"} — tildá uno para cargar día por día, o varios para repetir el mismo horario en
+          todos a la vez
+        </label>
+        <div className="flex flex-wrap gap-3">
           {WEEKDAYS.map((w) => (
-            <option key={w.value} value={w.value}>
+            <label key={w.value} className="flex items-center gap-1.5 text-sm">
+              <input type="checkbox" name="weekday" value={w.value} />
               {w.label}
-            </option>
+            </label>
           ))}
-        </select>
+        </div>
       </div>
       <div>
         <label className="mb-1 block text-xs text-gray-500">Desde</label>
