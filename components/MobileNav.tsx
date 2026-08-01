@@ -26,7 +26,7 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
     <>
       <nav className="hidden items-center gap-5 text-xs font-medium uppercase tracking-widest xl:flex">
         {SECTIONS.map((s) => (
-          <Link key={s.href} href={s.href} className="hover:text-lilac-deep">
+          <Link key={s.href} href={s.href} className="text-center hover:text-lilac-deep">
             {s.label}
           </Link>
         ))}

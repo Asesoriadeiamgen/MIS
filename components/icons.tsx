@@ -135,6 +135,16 @@ export function IconTestimonio({ className }: IconProps) {
   );
 }
 
+export function IconCarrito({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M3.5 4.5h2l1.6 10.2a1.8 1.8 0 0 0 1.78 1.5h7.3a1.8 1.8 0 0 0 1.77-1.47l1.05-5.73H6.3" />
+      <circle cx="10" cy="19.5" r="1.1" />
+      <circle cx="17" cy="19.5" r="1.1" />
+    </svg>
+  );
+}
+
 export function IconInstagram({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">
