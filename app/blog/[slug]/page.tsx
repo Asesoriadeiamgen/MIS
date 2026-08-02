@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/format";
 import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export async function generateMetadata({
   params,
@@ -64,7 +65,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       )}
       <div
         className="prose prose-sm mt-6 max-w-none text-[#1a1a1a]/80 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-4 [&_ul]:list-disc"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
       />
     </div>
   );

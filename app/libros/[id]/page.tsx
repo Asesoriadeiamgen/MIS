@@ -4,11 +4,10 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
-import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { redeemBookCode } from "@/app/libros/actions";
 import { BUTTON_PRIMARY, BUTTON_OUTLINE, LABEL } from "@/lib/ui";
-import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -58,7 +57,6 @@ export default async function LibroDetailPage({
     hasAccess = !!access;
   }
 
-  const tags = deriveTags("libro", book.title, book.author, book.description);
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -104,7 +102,6 @@ export default async function LibroDetailPage({
           {book.author && <p className="mt-1 text-[#1a1a1a]/60">{book.author}</p>}
           <p className="mt-4 text-xl font-semibold">{formatPrice(book.price)}</p>
           {book.description && <p className="mt-4 text-sm text-[#1a1a1a]/80">{book.description}</p>}
-          <ProductTags tags={tags} />
 
           {hasAccess ? (
             <Link href={`/libros/${id}/leer`} className={`mt-6 block text-center ${BUTTON_PRIMARY}`}>

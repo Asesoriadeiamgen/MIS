@@ -26,7 +26,7 @@ const SECTIONS = [
   {
     href: "/servicios",
     title: "Servicios",
-    description: "Colorimetría, guardarropa, personal shopper y más.",
+    description: "Asesoría de imagen y mucho más.",
     Icon: IconServicio,
   },
   {

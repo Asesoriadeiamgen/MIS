@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { createPack, updatePack } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import PriceField from "@/components/admin/PriceField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Pack } from "@/types/database";
 
 export default function PackForm(props: { pack?: Pack }) {
@@ -72,19 +73,19 @@ export default function PackForm(props: { pack?: Pack }) {
         className={INPUT}
       />
       <PriceField name="price" defaultValue={props.pack?.price} placeholder="Valor" />
-      <div className="flex gap-2">
+      <div className="flex gap-2 sm:col-span-2">
         <input
           name="sessions_count"
           type="number"
           min={1}
           placeholder="Cantidad"
           defaultValue={props.pack?.sessions_count ?? ""}
-          className={`${INPUT} flex-1`}
+          className={`${INPUT} min-w-0 flex-1`}
         />
         <select
           name="duration_unit"
           defaultValue={props.pack?.duration_unit ?? "sesiones"}
-          className={INPUT}
+          className={`${INPUT} w-auto! shrink-0`}
         >
           <option value="sesiones">Sesiones</option>
           <option value="meses">Meses</option>
@@ -93,12 +94,10 @@ export default function PackForm(props: { pack?: Pack }) {
           <option value="horas">Horas</option>
         </select>
       </div>
-      <textarea
-        name="description"
-        placeholder="Descripción"
-        defaultValue={props.pack?.description ?? ""}
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Descripción</label>
+        <RichTextEditor name="description" defaultValue={props.pack?.description ?? ""} />
+      </div>
       <div className="sm:col-span-2">
         <label className="mb-1 block text-xs text-gray-500">Fotos</label>
         {imageUrls.length > 0 && (

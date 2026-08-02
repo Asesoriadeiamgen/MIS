@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice, formatDate, formatTime } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
-import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
-import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import { LABEL } from "@/lib/ui";
 
 export async function generateMetadata({
@@ -39,7 +38,6 @@ export default async function CursoDetailPage({ params }: { params: Promise<{ id
   const { data: curso } = await supabase.from("cursos").select("*").eq("id", id).single();
   if (!curso) notFound();
 
-  const tags = deriveTags("curso", curso.name, curso.description);
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -81,7 +79,7 @@ export default async function CursoDetailPage({ params }: { params: Promise<{ id
             <div key={i} className="aspect-[4/5] overflow-hidden rounded-lg bg-gray-100">
               {url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={url} alt={`${curso.name} - foto ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={url} alt={`${curso.name} - foto ${i + 1}`} className="h-full w-full object-contain" />
               ) : null}
             </div>
           ))}
@@ -107,7 +105,6 @@ export default async function CursoDetailPage({ params }: { params: Promise<{ id
           </div>
 
           {curso.description && <p className="mt-4 text-sm text-gray-700">{curso.description}</p>}
-          <ProductTags tags={tags} />
 
           <div className="mt-6">
             <WhatsappDeliveryNote

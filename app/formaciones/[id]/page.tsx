@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice, formatDuration } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
-import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { IconFormacion } from "@/components/icons";
-import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { LABEL } from "@/lib/ui";
 
 export async function generateMetadata({
@@ -19,7 +19,7 @@ export async function generateMetadata({
   const { data: pack } = await supabase.from("packs").select("*").eq("id", id).single();
   if (!pack) return {};
 
-  const description = truncateDescription(pack.description);
+  const description = truncateDescription(pack.description?.replace(/<[^>]+>/g, " "));
   return {
     title: pack.name,
     description,
@@ -40,12 +40,11 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
   const { data: pack } = await supabase.from("packs").select("*").eq("id", id).single();
   if (!pack) notFound();
 
-  const tags = deriveTags("varios", pack.name, pack.description);
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: pack.name,
-    description: pack.description || undefined,
+    description: pack.description?.replace(/<[^>]+>/g, " ") || undefined,
     image: pack.image_urls?.[0] || undefined,
     url: `${SITE_URL}/formaciones/${id}`,
     offers:
@@ -81,7 +80,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
             <div key={i} className="flex aspect-[4/5] items-center justify-center overflow-hidden rounded-sm bg-soft-bg">
               {url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={url} alt={`${pack.name} - foto ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={url} alt={`${pack.name} - foto ${i + 1}`} className="h-full w-full object-contain" />
               ) : (
                 <IconFormacion className="h-12 w-12 text-lilac-deep" />
               )}
@@ -102,8 +101,12 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
             </p>
           )}
 
-          {pack.description && <p className="mt-4 text-sm text-[#1a1a1a]/70">{pack.description}</p>}
-          <ProductTags tags={tags} />
+          {pack.description && (
+            <div
+              className="prose prose-sm mt-4 max-w-none text-sm text-[#1a1a1a]/70 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(pack.description) }}
+            />
+          )}
 
           <div className="mt-6">
             <WhatsappDeliveryNote

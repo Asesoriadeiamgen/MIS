@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { createServicio, updateServicio } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import PriceField from "@/components/admin/PriceField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Servicio } from "@/types/database";
 
 export default function ServicioForm(props: { servicio?: Servicio }) {
@@ -80,12 +81,10 @@ export default function ServicioForm(props: { servicio?: Servicio }) {
           <option value="presencial">Presencial</option>
         </select>
       </div>
-      <textarea
-        name="description"
-        placeholder="Descripción"
-        defaultValue={props.servicio?.description ?? ""}
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Descripción</label>
+        <RichTextEditor name="description" defaultValue={props.servicio?.description ?? ""} />
+      </div>
       <div className="sm:col-span-2">
         <label className="mb-1 block text-xs text-gray-500">Fotos</label>
         {imageUrls.length > 0 && (

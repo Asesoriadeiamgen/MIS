@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/format";
-import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
-import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { BUTTON_PRIMARY, LABEL } from "@/lib/ui";
 
 const MODALIDAD_LABEL: Record<string, string> = {
@@ -24,7 +24,7 @@ export async function generateMetadata({
   const { data: servicio } = await supabase.from("servicios").select("*").eq("id", id).single();
   if (!servicio) return {};
 
-  const description = truncateDescription(servicio.description);
+  const description = truncateDescription(servicio.description?.replace(/<[^>]+>/g, " "));
   return {
     title: servicio.name,
     description,
@@ -45,12 +45,11 @@ export default async function ServicioDetailPage({ params }: { params: Promise<{
   const { data: servicio } = await supabase.from("servicios").select("*").eq("id", id).single();
   if (!servicio) notFound();
 
-  const tags = deriveTags("varios", servicio.name, servicio.description);
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: servicio.name,
-    description: servicio.description || undefined,
+    description: servicio.description?.replace(/<[^>]+>/g, " ") || undefined,
     image: servicio.image_urls?.[0] || undefined,
     url: `${SITE_URL}/servicios/${id}`,
   };
@@ -76,7 +75,7 @@ export default async function ServicioDetailPage({ params }: { params: Promise<{
             <div key={i} className="aspect-[4/5] overflow-hidden rounded-sm bg-soft-bg">
               {url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={url} alt={`${servicio.name} - foto ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={url} alt={`${servicio.name} - foto ${i + 1}`} className="h-full w-full object-contain" />
               ) : null}
             </div>
           ))}
@@ -91,9 +90,11 @@ export default async function ServicioDetailPage({ params }: { params: Promise<{
           </p>
 
           {servicio.description && (
-            <p className="mt-4 text-sm text-[#1a1a1a]/70">{servicio.description}</p>
+            <div
+              className="prose prose-sm mt-4 max-w-none text-sm text-[#1a1a1a]/70 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(servicio.description) }}
+            />
           )}
-          <ProductTags tags={tags} />
 
           <div className="mt-6 flex flex-col gap-3">
             <Link href="/agenda" className={BUTTON_PRIMARY}>

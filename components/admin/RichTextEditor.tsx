@@ -39,6 +39,18 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
         <button type="button" className={BUTTON} onClick={() => exec("italic")}>
           <i>I</i>
         </button>
+        <button type="button" className={BUTTON} onClick={() => exec("justifyLeft")} title="Alinear a la izquierda">
+          ≡←
+        </button>
+        <button type="button" className={BUTTON} onClick={() => exec("justifyCenter")} title="Centrar">
+          ≡○
+        </button>
+        <button type="button" className={BUTTON} onClick={() => exec("justifyRight")} title="Alinear a la derecha">
+          ≡→
+        </button>
+        <button type="button" className={BUTTON} onClick={() => exec("justifyFull")} title="Justificar">
+          ≡≡
+        </button>
         <button type="button" className={BUTTON} onClick={() => exec("insertUnorderedList")}>
           Lista
         </button>
