@@ -216,6 +216,15 @@ export type BookAccess = {
   created_at: string;
 };
 
+export type AboutPage = {
+  id: number;
+  photo_url: string | null;
+  formacion_html: string | null;
+  filosofia_html: string | null;
+  historia_html: string | null;
+  updated_at: string;
+};
+
 export type BookPromoCode = {
   id: string;
   book_id: string;
@@ -258,6 +267,7 @@ export type Database = {
       bloqueos_fecha: Table<BloqueoFecha>;
       turnos: Table<Turno>;
       discount_codes: Table<DiscountCode>;
+      about_page: Table<AboutPage>;
       orders: Table<
         Order,
         [

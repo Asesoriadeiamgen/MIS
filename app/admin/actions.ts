@@ -586,3 +586,18 @@ export async function deleteBookPromoCode(id: string) {
   await admin.from("book_promo_codes").delete().eq("id", id);
   revalidatePath("/admin/codigos-libros");
 }
+
+export async function updateAboutPage(formData: FormData) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("about_page").upsert({
+    id: 1,
+    photo_url: String(formData.get("photo_url") || "") || null,
+    formacion_html: String(formData.get("formacion_html") || "") || null,
+    filosofia_html: String(formData.get("filosofia_html") || "") || null,
+    historia_html: String(formData.get("historia_html") || "") || null,
+    updated_at: new Date().toISOString(),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/sobre-mi");
+  revalidatePath("/sobre-mi");
+}

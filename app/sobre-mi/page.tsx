@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { BUTTON_PRIMARY } from "@/lib/ui";
 import { SITE_NAME, buildSocialMeta } from "@/lib/seo";
 
@@ -12,7 +14,13 @@ export const metadata = {
   }),
 };
 
-export default function SobreMiPage() {
+const PROSE_CLASS =
+  "prose prose-sm max-w-none text-[#1a1a1a]/70 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc";
+
+export default async function SobreMiPage() {
+  const supabase = await createClient();
+  const { data: about } = await supabase.from("about_page").select("*").eq("id", 1).maybeSingle();
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-14">
       <p className="mb-3 text-center text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/60">
@@ -21,36 +29,58 @@ export default function SobreMiPage() {
       <h1 className="text-center font-serif text-3xl sm:text-4xl">{SITE_NAME}</h1>
 
       <div className="my-10 flex justify-center">
-        <Image
-          src="/logo-icon.png"
-          alt={SITE_NAME}
-          width={160}
-          height={160}
-          className="h-32 w-32"
-        />
+        {about?.photo_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={about.photo_url}
+            alt={SITE_NAME}
+            className="h-32 w-32 rounded-full object-cover"
+          />
+        ) : (
+          <Image
+            src="/logo-icon.png"
+            alt={SITE_NAME}
+            width={160}
+            height={160}
+            className="h-32 w-32"
+          />
+        )}
       </div>
 
       <section className="space-y-3">
         <h2 className="font-serif text-xl">Formación y certificaciones</h2>
-        <p className="text-[#1a1a1a]/70">
-          [Falta cargar: formación, cursos y certificaciones. Se puede editar este texto una vez
-          que llegue el material a la carpeta compartida.]
-        </p>
+        {about?.formacion_html ? (
+          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.formacion_html) }} />
+        ) : (
+          <p className="text-[#1a1a1a]/70">
+            [Falta cargar: formación, cursos y certificaciones. Se puede editar desde el panel de
+            admin, en "Sobre mí".]
+          </p>
+        )}
       </section>
 
       <section className="mt-8 space-y-3">
         <h2 className="font-serif text-xl">Filosofía de trabajo</h2>
-        <p className="text-[#1a1a1a]/70">
-          La imagen como coherencia entre lo interno y lo externo: no se trata solo de qué usás,
-          sino de que lo que mostrás hacia afuera refleje quién sos por dentro.
-        </p>
+        {about?.filosofia_html ? (
+          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.filosofia_html) }} />
+        ) : (
+          <p className="text-[#1a1a1a]/70">
+            La imagen como coherencia entre lo interno y lo externo: no se trata solo de qué usás,
+            sino de que lo que mostrás hacia afuera refleje quién sos por dentro.
+          </p>
+        )}
       </section>
 
       <section className="mt-8 space-y-3">
         <h2 className="font-serif text-xl">Mi historia</h2>
-        <p className="text-[#1a1a1a]/70">
-          [Falta cargar: historia personal/profesional que genere conexión con quien lee.]
-        </p>
+        {about?.historia_html ? (
+          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.historia_html) }} />
+        ) : (
+          <p className="text-[#1a1a1a]/70">
+            [Falta cargar: historia personal/profesional que genere conexión con quien lee. Se
+            puede editar desde el panel de admin, en "Sobre mí".]
+          </p>
+        )}
       </section>
 
       <div className="mt-12 text-center">
