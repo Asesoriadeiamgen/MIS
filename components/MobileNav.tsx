@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import CartBadge from "@/components/CartBadge";
 import { IconMenu, IconClose } from "@/components/icons";
@@ -20,9 +21,11 @@ const SECTIONS = [
 export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+  const debugWidth = useSearchParams().get("w") === "1";
 
   return (
     <>
+      {debugWidth && <WidthBadge />}
       <nav className="hidden items-center gap-3 whitespace-nowrap text-xs font-medium uppercase tracking-wide min-[1160px]:flex">
         {SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} className="hover:text-lilac-deep">
@@ -75,5 +78,20 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
       )}
     </>
+  );
+}
+
+function WidthBadge() {
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const update = () => setWidth(window.innerWidth);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return (
+    <div className="fixed left-2 top-2 z-50 rounded bg-red-600 px-2 py-1 text-xs font-bold text-white">
+      Ancho ventana: {width}px
+    </div>
   );
 }
