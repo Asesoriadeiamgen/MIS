@@ -11,3 +11,14 @@ export function generateAccessCode(): string {
   }
   return code;
 }
+
+/** Genera un código de cupón legible tipo "PREFIJO-XXXXXX". */
+export function generateCouponCode(prefix: string): string {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // sin caracteres ambiguos (0/O, 1/I)
+  const bytes = randomBytes(6);
+  let suffix = "";
+  for (let i = 0; i < 6; i++) {
+    suffix += alphabet[bytes[i] % alphabet.length];
+  }
+  return `${prefix}-${suffix}`;
+}

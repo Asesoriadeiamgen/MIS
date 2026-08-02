@@ -30,6 +30,10 @@ export async function fulfillPaidOrder(orderId: string, paymentId: string | null
     .update({ status: "paid", mp_payment_id: paymentId })
     .eq("id", orderId);
 
+  if (order.coupon_code?.startsWith("CUMPLE-")) {
+    await admin.from("discount_codes").update({ is_active: false }).eq("code", order.coupon_code);
+  }
+
   const { data: profile } = await admin
     .from("profiles")
     .select("email")

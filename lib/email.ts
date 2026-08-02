@@ -70,7 +70,12 @@ export async function sendOrderConfirmationEmail(params: {
   });
 }
 
-export async function sendBirthdayEmail(params: { to: string; name: string }) {
+export async function sendBirthdayEmail(params: {
+  to: string;
+  name: string;
+  couponCode: string;
+  percentOff: number;
+}) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   return send({
@@ -90,8 +95,12 @@ export async function sendBirthdayEmail(params: { to: string; name: string }) {
         </p>
         <div style="text-align: center; margin: 28px 0; padding: 16px; border: 1px dashed rgba(43,38,34,.25);">
           <p style="margin: 0 0 8px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #1a1a1a99;">Tu regalo</p>
-          <p style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 3px;">REGALO</p>
+          <p style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 3px;">${params.percentOff}% OFF</p>
+          <p style="margin: 10px 0 0; font-size: 18px; font-weight: bold; letter-spacing: 2px;">${params.couponCode}</p>
         </div>
+        <p style="text-align: center; font-size: 12px; color: #1a1a1a99; margin: 0 0 8px;">
+          Ingresá el código en el carrito al pagar. Válido para tu próxima compra, un solo uso.
+        </p>
         <div style="text-align: center; margin-top: 8px;">
           <a href="${siteUrl}" style="display: inline-block; padding: 12px 28px; background: #1a1a1a; color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
             Visitá nuestro sitio

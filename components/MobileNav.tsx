@@ -12,7 +12,6 @@ const SECTIONS = [
   { href: "/portfolio", label: "Portfolio" },
   { href: "/testimonios", label: "Testimonios" },
   { href: "/blog", label: "Blog" },
-  { href: "/libros", label: "Ebooks" },
   { href: "/tienda", label: "Tienda" },
   { href: "/faq", label: "FAQ" },
   { href: "/agenda", label: "Agendá tu turno" },
