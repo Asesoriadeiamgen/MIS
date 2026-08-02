@@ -23,7 +23,7 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   return (
     <>
-      <nav className="hidden items-center gap-4 whitespace-nowrap text-xs font-medium uppercase tracking-widest xl:flex">
+      <nav className="hidden items-center gap-3 whitespace-nowrap text-xs font-medium uppercase tracking-wide min-[1160px]:flex">
         {SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} className="hover:text-lilac-deep">
             {s.label}
@@ -46,13 +46,13 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={open}
-        className="flex items-center justify-center p-2 text-[#1a1a1a] xl:hidden"
+        className="flex items-center justify-center p-2 text-[#1a1a1a] min-[1160px]:hidden"
       >
         {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#ffffff] px-4 py-4 shadow-sm xl:hidden">
+        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#ffffff] px-4 py-4 shadow-sm min-[1160px]:hidden">
           <div className="flex flex-col gap-4 text-sm font-medium uppercase tracking-widest">
             {SECTIONS.map((s) => (
               <Link key={s.href} href={s.href} onClick={close} className="hover:text-lilac-deep">
