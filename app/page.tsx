@@ -5,7 +5,7 @@ import { BUTTON_PRIMARY, BUTTON_OUTLINE } from "@/lib/ui";
 import {
   IconPerfil,
   IconServicio,
-  IconPack,
+  IconFormacion,
   IconPortfolio,
   IconTestimonio,
   IconBlog,
@@ -31,9 +31,9 @@ const SECTIONS = [
   },
   {
     href: "/packs",
-    title: "Packs y programas",
-    description: "Sesiones individuales o procesos de varios encuentros.",
-    Icon: IconPack,
+    title: "Formación",
+    description: "Carreras, especializaciones y mentorías para asesoras de imagen.",
+    Icon: IconFormacion,
   },
   {
     href: "/portfolio",

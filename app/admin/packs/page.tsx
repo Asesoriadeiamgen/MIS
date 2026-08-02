@@ -13,7 +13,7 @@ export default async function AdminPacksPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-4">Packs y programas</h1>
+      <h1 className="text-xl font-semibold mb-4">Formación</h1>
       <PackForm />
 
       <DraggableList

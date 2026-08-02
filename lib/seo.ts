@@ -29,7 +29,7 @@ const TYPE_FALLBACK_TAG: Record<string, string> = {
   artesania: SITE_NAME,
   varios: "Servicio",
   curso: "Curso",
-  pack: "Pack",
+  pack: "Formación",
 };
 
 export function deriveTags(

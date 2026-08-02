@@ -145,6 +145,16 @@ export function IconCarrito({ className }: IconProps) {
   );
 }
 
+export function IconFormacion({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M2.5 9 12 4.5 21.5 9 12 13.5 2.5 9Z" />
+      <path d="M6.5 11v4.5c0 1.4 2.5 2.7 5.5 2.7s5.5-1.3 5.5-2.7V11" />
+      <path d="M21.5 9v6" />
+    </svg>
+  );
+}
+
 export function IconInstagram({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">

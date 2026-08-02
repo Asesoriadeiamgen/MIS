@@ -5,7 +5,7 @@ const LINKS = [
   { href: "/admin/agenda", label: "Agenda" },
   { href: "/admin/pedidos", label: "Pedidos" },
   { href: "/admin/servicios", label: "Servicios" },
-  { href: "/admin/packs", label: "Packs" },
+  { href: "/admin/packs", label: "Formación" },
   { href: "/admin/portfolio", label: "Portfolio" },
   { href: "/admin/testimonios", label: "Testimonios" },
   { href: "/admin/blog", label: "Blog" },

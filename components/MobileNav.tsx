@@ -8,7 +8,7 @@ import { IconMenu, IconClose } from "@/components/icons";
 const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/packs", label: "Packs" },
+  { href: "/packs", label: "Formación" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/testimonios", label: "Testimonios" },
   { href: "/blog", label: "Blog" },

@@ -5,6 +5,7 @@ import { formatPrice } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
+import { IconFormacion } from "@/components/icons";
 import { deriveTags, truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import { LABEL } from "@/lib/ui";
 
@@ -60,7 +61,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
   };
   const breadcrumbs = breadcrumbJsonLd([
     { name: "Inicio", path: "/" },
-    { name: "Packs", path: "/packs" },
+    { name: "Formación", path: "/packs" },
     { name: pack.name, path: `/packs/${id}` },
   ]);
 
@@ -77,16 +78,21 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         <div className="grid grid-cols-2 gap-2">
           {(pack.image_urls?.length ? pack.image_urls : [null]).map((url, i) => (
-            <div key={i} className="aspect-[4/5] overflow-hidden rounded-sm bg-soft-bg">
+            <div key={i} className="flex aspect-[4/5] items-center justify-center overflow-hidden rounded-sm bg-soft-bg">
               {url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={url} alt={`${pack.name} - foto ${i + 1}`} className="h-full w-full object-cover" />
-              ) : null}
+              ) : (
+                <IconFormacion className="h-12 w-12 text-lilac-deep" />
+              )}
             </div>
           ))}
         </div>
         <div>
-          <h1 className="text-2xl font-semibold">{pack.name}</h1>
+          <h1 className="flex items-center gap-2 text-2xl font-semibold">
+            <IconFormacion className="h-5 w-5 flex-shrink-0 text-lilac-deep" />
+            {pack.name}
+          </h1>
           <p className="mt-2 text-xl font-semibold">{formatPrice(pack.price)}</p>
 
           {pack.sessions_count && (
@@ -106,7 +112,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
                   ? "Consultá por WhatsApp antes de comprar."
                   : "Consultá el precio por WhatsApp."
               }
-              message={`Hola! Quiero consultar sobre el pack "${pack.name}".`}
+              message={`Hola! Quiero consultar sobre el programa de formación "${pack.name}".`}
             />
           </div>
 
