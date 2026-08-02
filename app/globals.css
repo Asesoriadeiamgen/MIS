@@ -33,3 +33,27 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
+
+/* Estos elementos siguen el color de acento del sistema operativo si no se
+   fijan a mano, y en equipos con acento rosa/magenta se cuela ese rosa acá
+   (selección de texto, foco al tabular, checkboxes/radios, cursor). Se fija
+   todo a lila para que nunca aparezca rosa. */
+::selection {
+  background-color: var(--soft-bg-deep);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline-color: var(--lilac-deep);
+}
+
+input,
+textarea {
+  caret-color: var(--lilac-deep);
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--lilac-deep);
+}
