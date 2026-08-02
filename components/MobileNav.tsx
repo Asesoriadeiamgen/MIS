@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import CartBadge from "@/components/CartBadge";
-import { IconMenu, IconClose } from "@/components/icons";
+import { IconMenu, IconClose, IconPerfil } from "@/components/icons";
 
 const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
@@ -21,25 +20,23 @@ const SECTIONS = [
 export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
-  const debugWidth = useSearchParams().get("w") === "1";
 
   return (
     <>
-      {debugWidth && <WidthBadge />}
-      <nav className="hidden items-center gap-3 whitespace-nowrap text-xs font-medium uppercase tracking-wide min-[1160px]:flex">
+      <nav className="hidden items-center gap-2.5 whitespace-nowrap text-xs font-medium uppercase tracking-wide min-[1024px]:flex">
         {SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} className="hover:text-lilac-deep">
             {s.label}
           </Link>
         ))}
-        <CartBadge />
+        <CartBadge showLabel={false} />
         {isLoggedIn ? (
-          <Link href="/cuenta/perfil" className="hover:text-lilac-deep">
-            Mi cuenta
+          <Link href="/cuenta/perfil" aria-label="Mi cuenta" title="Mi cuenta" className="hover:text-lilac-deep">
+            <IconPerfil className="h-4 w-4" />
           </Link>
         ) : (
-          <Link href="/cuenta/login" className="hover:text-lilac-deep">
-            Ingresar
+          <Link href="/cuenta/login" aria-label="Ingresar" title="Ingresar" className="hover:text-lilac-deep">
+            <IconPerfil className="h-4 w-4" />
           </Link>
         )}
       </nav>
@@ -49,13 +46,13 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={open}
-        className="flex items-center justify-center p-2 text-[#1a1a1a] min-[1160px]:hidden"
+        className="flex items-center justify-center p-2 text-[#1a1a1a] min-[1024px]:hidden"
       >
         {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#ffffff] px-4 py-4 shadow-sm min-[1160px]:hidden">
+        <div className="absolute left-0 right-0 top-full border-b border-black/10 bg-[#ffffff] px-4 py-4 shadow-sm min-[1024px]:hidden">
           <div className="flex flex-col gap-4 text-sm font-medium uppercase tracking-widest">
             {SECTIONS.map((s) => (
               <Link key={s.href} href={s.href} onClick={close} className="hover:text-lilac-deep">
@@ -78,20 +75,5 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
       )}
     </>
-  );
-}
-
-function WidthBadge() {
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const update = () => setWidth(window.innerWidth);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-  return (
-    <div className="fixed left-2 top-2 z-50 rounded bg-red-600 px-2 py-1 text-xs font-bold text-white">
-      Ancho ventana: {width}px
-    </div>
   );
 }
