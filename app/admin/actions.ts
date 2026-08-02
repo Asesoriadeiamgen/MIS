@@ -211,31 +211,32 @@ export async function createPack(formData: FormData) {
     description: String(formData.get("description") || "") || null,
     price: readPrice(formData, "price"),
     sessions_count: Number(formData.get("sessions_count")) || null,
+    duration_unit: String(formData.get("duration_unit") || "sesiones") as "sesiones" | "meses" | "semanas" | "dias" | "horas",
     image_urls: imageUrls,
     sort_order: await topSortOrder("packs"),
   });
   if (error) throw new Error(error.message);
-  revalidatePath("/admin/packs");
-  revalidatePath("/packs");
+  revalidatePath("/admin/formaciones");
+  revalidatePath("/formaciones");
 }
 
 export async function reorderPacks(orderedIds: string[]) {
   await reorderTable("packs", orderedIds);
-  revalidatePath("/admin/packs");
+  revalidatePath("/admin/formaciones");
 }
 
 export async function togglePackActive(id: string, isActive: boolean) {
   const supabase = await createClient();
   await supabase.from("packs").update({ is_active: isActive }).eq("id", id);
-  revalidatePath("/admin/packs");
-  revalidatePath("/packs");
+  revalidatePath("/admin/formaciones");
+  revalidatePath("/formaciones");
 }
 
 export async function deletePack(id: string) {
   const admin = createAdminClient();
   await admin.from("packs").delete().eq("id", id);
-  revalidatePath("/admin/packs");
-  revalidatePath("/packs");
+  revalidatePath("/admin/formaciones");
+  revalidatePath("/formaciones");
 }
 
 export async function updatePack(id: string, formData: FormData) {
@@ -252,12 +253,13 @@ export async function updatePack(id: string, formData: FormData) {
       description: String(formData.get("description") || "") || null,
       price: readPrice(formData, "price"),
       sessions_count: Number(formData.get("sessions_count")) || null,
+      duration_unit: String(formData.get("duration_unit") || "sesiones") as "sesiones" | "meses" | "semanas" | "dias" | "horas",
       image_urls: imageUrls,
     })
     .eq("id", id);
   if (error) throw new Error(error.message);
-  revalidatePath("/admin/packs");
-  revalidatePath("/packs");
+  revalidatePath("/admin/formaciones");
+  revalidatePath("/formaciones");
 }
 
 export async function createPortfolioItem(formData: FormData) {

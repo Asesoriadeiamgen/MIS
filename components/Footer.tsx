@@ -6,7 +6,7 @@ import { SITE_NAME, SITE_TAGLINE, CONTACT_EMAIL, INSTAGRAM_ACCOUNTS } from "@/li
 const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/packs", label: "Formación" },
+  { href: "/formaciones", label: "Formaciones" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/testimonios", label: "Testimonios" },
   { href: "/blog", label: "Blog" },

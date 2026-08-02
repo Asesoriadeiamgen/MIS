@@ -49,7 +49,7 @@ export default function PackForm(props: { pack?: Pack }) {
     try {
       if (editing && props.pack) {
         await updatePack(props.pack.id, formData);
-        router.push("/admin/packs");
+        router.push("/admin/formaciones");
         return;
       }
       await createPack(formData);
@@ -66,20 +66,33 @@ export default function PackForm(props: { pack?: Pack }) {
     <form ref={formRef} onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <input
         name="name"
-        placeholder="Nombre del pack"
+        placeholder="Nombre de la formación"
         defaultValue={props.pack?.name}
         required
         className={INPUT}
       />
       <PriceField name="price" defaultValue={props.pack?.price} placeholder="Valor" />
-      <input
-        name="sessions_count"
-        type="number"
-        min={1}
-        placeholder="Cantidad de sesiones"
-        defaultValue={props.pack?.sessions_count ?? ""}
-        className={INPUT}
-      />
+      <div className="flex gap-2">
+        <input
+          name="sessions_count"
+          type="number"
+          min={1}
+          placeholder="Cantidad"
+          defaultValue={props.pack?.sessions_count ?? ""}
+          className={`${INPUT} flex-1`}
+        />
+        <select
+          name="duration_unit"
+          defaultValue={props.pack?.duration_unit ?? "sesiones"}
+          className={INPUT}
+        >
+          <option value="sesiones">Sesiones</option>
+          <option value="meses">Meses</option>
+          <option value="semanas">Semanas</option>
+          <option value="dias">Días</option>
+          <option value="horas">Horas</option>
+        </select>
+      </div>
       <textarea
         name="description"
         placeholder="Descripción"
@@ -109,7 +122,7 @@ export default function PackForm(props: { pack?: Pack }) {
       </div>
       {error && <p className="text-sm text-red-600 sm:col-span-2">{error}</p>}
       <button type="submit" disabled={uploading || saving} className={`sm:col-span-2 ${BUTTON_PRIMARY}`}>
-        {saving ? "Guardando..." : editing ? "Actualizar pack" : "Crear pack"}
+        {saving ? "Guardando..." : editing ? "Actualizar formación" : "Crear formación"}
       </button>
     </form>
   );

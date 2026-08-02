@@ -83,12 +83,15 @@ export type Servicio = {
   created_at: string;
 };
 
+export type DurationUnit = "sesiones" | "meses" | "semanas" | "dias" | "horas";
+
 export type Pack = {
   id: string;
   name: string;
   description: string | null;
   price: number | null;
   sessions_count: number | null;
+  duration_unit: DurationUnit;
   image_urls: string[];
   is_active: boolean;
   sort_order: number;

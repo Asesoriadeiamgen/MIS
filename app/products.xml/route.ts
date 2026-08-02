@@ -71,7 +71,7 @@ export async function GET() {
       id: `pack-${p.id}`,
       title: p.name,
       description: p.description || "",
-      link: `${SITE_URL}/packs/${p.id}`,
+      link: `${SITE_URL}/formaciones/${p.id}`,
       imageLink: firstImageUrl(p.image_urls),
       price: p.price as number,
     })),

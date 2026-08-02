@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatDuration } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductTags from "@/components/ProductTags";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
@@ -23,11 +23,11 @@ export async function generateMetadata({
   return {
     title: pack.name,
     description,
-    alternates: { canonical: `/packs/${id}` },
+    alternates: { canonical: `/formaciones/${id}` },
     ...buildSocialMeta({
       title: pack.name,
       description,
-      path: `/packs/${id}`,
+      path: `/formaciones/${id}`,
       image: pack.image_urls?.[0],
     }),
   };
@@ -47,7 +47,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
     name: pack.name,
     description: pack.description || undefined,
     image: pack.image_urls?.[0] || undefined,
-    url: `${SITE_URL}/packs/${id}`,
+    url: `${SITE_URL}/formaciones/${id}`,
     offers:
       pack.price !== null
         ? {
@@ -55,14 +55,14 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
             priceCurrency: "ARS",
             price: pack.price,
             availability: "https://schema.org/InStock",
-            url: `${SITE_URL}/packs/${id}`,
+            url: `${SITE_URL}/formaciones/${id}`,
           }
         : undefined,
   };
   const breadcrumbs = breadcrumbJsonLd([
     { name: "Inicio", path: "/" },
-    { name: "Formación", path: "/packs" },
-    { name: pack.name, path: `/packs/${id}` },
+    { name: "Formaciones", path: "/formaciones" },
+    { name: pack.name, path: `/formaciones/${id}` },
   ]);
 
   return (
@@ -95,10 +95,10 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
           </h1>
           <p className="mt-2 text-xl font-semibold">{formatPrice(pack.price)}</p>
 
-          {pack.sessions_count && (
+          {formatDuration(pack.sessions_count, pack.duration_unit) && (
             <p className="mt-3 text-sm text-[#1a1a1a]/70">
-              <span className={LABEL}>Sesiones: </span>
-              {pack.sessions_count}
+              <span className={LABEL}>Duración: </span>
+              {formatDuration(pack.sessions_count, pack.duration_unit)}
             </p>
           )}
 

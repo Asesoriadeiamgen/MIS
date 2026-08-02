@@ -30,8 +30,8 @@ const SECTIONS = [
     Icon: IconServicio,
   },
   {
-    href: "/packs",
-    title: "Formación",
+    href: "/formaciones",
+    title: "Formaciones",
     description: "Carreras, especializaciones y mentorías para asesoras de imagen.",
     Icon: IconFormacion,
   },

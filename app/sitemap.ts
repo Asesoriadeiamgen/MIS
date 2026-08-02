@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/sobre-mi`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/servicios`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${SITE_URL}/packs`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/formaciones`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/portfolio`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/tienda`, changeFrequency: "weekly", priority: 0.7 },
@@ -53,7 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     })),
     ...(packs || []).map((p) => ({
-      url: `${SITE_URL}/packs/${p.id}`,
+      url: `${SITE_URL}/formaciones/${p.id}`,
       lastModified: p.created_at,
       changeFrequency: "monthly" as const,
       priority: 0.6,

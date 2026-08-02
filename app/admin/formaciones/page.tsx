@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatDuration } from "@/lib/format";
 import PackForm from "@/components/admin/PackForm";
 import ToggleActiveButton from "@/components/admin/ToggleActiveButton";
 import DeleteButton from "@/components/admin/DeleteButton";
@@ -13,7 +13,7 @@ export default async function AdminPacksPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-4">Formación</h1>
+      <h1 className="text-xl font-semibold mb-4">Formaciones</h1>
       <PackForm />
 
       <DraggableList
@@ -25,12 +25,14 @@ export default async function AdminPacksPage() {
                 <p className="text-sm font-medium">{item.name}</p>
                 <p className="text-xs text-gray-500">
                   {formatPrice(item.price)}
-                  {item.sessions_count ? ` · ${item.sessions_count} sesiones` : ""} ·{" "}
-                  {item.is_active ? "Activo" : "Inactivo"}
+                  {formatDuration(item.sessions_count, item.duration_unit)
+                    ? ` · ${formatDuration(item.sessions_count, item.duration_unit)}`
+                    : ""}{" "}
+                  · {item.is_active ? "Activo" : "Inactivo"}
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <Link href={`/admin/packs/${item.id}/editar`} className="text-xs underline">
+                <Link href={`/admin/formaciones/${item.id}/editar`} className="text-xs underline">
                   Editar
                 </Link>
                 <ToggleActiveButton id={item.id} isActive={item.is_active} action={togglePackActive} />

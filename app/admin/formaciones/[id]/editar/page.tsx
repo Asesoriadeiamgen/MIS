@@ -12,7 +12,7 @@ export default async function EditarPackPage({ params }: { params: Promise<{ id:
 
   return (
     <div>
-      <Link href="/admin/packs" className="text-xs underline">
+      <Link href="/admin/formaciones" className="text-xs underline">
         ← Volver a packs
       </Link>
       <h1 className="mb-4 mt-2 text-xl font-semibold">Editar: {pack.name}</h1>
