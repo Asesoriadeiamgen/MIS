@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { createCurso, updateCurso } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import PriceField from "@/components/admin/PriceField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import { formatTime } from "@/lib/format";
 import type { Curso } from "@/types/database";
 
@@ -97,12 +98,10 @@ export default function CursoForm(props: { curso?: Curso }) {
           className={INPUT}
         />
       </div>
-      <textarea
-        name="description"
-        placeholder="Descripción"
-        defaultValue={props.curso?.description ?? ""}
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Descripción</label>
+        <RichTextEditor name="description" defaultValue={props.curso?.description ?? ""} />
+      </div>
       <div className="sm:col-span-2">
         <label className="block text-xs text-gray-500 mb-1">Foto del curso</label>
         {imageUrls.length > 0 && (

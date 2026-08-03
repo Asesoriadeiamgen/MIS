@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/format";
 import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Blog";
 const description = `Tendencias, tips y errores comunes sobre imagen personal, por ${SITE_NAME}.`;
@@ -46,7 +47,12 @@ export default async function BlogPage() {
               <div>
                 <p className="text-xs text-[#1a1a1a]/50">{formatDate(post.published_at)}</p>
                 <h2 className="font-serif text-lg">{post.title}</h2>
-                {post.excerpt && <p className="mt-1 text-sm text-[#1a1a1a]/70">{post.excerpt}</p>}
+                {post.excerpt && (
+                  <div
+                    className="prose prose-sm mt-1 max-w-none text-sm text-[#1a1a1a]/70 [&_p]:inline"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }}
+                  />
+                )}
               </div>
             </Link>
           ))}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Testimonios";
 const description = `Lo que dicen las clientas de ${SITE_NAME}.`;
@@ -34,7 +35,10 @@ export default async function TestimoniosPage() {
               {t.rating && (
                 <p className="mb-2 text-lilac-deep">{"★".repeat(t.rating)}</p>
               )}
-              <p className="text-[#1a1a1a]/80">&ldquo;{t.quote}&rdquo;</p>
+              <div
+                className="prose prose-sm max-w-none text-[#1a1a1a]/80 before:content-['\201C'] after:content-['\201D'] [&_p]:inline"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.quote) }}
+              />
               <p className="mt-4 font-medium">{t.client_name}</p>
             </div>
           ))}

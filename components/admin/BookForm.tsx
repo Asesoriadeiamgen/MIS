@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { createBook, updateBook } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import PriceField from "@/components/admin/PriceField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Book } from "@/types/database";
 
 export default function BookForm(props: { book?: Book }) {
@@ -79,12 +80,10 @@ export default function BookForm(props: { book?: Book }) {
       />
       <input name="author" placeholder="Autor" defaultValue={props.book?.author ?? ""} className={INPUT} />
       <PriceField name="price" defaultValue={props.book?.price} />
-      <textarea
-        name="description"
-        placeholder="Descripción"
-        defaultValue={props.book?.description ?? ""}
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Descripción</label>
+        <RichTextEditor name="description" defaultValue={props.book?.description ?? ""} />
+      </div>
       <div>
         <label className="block text-xs text-gray-500 mb-1">Portada (imagen)</label>
         <input type="file" accept="image/*" onChange={handleCoverChange} />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Preguntas frecuentes";
 const description = `Dudas comunes sobre los servicios de ${SITE_NAME}: modalidad, precios y tiempos.`;
@@ -26,7 +27,7 @@ export default async function FaqPage() {
     mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
+      acceptedAnswer: { "@type": "Answer", text: f.answer.replace(/<[^>]+>/g, " ") },
     })),
   } : null;
 
@@ -51,7 +52,10 @@ export default async function FaqPage() {
                 {f.question}
                 <span className="text-[#1a1a1a]/40 transition group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 text-sm text-[#1a1a1a]/70">{f.answer}</p>
+              <div
+                className="prose prose-sm mt-3 max-w-none text-sm text-[#1a1a1a]/70 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-2 [&_ul]:list-disc"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(f.answer) }}
+              />
             </details>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { createTestimonio, updateTestimonio } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Testimonio } from "@/types/database";
 
 export default function TestimonioForm(props: { testimonio?: Testimonio }) {
@@ -69,13 +70,10 @@ export default function TestimonioForm(props: { testimonio?: Testimonio }) {
           </option>
         ))}
       </select>
-      <textarea
-        name="quote"
-        placeholder="Testimonio"
-        defaultValue={props.testimonio?.quote}
-        required
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Testimonio</label>
+        <RichTextEditor name="quote" defaultValue={props.testimonio?.quote ?? ""} />
+      </div>
       <div className="sm:col-span-2">
         <label className="mb-1 block text-xs text-gray-500">Foto (opcional)</label>
         {photoUrl && (

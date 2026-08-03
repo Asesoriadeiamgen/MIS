@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { createPortfolioItem, updatePortfolioItem } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { PortfolioItem } from "@/types/database";
 
 function ImageField(props: {
@@ -94,12 +95,10 @@ export default function PortfolioForm(props: { item?: PortfolioItem }) {
         className={INPUT}
       />
       <div />
-      <textarea
-        name="description"
-        placeholder="Descripción (opcional)"
-        defaultValue={props.item?.description ?? ""}
-        className={`${INPUT} sm:col-span-2`}
-      />
+      <div className="sm:col-span-2">
+        <label className="mb-1 block text-xs text-gray-500">Descripción (opcional)</label>
+        <RichTextEditor name="description" defaultValue={props.item?.description ?? ""} />
+      </div>
       <p className="text-xs text-gray-500 sm:col-span-2">
         Cargá antes/después, o una sola foto si no aplica la comparación.
       </p>

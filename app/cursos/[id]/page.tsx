@@ -5,6 +5,7 @@ import { formatPrice, formatDate, formatTime } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { LABEL } from "@/lib/ui";
 
 export async function generateMetadata({
@@ -17,7 +18,7 @@ export async function generateMetadata({
   const { data: curso } = await supabase.from("cursos").select("*").eq("id", id).single();
   if (!curso) return {};
 
-  const description = truncateDescription(curso.description);
+  const description = truncateDescription(curso.description?.replace(/<[^>]+>/g, " "));
   return {
     title: curso.name,
     description,
@@ -42,7 +43,7 @@ export default async function CursoDetailPage({ params }: { params: Promise<{ id
     "@context": "https://schema.org",
     "@type": "Course",
     name: curso.name,
-    description: curso.description || undefined,
+    description: curso.description?.replace(/<[^>]+>/g, " ") || undefined,
     image: curso.image_urls?.[0] || undefined,
     url: `${SITE_URL}/cursos/${id}`,
     offers:
@@ -104,7 +105,12 @@ export default async function CursoDetailPage({ params }: { params: Promise<{ id
             )}
           </div>
 
-          {curso.description && <p className="mt-4 text-sm text-gray-700">{curso.description}</p>}
+          {curso.description && (
+            <div
+              className="prose prose-sm mt-4 max-w-none text-sm text-gray-700 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(curso.description) }}
+            />
+          )}
 
           <div className="mt-6">
             <WhatsappDeliveryNote

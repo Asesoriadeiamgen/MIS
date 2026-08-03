@@ -15,6 +15,7 @@ import {
   IconAgenda,
 } from "@/components/icons";
 import WelcomeGateOverlay from "@/components/WelcomeGateOverlay";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const SECTIONS = [
   { href: "/sobre-mi", title: "Sobre mí", Icon: IconPerfil },
@@ -94,7 +95,10 @@ export default async function Home() {
             <div className="grid gap-5 sm:grid-cols-3">
               {testimonios.map((t) => (
                 <div key={t.id} className="rounded-sm border border-black/10 bg-white p-6 text-sm">
-                  <p className="text-[#1a1a1a]/80">&ldquo;{t.quote}&rdquo;</p>
+                  <div
+                    className="prose prose-sm max-w-none text-[#1a1a1a]/80 before:content-['\201C'] after:content-['\201D'] [&_p]:inline"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.quote) }}
+                  />
                   <p className="mt-4 font-medium">{t.client_name}</p>
                 </div>
               ))}

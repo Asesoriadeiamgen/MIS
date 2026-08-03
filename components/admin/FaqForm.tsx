@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createFaq, updateFaq } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Faq } from "@/types/database";
 
 export default function FaqForm(props: { faq?: Faq }) {
@@ -43,13 +44,10 @@ export default function FaqForm(props: { faq?: Faq }) {
         required
         className={INPUT}
       />
-      <textarea
-        name="answer"
-        placeholder="Respuesta"
-        defaultValue={props.faq?.answer}
-        required
-        className={INPUT}
-      />
+      <div>
+        <label className="mb-1 block text-xs text-gray-500">Respuesta</label>
+        <RichTextEditor name="answer" defaultValue={props.faq?.answer ?? ""} />
+      </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
       <button type="submit" disabled={saving} className={BUTTON_PRIMARY}>
         {saving ? "Guardando..." : editing ? "Actualizar" : "Agregar pregunta"}

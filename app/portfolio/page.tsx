@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Portfolio";
 const description = `Antes y después de clientas de ${SITE_NAME}.`;
@@ -52,7 +53,10 @@ export default async function PortfolioPage() {
                 <div className="p-4">
                   {item.title && <h2 className="font-serif text-lg">{item.title}</h2>}
                   {item.description && (
-                    <p className="mt-1 text-sm text-[#1a1a1a]/70">{item.description}</p>
+                    <div
+                      className="prose prose-sm mt-1 max-w-none text-sm text-[#1a1a1a]/70 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-2 [&_ul]:list-disc"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.description) }}
+                    />
                   )}
                 </div>
               )}

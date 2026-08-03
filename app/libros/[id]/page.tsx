@@ -8,6 +8,7 @@ import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { redeemBookCode } from "@/app/libros/actions";
 import { BUTTON_PRIMARY, BUTTON_OUTLINE, LABEL } from "@/lib/ui";
 import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export async function generateMetadata({
   params,
@@ -19,7 +20,7 @@ export async function generateMetadata({
   const { data: book } = await supabase.from("books").select("*").eq("id", id).single();
   if (!book) return {};
 
-  const description = truncateDescription(book.description);
+  const description = truncateDescription(book.description?.replace(/<[^>]+>/g, " "));
   return {
     title: book.title,
     description,
@@ -61,7 +62,7 @@ export default async function LibroDetailPage({
     "@context": "https://schema.org",
     "@type": "Product",
     name: book.title,
-    description: book.description || undefined,
+    description: book.description?.replace(/<[^>]+>/g, " ") || undefined,
     image: book.cover_url || undefined,
     url: `${SITE_URL}/libros/${id}`,
     author: book.author ? { "@type": "Person", name: book.author } : undefined,
@@ -101,7 +102,12 @@ export default async function LibroDetailPage({
           <h1 className="font-serif text-3xl">{book.title}</h1>
           {book.author && <p className="mt-1 text-[#1a1a1a]/60">{book.author}</p>}
           <p className="mt-4 text-xl font-semibold">{formatPrice(book.price)}</p>
-          {book.description && <p className="mt-4 text-sm text-[#1a1a1a]/80">{book.description}</p>}
+          {book.description && (
+            <div
+              className="prose prose-sm mt-4 max-w-none text-sm text-[#1a1a1a]/80 [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-3 [&_ul]:list-disc"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(book.description) }}
+            />
+          )}
 
           {hasAccess ? (
             <Link href={`/libros/${id}/leer`} className={`mt-6 block text-center ${BUTTON_PRIMARY}`}>

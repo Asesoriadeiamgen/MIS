@@ -15,7 +15,9 @@ export async function generateMetadata({
   const { data: post } = await supabase.from("blog_posts").select("*").eq("slug", slug).single();
   if (!post) return {};
 
-  const description = truncateDescription(post.excerpt || post.content.replace(/<[^>]+>/g, " "));
+  const description = truncateDescription(
+    (post.excerpt || post.content).replace(/<[^>]+>/g, " ")
+  );
   return {
     title: post.title,
     description,

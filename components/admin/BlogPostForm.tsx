@@ -68,12 +68,10 @@ export default function BlogPostForm(props: { post?: BlogPost }) {
         defaultValue={props.post?.slug ?? ""}
         className={INPUT}
       />
-      <textarea
-        name="excerpt"
-        placeholder="Bajada corta (para el listado)"
-        defaultValue={props.post?.excerpt ?? ""}
-        className={INPUT}
-      />
+      <div>
+        <label className="mb-1 block text-xs text-gray-500">Bajada corta (para el listado)</label>
+        <RichTextEditor name="excerpt" defaultValue={props.post?.excerpt ?? ""} />
+      </div>
       <div>
         <label className="mb-1 block text-xs text-gray-500">Contenido</label>
         <RichTextEditor name="content" defaultValue={props.post?.content ?? ""} />
