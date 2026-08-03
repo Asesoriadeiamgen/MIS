@@ -34,7 +34,7 @@ export default async function SobreMiPage() {
           <img
             src={about.photo_url}
             alt={SITE_NAME}
-            className="h-32 w-32 rounded-full object-cover"
+            className="h-32 w-32 rounded-full object-cover object-top"
           />
         ) : (
           <Image
