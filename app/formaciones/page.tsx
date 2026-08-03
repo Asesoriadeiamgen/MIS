@@ -41,6 +41,7 @@ export default async function PacksPage() {
               title={p.name}
               subtitle={formatDuration(p.sessions_count, p.duration_unit)}
               price={p.price}
+              priceSuffix={p.duration_unit === "meses" ? "/ mes" : undefined}
               icon={IconFormacion}
             />
           ))}

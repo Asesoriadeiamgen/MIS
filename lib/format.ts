@@ -33,3 +33,10 @@ export function formatDuration(count: number | null | undefined, unit: string): 
   const [singular, plural] = DURATION_UNIT_LABELS[unit] ?? DURATION_UNIT_LABELS.sesiones;
   return `${count} ${count === 1 ? singular : plural}`;
 }
+
+/** Precio de una formación: si se factura por mes, aclara "/ mes" al lado. */
+export function formatPackPrice(price: number | null | undefined, durationUnit: string): string {
+  const formatted = formatPrice(price);
+  if (price === null || price === undefined || durationUnit !== "meses") return formatted;
+  return `${formatted} / mes`;
+}

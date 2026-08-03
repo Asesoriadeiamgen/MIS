@@ -8,6 +8,7 @@ export default function ProductCard(props: {
   title: string;
   subtitle?: string | null;
   price: number | null;
+  priceSuffix?: string;
   icon?: ComponentType<{ className?: string }>;
 }) {
   const Icon = props.icon;
@@ -42,6 +43,7 @@ export default function ProductCard(props: {
         {props.subtitle && <p className="text-xs text-[#1a1a1a]/50">{props.subtitle}</p>}
         <p className="mt-auto border-t border-black/10 pt-2 font-semibold">
           {formatPrice(props.price)}
+          {props.price !== null && props.priceSuffix ? ` ${props.priceSuffix}` : ""}
         </p>
       </div>
     </Link>

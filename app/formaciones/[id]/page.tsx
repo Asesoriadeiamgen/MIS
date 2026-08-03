@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice, formatDuration } from "@/lib/format";
+import { formatPackPrice, formatDuration } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { IconFormacion } from "@/components/icons";
@@ -92,7 +92,7 @@ export default async function PackDetailPage({ params }: { params: Promise<{ id:
             <IconFormacion className="h-5 w-5 flex-shrink-0 text-lilac-deep" />
             {pack.name}
           </h1>
-          <p className="mt-2 text-xl font-semibold">{formatPrice(pack.price)}</p>
+          <p className="mt-2 text-xl font-semibold">{formatPackPrice(pack.price, pack.duration_unit)}</p>
 
           {formatDuration(pack.sessions_count, pack.duration_unit) && (
             <p className="mt-3 text-sm text-[#1a1a1a]/70">
