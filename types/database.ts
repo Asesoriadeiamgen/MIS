@@ -225,6 +225,12 @@ export type AboutPage = {
   updated_at: string;
 };
 
+export type RateLimitEvent = {
+  id: string;
+  key: string;
+  created_at: string;
+};
+
 export type BookPromoCode = {
   id: string;
   book_id: string;
@@ -268,6 +274,7 @@ export type Database = {
       turnos: Table<Turno>;
       discount_codes: Table<DiscountCode>;
       about_page: Table<AboutPage>;
+      rate_limit_events: Table<RateLimitEvent>;
       orders: Table<
         Order,
         [

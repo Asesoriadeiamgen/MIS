@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendTurnoConfirmationEmail, sendTurnoAdminNotificationEmail } from "@/lib/email";
+import { getClientIp, isRateLimited } from "@/lib/rateLimit";
 
 const SLOT_DURATION_MINUTES = 60;
 
@@ -31,6 +32,14 @@ export async function POST(request: Request) {
 
   if (!startAt || !clientName || !clientEmail) {
     return NextResponse.json({ error: "Faltan datos obligatorios." }, { status: 400 });
+  }
+
+  const ip = getClientIp(request);
+  if (await isRateLimited(`booking:${ip}`, 3, 24 * 60)) {
+    return NextResponse.json(
+      { error: "Ya alcanzaste el máximo de intentos de reserva por hoy. Escribinos por WhatsApp para coordinar." },
+      { status: 429 }
+    );
   }
 
   const supabase = await createClient();

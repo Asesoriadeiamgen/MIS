@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getClientIp, isRateLimited } from "@/lib/rateLimit";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -7,6 +8,14 @@ export async function POST(request: Request) {
 
   if (!code) {
     return NextResponse.json({ valid: false, error: "Ingresá un código." }, { status: 400 });
+  }
+
+  const ip = getClientIp(request);
+  if (await isRateLimited(`coupon:${ip}`, 5, 60)) {
+    return NextResponse.json(
+      { valid: false, error: "Demasiados intentos. Probá de nuevo en un rato." },
+      { status: 429 }
+    );
   }
 
   const admin = createAdminClient();
