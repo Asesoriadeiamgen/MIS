@@ -14,6 +14,14 @@ interface CartItemInput {
   customization?: Record<string, unknown>;
 }
 
+// Solo estos tipos son comprables online; "agenda"/"artesania"/"varios" no tienen
+// tabla vigente y "servicio" se coordina por WhatsApp, nunca por checkout.
+const PRODUCT_TABLES: Partial<Record<ProductType, { table: "books" | "cursos" | "packs"; nameField: string }>> = {
+  libro: { table: "books", nameField: "title" },
+  curso: { table: "cursos", nameField: "name" },
+  pack: { table: "packs", nameField: "name" },
+};
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -25,11 +33,35 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const items: CartItemInput[] = body.items || [];
+  const cartItems: CartItemInput[] = body.items || [];
   const couponCodeInput: string | undefined = body.couponCode;
 
-  if (!Array.isArray(items) || items.length === 0) {
+  if (!Array.isArray(cartItems) || cartItems.length === 0) {
     return NextResponse.json({ error: "El carrito está vacío." }, { status: 400 });
+  }
+
+  // El precio y el título nunca se confían del cliente: se recalculan acá
+  // contra la base de datos para cada ítem, así nadie puede pagar menos
+  // mandando un unitPrice manipulado en el request.
+  const admin = createAdminClient();
+  const items: CartItemInput[] = [];
+  for (const item of cartItems) {
+    const mapping = PRODUCT_TABLES[item.productType];
+    if (!mapping) {
+      return NextResponse.json({ error: "Producto inválido." }, { status: 400 });
+    }
+    const { data: product } = await admin.from(mapping.table).select("*").eq("id", item.productId).single();
+    const record = product as Record<string, unknown> | null;
+    if (!record || !record.is_active || record.price === null || record.price === undefined) {
+      return NextResponse.json({ error: "Producto no disponible." }, { status: 400 });
+    }
+    const quantity = Number.isInteger(item.quantity) && item.quantity > 0 ? item.quantity : 1;
+    items.push({
+      ...item,
+      title: String(record[mapping.nameField]),
+      unitPrice: Number(record.price),
+      quantity,
+    });
   }
 
   // El descuento se re-valida siempre en el servidor, nunca se confía en lo que mande el cliente.
@@ -37,7 +69,6 @@ export async function POST(request: Request) {
   let discountAmount = 0;
   let appliedCouponCode: string | null = null;
   if (couponCodeInput) {
-    const admin = createAdminClient();
     const { data: coupon } = await admin
       .from("discount_codes")
       .select("code, percent_off, amount_off, is_active")
@@ -107,7 +138,6 @@ export async function POST(request: Request) {
       })),
     });
 
-    const admin = createAdminClient();
     await admin.from("orders").update({ mp_preference_id: preference.id }).eq("id", order.id);
 
     return NextResponse.json({ initPoint: preference.init_point });

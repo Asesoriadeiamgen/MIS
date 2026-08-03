@@ -6,6 +6,24 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { generateAccessCode } from "@/lib/codes";
 import { sendBookAccessCodeEmail } from "@/lib/email";
 
+/**
+ * Todas las Server Actions de este archivo son solo para el admin. Las que
+ * usan createAdminClient() (service role) se saltean RLS por completo, así
+ * que sin este chequeo cualquier usuario logueado podría invocarlas
+ * directamente (no solo desde /admin, que es lo único que el layout protege)
+ * y, por ejemplo, autopromoverse a admin o borrar todo el catálogo.
+ */
+async function requireAdmin() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("No autorizado.");
+
+  const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
+  if (!profile?.is_admin) throw new Error("No autorizado.");
+}
+
 /** Un precio marcado "a consultar" en el form se guarda como NULL. */
 function readPrice(formData: FormData, field: string): number | null {
   if (formData.get(`${field}_on_request`) === "on") return null;
@@ -35,6 +53,7 @@ async function reorderTable(table: OrderableTable, orderedIds: string[]) {
 }
 
 export async function createBook(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("books").insert({
     title: String(formData.get("title")),
@@ -50,23 +69,27 @@ export async function createBook(formData: FormData) {
 }
 
 export async function reorderBooks(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("books", orderedIds);
   revalidatePath("/admin/libros");
 }
 
 export async function toggleBookActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("books").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/libros");
 }
 
 export async function deleteBook(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("books").delete().eq("id", id);
   revalidatePath("/admin/libros");
 }
 
 export async function updateBook(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase
     .from("books")
@@ -84,6 +107,7 @@ export async function updateBook(id: string, formData: FormData) {
 }
 
 export async function createCurso(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -104,18 +128,21 @@ export async function createCurso(formData: FormData) {
 }
 
 export async function toggleCursoActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("cursos").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/cursos");
 }
 
 export async function deleteCurso(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("cursos").delete().eq("id", id);
   revalidatePath("/admin/cursos");
 }
 
 export async function updateCurso(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -139,6 +166,7 @@ export async function updateCurso(id: string, formData: FormData) {
 }
 
 export async function createServicio(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -159,11 +187,13 @@ export async function createServicio(formData: FormData) {
 }
 
 export async function reorderServicios(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("servicios", orderedIds);
   revalidatePath("/admin/servicios");
 }
 
 export async function toggleServicioActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("servicios").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/servicios");
@@ -171,6 +201,7 @@ export async function toggleServicioActive(id: string, isActive: boolean) {
 }
 
 export async function deleteServicio(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("servicios").delete().eq("id", id);
   revalidatePath("/admin/servicios");
@@ -178,6 +209,7 @@ export async function deleteServicio(id: string) {
 }
 
 export async function updateServicio(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -200,6 +232,7 @@ export async function updateServicio(id: string, formData: FormData) {
 }
 
 export async function createPack(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -221,11 +254,13 @@ export async function createPack(formData: FormData) {
 }
 
 export async function reorderPacks(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("packs", orderedIds);
   revalidatePath("/admin/formaciones");
 }
 
 export async function togglePackActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("packs").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/formaciones");
@@ -233,6 +268,7 @@ export async function togglePackActive(id: string, isActive: boolean) {
 }
 
 export async function deletePack(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("packs").delete().eq("id", id);
   revalidatePath("/admin/formaciones");
@@ -240,6 +276,7 @@ export async function deletePack(id: string) {
 }
 
 export async function updatePack(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -263,6 +300,7 @@ export async function updatePack(id: string, formData: FormData) {
 }
 
 export async function createPortfolioItem(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("portfolio").insert({
     title: String(formData.get("title") || "") || null,
@@ -278,11 +316,13 @@ export async function createPortfolioItem(formData: FormData) {
 }
 
 export async function reorderPortfolio(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("portfolio", orderedIds);
   revalidatePath("/admin/portfolio");
 }
 
 export async function togglePortfolioActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("portfolio").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/portfolio");
@@ -290,6 +330,7 @@ export async function togglePortfolioActive(id: string, isActive: boolean) {
 }
 
 export async function deletePortfolioItem(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("portfolio").delete().eq("id", id);
   revalidatePath("/admin/portfolio");
@@ -297,6 +338,7 @@ export async function deletePortfolioItem(id: string) {
 }
 
 export async function updatePortfolioItem(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase
     .from("portfolio")
@@ -314,6 +356,7 @@ export async function updatePortfolioItem(id: string, formData: FormData) {
 }
 
 export async function createTestimonio(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("testimonios").insert({
     client_name: String(formData.get("client_name")),
@@ -328,11 +371,13 @@ export async function createTestimonio(formData: FormData) {
 }
 
 export async function reorderTestimonios(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("testimonios", orderedIds);
   revalidatePath("/admin/testimonios");
 }
 
 export async function toggleTestimonioActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("testimonios").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/testimonios");
@@ -340,6 +385,7 @@ export async function toggleTestimonioActive(id: string, isActive: boolean) {
 }
 
 export async function deleteTestimonio(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("testimonios").delete().eq("id", id);
   revalidatePath("/admin/testimonios");
@@ -347,6 +393,7 @@ export async function deleteTestimonio(id: string) {
 }
 
 export async function updateTestimonio(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase
     .from("testimonios")
@@ -372,6 +419,7 @@ function slugify(text: string): string {
 }
 
 export async function createBlogPost(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const title = String(formData.get("title"));
   const { error } = await supabase.from("blog_posts").insert({
@@ -387,6 +435,7 @@ export async function createBlogPost(formData: FormData) {
 }
 
 export async function toggleBlogPostActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("blog_posts").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/blog");
@@ -394,6 +443,7 @@ export async function toggleBlogPostActive(id: string, isActive: boolean) {
 }
 
 export async function deleteBlogPost(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("blog_posts").delete().eq("id", id);
   revalidatePath("/admin/blog");
@@ -401,6 +451,7 @@ export async function deleteBlogPost(id: string) {
 }
 
 export async function updateBlogPost(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const title = String(formData.get("title"));
   const { error } = await supabase
@@ -419,6 +470,7 @@ export async function updateBlogPost(id: string, formData: FormData) {
 }
 
 export async function createFaq(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("faqs").insert({
     question: String(formData.get("question")),
@@ -431,11 +483,13 @@ export async function createFaq(formData: FormData) {
 }
 
 export async function reorderFaqs(orderedIds: string[]) {
+  await requireAdmin();
   await reorderTable("faqs", orderedIds);
   revalidatePath("/admin/faq");
 }
 
 export async function toggleFaqActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("faqs").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/faq");
@@ -443,6 +497,7 @@ export async function toggleFaqActive(id: string, isActive: boolean) {
 }
 
 export async function deleteFaq(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("faqs").delete().eq("id", id);
   revalidatePath("/admin/faq");
@@ -450,6 +505,7 @@ export async function deleteFaq(id: string) {
 }
 
 export async function updateFaq(id: string, formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase
     .from("faqs")
@@ -464,6 +520,7 @@ export async function updateFaq(id: string, formData: FormData) {
 }
 
 export async function createDisponibilidad(formData: FormData) {
+  await requireAdmin();
   const weekdays = formData.getAll("weekday").map(Number);
   if (weekdays.length === 0) throw new Error("Elegí al menos un día.");
 
@@ -479,18 +536,21 @@ export async function createDisponibilidad(formData: FormData) {
 }
 
 export async function toggleDisponibilidadActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("disponibilidad_semanal").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/agenda");
 }
 
 export async function deleteDisponibilidad(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("disponibilidad_semanal").delete().eq("id", id);
   revalidatePath("/admin/agenda");
 }
 
 export async function createBloqueo(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("bloqueos_fecha").insert({
     start_at: String(formData.get("start_at")),
@@ -502,18 +562,21 @@ export async function createBloqueo(formData: FormData) {
 }
 
 export async function deleteBloqueo(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("bloqueos_fecha").delete().eq("id", id);
   revalidatePath("/admin/agenda");
 }
 
 export async function cancelTurno(id: string) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("turnos").update({ status: "cancelado" }).eq("id", id);
   revalidatePath("/admin/agenda");
 }
 
 export async function createDiscountCode(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const type = String(formData.get("discount_type") || "percent");
   const value = Number(formData.get("discount_value")) || 0;
@@ -527,24 +590,28 @@ export async function createDiscountCode(formData: FormData) {
 }
 
 export async function toggleDiscountCodeActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("discount_codes").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/cupones");
 }
 
 export async function deleteDiscountCode(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("discount_codes").delete().eq("id", id);
   revalidatePath("/admin/cupones");
 }
 
 export async function toggleUserAdmin(id: string, isAdmin: boolean) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("profiles").update({ is_admin: isAdmin }).eq("id", id);
   revalidatePath("/admin/usuarios");
 }
 
 export async function createManualBookAccessCode(bookId: string, email: string) {
+  await requireAdmin();
   const admin = createAdminClient();
 
   const { data: book } = await admin.from("books").select("title").eq("id", bookId).single();
@@ -566,6 +633,7 @@ export async function createManualBookAccessCode(bookId: string, email: string) 
 }
 
 export async function createBookPromoCode(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("book_promo_codes").insert({
     book_id: String(formData.get("book_id")),
@@ -576,18 +644,21 @@ export async function createBookPromoCode(formData: FormData) {
 }
 
 export async function toggleBookPromoCodeActive(id: string, isActive: boolean) {
+  await requireAdmin();
   const supabase = await createClient();
   await supabase.from("book_promo_codes").update({ is_active: isActive }).eq("id", id);
   revalidatePath("/admin/codigos-libros");
 }
 
 export async function deleteBookPromoCode(id: string) {
+  await requireAdmin();
   const admin = createAdminClient();
   await admin.from("book_promo_codes").delete().eq("id", id);
   revalidatePath("/admin/codigos-libros");
 }
 
 export async function updateAboutPage(formData: FormData) {
+  await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase.from("about_page").upsert({
     id: 1,
