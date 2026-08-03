@@ -68,13 +68,13 @@ export default function AboutPageForm(props: { about: AboutPage | null }) {
       </div>
 
       <div>
-        <label className="mb-1 block text-xs text-gray-500">Formación y certificaciones</label>
-        <RichTextEditor name="formacion_html" defaultValue={props.about?.formacion_html ?? ""} />
+        <label className="mb-1 block text-xs text-gray-500">Filosofía de trabajo</label>
+        <RichTextEditor name="filosofia_html" defaultValue={props.about?.filosofia_html ?? ""} />
       </div>
 
       <div>
-        <label className="mb-1 block text-xs text-gray-500">Filosofía de trabajo</label>
-        <RichTextEditor name="filosofia_html" defaultValue={props.about?.filosofia_html ?? ""} />
+        <label className="mb-1 block text-xs text-gray-500">Formación y certificaciones</label>
+        <RichTextEditor name="formacion_html" defaultValue={props.about?.formacion_html ?? ""} />
       </div>
 
       <div>

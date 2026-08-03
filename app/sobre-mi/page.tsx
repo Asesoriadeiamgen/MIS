@@ -47,41 +47,26 @@ export default async function SobreMiPage() {
         )}
       </div>
 
-      <section className="space-y-3">
-        <h2 className="font-serif text-xl">Formación y certificaciones</h2>
-        {about?.formacion_html ? (
-          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.formacion_html) }} />
-        ) : (
-          <p className="text-[#1a1a1a]/70">
-            [Falta cargar: formación, cursos y certificaciones. Se puede editar desde el panel de
-            admin, en "Sobre mí".]
-          </p>
-        )}
-      </section>
-
-      <section className="mt-8 space-y-3">
-        <h2 className="font-serif text-xl">Filosofía de trabajo</h2>
-        {about?.filosofia_html ? (
+      {about?.filosofia_html && (
+        <section className="space-y-3">
+          <h2 className="font-serif text-xl">Filosofía de trabajo</h2>
           <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.filosofia_html) }} />
-        ) : (
-          <p className="text-[#1a1a1a]/70">
-            La imagen como coherencia entre lo interno y lo externo: no se trata solo de qué usás,
-            sino de que lo que mostrás hacia afuera refleje quién sos por dentro.
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section className="mt-8 space-y-3">
-        <h2 className="font-serif text-xl">Mi historia</h2>
-        {about?.historia_html ? (
+      {about?.formacion_html && (
+        <section className="mt-8 space-y-3">
+          <h2 className="font-serif text-xl">Formación y certificaciones</h2>
+          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.formacion_html) }} />
+        </section>
+      )}
+
+      {about?.historia_html && (
+        <section className="mt-8 space-y-3">
+          <h2 className="font-serif text-xl">Mi historia</h2>
           <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.historia_html) }} />
-        ) : (
-          <p className="text-[#1a1a1a]/70">
-            [Falta cargar: historia personal/profesional que genere conexión con quien lee. Se
-            puede editar desde el panel de admin, en "Sobre mí".]
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
       <div className="mt-12 text-center">
         <Link href="/agenda" className={BUTTON_PRIMARY}>
