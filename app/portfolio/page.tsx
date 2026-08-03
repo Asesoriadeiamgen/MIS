@@ -5,10 +5,12 @@ import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Portfolio";
 const description = `Antes y después de clientas de ${SITE_NAME}.`;
+const keywords = ["antes y después asesoría de imagen", "transformación de imagen", "portfolio asesora de imagen"];
 
 export const metadata: Metadata = {
   title,
   description,
+  keywords,
   alternates: { canonical: "/portfolio" },
   ...buildSocialMeta({ title, description, path: "/portfolio" }),
 };

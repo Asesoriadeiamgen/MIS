@@ -7,6 +7,12 @@ import { SITE_NAME, buildSocialMeta } from "@/lib/seo";
 
 export const metadata = {
   title: `Sobre mí — ${SITE_NAME}`,
+  keywords: [
+    "asesora de imagen",
+    "coach de imagen",
+    "quién es " + SITE_NAME,
+    "formación asesoría de imagen",
+  ],
   ...buildSocialMeta({
     title: `Sobre mí — ${SITE_NAME}`,
     description: "Formación, filosofía de trabajo e historia detrás de la asesoría de imagen.",

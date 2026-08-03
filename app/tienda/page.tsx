@@ -5,10 +5,12 @@ import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
 
 const title = "Tienda";
 const description = `Ebooks, guías descargables y cursos online de ${SITE_NAME}.`;
+const keywords = ["ebooks de imagen personal", "guías descargables", "cursos online de imagen"];
 
 export const metadata: Metadata = {
   title,
   description,
+  keywords,
   alternates: { canonical: "/tienda" },
   ...buildSocialMeta({ title, description, path: "/tienda" }),
 };

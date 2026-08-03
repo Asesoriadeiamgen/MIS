@@ -7,7 +7,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { redeemBookCode } from "@/app/libros/actions";
 import { BUTTON_PRIMARY, BUTTON_OUTLINE, LABEL } from "@/lib/ui";
-import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, deriveTags, SITE_URL } from "@/lib/seo";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export async function generateMetadata({
@@ -21,9 +21,15 @@ export async function generateMetadata({
   if (!book) return {};
 
   const description = truncateDescription(book.description?.replace(/<[^>]+>/g, " "));
+  const keywords = [
+    book.title,
+    ...deriveTags("libro", book.title, book.author, book.description),
+    "ebook asesoría de imagen",
+  ];
   return {
     title: book.title,
     description,
+    keywords,
     alternates: { canonical: `/libros/${id}` },
     ...buildSocialMeta({ title: book.title, description, path: `/libros/${id}`, image: book.cover_url }),
   };

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatPrice, formatDate, formatTime } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
-import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, deriveTags, SITE_URL } from "@/lib/seo";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { LABEL } from "@/lib/ui";
 
@@ -19,9 +19,15 @@ export async function generateMetadata({
   if (!curso) return {};
 
   const description = truncateDescription(curso.description?.replace(/<[^>]+>/g, " "));
+  const keywords = [
+    curso.name,
+    ...deriveTags("curso", curso.name, curso.description),
+    "curso de asesoría de imagen",
+  ];
   return {
     title: curso.name,
     description,
+    keywords,
     alternates: { canonical: `/cursos/${id}` },
     ...buildSocialMeta({
       title: curso.name,

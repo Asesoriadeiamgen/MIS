@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/format";
-import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, deriveTags, SITE_URL } from "@/lib/seo";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export async function generateMetadata({
@@ -18,9 +18,15 @@ export async function generateMetadata({
   const description = truncateDescription(
     (post.excerpt || post.content).replace(/<[^>]+>/g, " ")
   );
+  const keywords = [
+    post.title,
+    ...deriveTags("varios", post.title, post.excerpt, post.content.replace(/<[^>]+>/g, " ")),
+    "blog asesoría de imagen",
+  ];
   return {
     title: post.title,
     description,
+    keywords,
     alternates: { canonical: `/blog/${slug}` },
     ...buildSocialMeta({ title: post.title, description, path: `/blog/${slug}`, image: post.cover_url }),
   };

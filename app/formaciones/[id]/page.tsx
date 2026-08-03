@@ -5,7 +5,7 @@ import { formatPackPrice, formatDuration } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
 import { IconFormacion } from "@/components/icons";
-import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, deriveTags, SITE_URL } from "@/lib/seo";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { LABEL } from "@/lib/ui";
 
@@ -20,9 +20,15 @@ export async function generateMetadata({
   if (!pack) return {};
 
   const description = truncateDescription(pack.description?.replace(/<[^>]+>/g, " "));
+  const keywords = [
+    pack.name,
+    ...deriveTags("pack", pack.name, pack.description),
+    "formación en asesoría de imagen",
+  ];
   return {
     title: pack.name,
     description,
+    keywords,
     alternates: { canonical: `/formaciones/${id}` },
     ...buildSocialMeta({
       title: pack.name,

@@ -7,10 +7,18 @@ import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
 
 const title = "Formaciones";
 const description = `Formaciones de ${SITE_NAME}: carreras, especializaciones y mentorías para asesoras de imagen.`;
+const keywords = [
+  "carrera de asesoría de imagen",
+  "formación asesoría de imagen",
+  "curso para asesoras de imagen",
+  "mentoría imagen personal",
+  "especialización coaching de imagen",
+];
 
 export const metadata: Metadata = {
   title,
   description,
+  keywords,
   alternates: { canonical: "/formaciones" },
   ...buildSocialMeta({ title, description, path: "/formaciones" }),
 };

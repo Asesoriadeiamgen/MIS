@@ -5,10 +5,18 @@ import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
 
 const title = "Servicios";
 const description = `Servicios de asesoría de imagen de ${SITE_NAME}: colorimetría, guardarropa, personal shopper, imagen ejecutiva y más.`;
+const keywords = [
+  "asesoría de imagen",
+  "colorimetría",
+  "personal shopper",
+  "imagen ejecutiva",
+  "asesoramiento de imagen online",
+];
 
 export const metadata: Metadata = {
   title,
   description,
+  keywords,
   alternates: { canonical: "/servicios" },
   ...buildSocialMeta({ title, description, path: "/servicios" }),
 };

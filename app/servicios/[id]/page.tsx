@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/format";
 import WhatsappDeliveryNote from "@/components/WhatsappDeliveryNote";
-import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
+import { truncateDescription, buildSocialMeta, breadcrumbJsonLd, deriveTags, SITE_URL } from "@/lib/seo";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { BUTTON_PRIMARY, LABEL } from "@/lib/ui";
 
@@ -25,9 +25,15 @@ export async function generateMetadata({
   if (!servicio) return {};
 
   const description = truncateDescription(servicio.description?.replace(/<[^>]+>/g, " "));
+  const keywords = [
+    servicio.name,
+    ...deriveTags("varios", servicio.name, servicio.description),
+    "asesoría de imagen",
+  ];
   return {
     title: servicio.name,
     description,
+    keywords,
     alternates: { canonical: `/servicios/${id}` },
     ...buildSocialMeta({
       title: servicio.name,

@@ -7,10 +7,12 @@ import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 const title = "Blog";
 const description = `Tendencias, tips y errores comunes sobre imagen personal, por ${SITE_NAME}.`;
+const keywords = ["blog de imagen personal", "tips de imagen", "moda y estilo", "asesoría de imagen"];
 
 export const metadata: Metadata = {
   title,
   description,
+  keywords,
   alternates: { canonical: "/blog" },
   ...buildSocialMeta({ title, description, path: "/blog" }),
 };
