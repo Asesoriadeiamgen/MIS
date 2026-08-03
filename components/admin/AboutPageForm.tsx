@@ -68,6 +68,11 @@ export default function AboutPageForm(props: { about: AboutPage | null }) {
       </div>
 
       <div>
+        <label className="mb-1 block text-xs text-gray-500">Mi historia</label>
+        <RichTextEditor name="historia_html" defaultValue={props.about?.historia_html ?? ""} />
+      </div>
+
+      <div>
         <label className="mb-1 block text-xs text-gray-500">Filosofía de trabajo</label>
         <RichTextEditor name="filosofia_html" defaultValue={props.about?.filosofia_html ?? ""} />
       </div>
@@ -75,11 +80,6 @@ export default function AboutPageForm(props: { about: AboutPage | null }) {
       <div>
         <label className="mb-1 block text-xs text-gray-500">Formación y certificaciones</label>
         <RichTextEditor name="formacion_html" defaultValue={props.about?.formacion_html ?? ""} />
-      </div>
-
-      <div>
-        <label className="mb-1 block text-xs text-gray-500">Mi historia</label>
-        <RichTextEditor name="historia_html" defaultValue={props.about?.historia_html ?? ""} />
       </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}

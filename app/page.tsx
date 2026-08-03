@@ -17,66 +17,16 @@ import {
 import WelcomeGateOverlay from "@/components/WelcomeGateOverlay";
 
 const SECTIONS = [
-  {
-    href: "/sobre-mi",
-    title: "Sobre mí",
-    description: "Formación, filosofía e historia.",
-    Icon: IconPerfil,
-  },
-  {
-    href: "/servicios",
-    title: "Servicios",
-    description: "Asesoría de imagen y mucho más.",
-    Icon: IconServicio,
-  },
-  {
-    href: "/formaciones",
-    title: "Formaciones",
-    description: "Carreras, especializaciones y mentorías para asesoras de imagen.",
-    Icon: IconFormacion,
-  },
-  {
-    href: "/portfolio",
-    title: "Portfolio",
-    description: "Antes y después de clientas reales.",
-    Icon: IconPortfolio,
-  },
-  {
-    href: "/testimonios",
-    title: "Testimonios",
-    description: "Lo que dicen mis clientas.",
-    Icon: IconTestimonio,
-  },
-  {
-    href: "/blog",
-    title: "Blog",
-    description: "Tendencias, tips y errores comunes.",
-    Icon: IconBlog,
-  },
-  {
-    href: "/libros",
-    title: "Ebooks",
-    description: "Guías digitales descargables.",
-    Icon: IconBook,
-  },
-  {
-    href: "/tienda",
-    title: "Tienda",
-    description: "Ebooks, guías descargables y cursos online.",
-    Icon: IconTienda,
-  },
-  {
-    href: "/faq",
-    title: "FAQ",
-    description: "Dudas comunes sobre el servicio.",
-    Icon: IconFaq,
-  },
-  {
-    href: "/agenda",
-    title: "Agendá tu turno",
-    description: "Elegí día y horario para tu consulta.",
-    Icon: IconAgenda,
-  },
+  { href: "/sobre-mi", title: "Sobre mí", Icon: IconPerfil },
+  { href: "/servicios", title: "Servicios", Icon: IconServicio },
+  { href: "/formaciones", title: "Formaciones", Icon: IconFormacion },
+  { href: "/portfolio", title: "Portfolio", Icon: IconPortfolio },
+  { href: "/testimonios", title: "Testimonios", Icon: IconTestimonio },
+  { href: "/blog", title: "Blog", Icon: IconBlog },
+  { href: "/libros", title: "Ebooks", Icon: IconBook },
+  { href: "/tienda", title: "Tienda", Icon: IconTienda },
+  { href: "/faq", title: "FAQ", Icon: IconFaq },
+  { href: "/agenda", title: "Agendá tu turno", Icon: IconAgenda },
 ];
 
 export default async function Home() {
@@ -124,7 +74,7 @@ export default async function Home() {
 
       <section className="mx-auto max-w-5xl px-4 pb-14 pt-4">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {SECTIONS.map(({ href, title, description, Icon }) => (
+          {SECTIONS.map(({ href, title, Icon }) => (
             <Link
               key={href}
               href={href}
@@ -132,7 +82,6 @@ export default async function Home() {
             >
               <Icon className="h-7 w-7 text-lilac-deep" />
               <h2 className="font-serif text-base">{title}</h2>
-              <p className="text-xs text-[#1a1a1a]/60">{description}</p>
             </Link>
           ))}
         </div>

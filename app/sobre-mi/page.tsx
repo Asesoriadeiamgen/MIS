@@ -47,8 +47,15 @@ export default async function SobreMiPage() {
         )}
       </div>
 
-      {about?.filosofia_html && (
+      {about?.historia_html && (
         <section className="space-y-3">
+          <h2 className="font-serif text-xl">Mi historia</h2>
+          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.historia_html) }} />
+        </section>
+      )}
+
+      {about?.filosofia_html && (
+        <section className="mt-8 space-y-3">
           <h2 className="font-serif text-xl">Filosofía de trabajo</h2>
           <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.filosofia_html) }} />
         </section>
@@ -58,13 +65,6 @@ export default async function SobreMiPage() {
         <section className="mt-8 space-y-3">
           <h2 className="font-serif text-xl">Formación y certificaciones</h2>
           <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.formacion_html) }} />
-        </section>
-      )}
-
-      {about?.historia_html && (
-        <section className="mt-8 space-y-3">
-          <h2 className="font-serif text-xl">Mi historia</h2>
-          <div className={PROSE_CLASS} dangerouslySetInnerHTML={{ __html: sanitizeHtml(about.historia_html) }} />
         </section>
       )}
 
