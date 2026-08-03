@@ -9,9 +9,11 @@
      el rojo se ve rosa. Para fondos suaves usar --soft-bg / --soft-bg-deep. */
   --lilac: #d11110;
   --lilac-deep: #b00e0d;
-  /* Lila suave para fondos de sección (no derivado del rojo, para que nunca dé rosa). */
-  --soft-bg: #eeecf7;
-  --soft-bg-deep: #dcd8ef;
+  /* Lila suave para fondos de sección (no derivado del rojo, para que nunca dé rosa).
+     Más saturado que un lila casi-blanco: a tan poca saturación el ojo (y algunos
+     monitores) lo puede confundir con rosa pálido por el contraste con el rojo. */
+  --soft-bg: #e4defa;
+  --soft-bg-deep: #cabdee;
 }
 
 @theme inline {
