@@ -87,6 +87,17 @@ export function IconPortfolio({ className }: IconProps) {
   );
 }
 
+export function IconGaleria({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <rect x="2.5" y="6.5" width="15" height="12" rx="1.2" />
+      <circle cx="7.3" cy="10.8" r="1.2" />
+      <path d="M3.2 16.5l3.8-3.2 3.2 2.5 2.4-2 4.4 3.7" />
+      <path d="M6.5 6.5v-1a1.2 1.2 0 0 1 1.2-1.2h11.6A1.2 1.2 0 0 1 20.5 5.5v10a1.2 1.2 0 0 1-1.2 1.2h-1" />
+    </svg>
+  );
+}
+
 export function IconBlog({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">

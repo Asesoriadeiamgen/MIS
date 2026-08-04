@@ -30,7 +30,7 @@ function readPrice(formData: FormData, field: string): number | null {
   return Number(formData.get(field)) || 0;
 }
 
-type OrderableTable = "books" | "servicios" | "packs" | "portfolio" | "testimonios" | "faqs";
+type OrderableTable = "books" | "servicios" | "packs" | "portfolio" | "testimonios" | "faqs" | "galeria_fotos";
 
 /** Los productos nuevos se agregan arriba de todo, adelante del orden manual existente. */
 async function topSortOrder(table: OrderableTable): Promise<number> {
@@ -671,4 +671,57 @@ export async function updateAboutPage(formData: FormData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/sobre-mi");
   revalidatePath("/sobre-mi");
+}
+
+export async function createGaleriaFoto(formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("galeria_fotos").insert({
+    category: String(formData.get("category") || "").trim(),
+    image_url: String(formData.get("image_url") || ""),
+    caption: String(formData.get("caption") || "") || null,
+    sort_order: await topSortOrder("galeria_fotos"),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/galeria");
+  revalidatePath("/galeria");
+}
+
+/** Cambiar la categoría acá es justamente cómo se "mueve" una foto de carpeta. */
+export async function updateGaleriaFoto(id: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("galeria_fotos")
+    .update({
+      category: String(formData.get("category") || "").trim(),
+      image_url: String(formData.get("image_url") || ""),
+      caption: String(formData.get("caption") || "") || null,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/galeria");
+  revalidatePath("/galeria");
+}
+
+export async function toggleGaleriaFotoActive(id: string, isActive: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+  await supabase.from("galeria_fotos").update({ is_active: isActive }).eq("id", id);
+  revalidatePath("/admin/galeria");
+  revalidatePath("/galeria");
+}
+
+export async function deleteGaleriaFoto(id: string) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  await admin.from("galeria_fotos").delete().eq("id", id);
+  revalidatePath("/admin/galeria");
+  revalidatePath("/galeria");
+}
+
+export async function reorderGaleriaFotos(orderedIds: string[]) {
+  await requireAdmin();
+  await reorderTable("galeria_fotos", orderedIds);
+  revalidatePath("/admin/galeria");
 }

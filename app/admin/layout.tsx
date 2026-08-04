@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin/servicios", label: "Servicios" },
   { href: "/admin/formaciones", label: "Formaciones" },
   { href: "/admin/portfolio", label: "Portfolio" },
+  { href: "/admin/galeria", label: "Galería" },
   { href: "/admin/testimonios", label: "Testimonios" },
   { href: "/admin/blog", label: "Blog" },
   { href: "/admin/libros", label: "Ebooks/Guías" },

@@ -110,6 +110,16 @@ export type PortfolioItem = {
   created_at: string;
 };
 
+export type GaleriaFoto = {
+  id: string;
+  category: string;
+  image_url: string;
+  caption: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
 export type Testimonio = {
   id: string;
   client_name: string;
@@ -275,6 +285,7 @@ export type Database = {
       discount_codes: Table<DiscountCode>;
       about_page: Table<AboutPage>;
       rate_limit_events: Table<RateLimitEvent>;
+      galeria_fotos: Table<GaleriaFoto>;
       orders: Table<
         Order,
         [
