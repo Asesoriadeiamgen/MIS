@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 type Foto = { id: string; image_url: string; caption: string | null };
 
@@ -12,17 +12,20 @@ export default function GaleriaCarousel({
   photosByCategory: Record<string, Foto[]>;
 }) {
   const [active, setActive] = useState(categories[0] ?? "");
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  function scrollByCard(direction: 1 | -1) {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-card]");
-    const amount = card ? card.offsetWidth + 16 : track.clientWidth * 0.8;
-    track.scrollBy({ left: direction * amount, behavior: "smooth" });
-  }
+  const [index, setIndex] = useState(0);
 
   const fotos = photosByCategory[active] ?? [];
+  const foto = fotos[index];
+
+  function selectCategory(c: string) {
+    setActive(c);
+    setIndex(0);
+  }
+
+  function go(direction: 1 | -1) {
+    if (fotos.length === 0) return;
+    setIndex((i) => (i + direction + fotos.length) % fotos.length);
+  }
 
   return (
     <div>
@@ -31,7 +34,7 @@ export default function GaleriaCarousel({
           <button
             key={c}
             type="button"
-            onClick={() => setActive(c)}
+            onClick={() => selectCategory(c)}
             className={`rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-widest transition ${
               c === active
                 ? "border-lilac-deep bg-lilac-deep text-white"
@@ -43,48 +46,47 @@ export default function GaleriaCarousel({
         ))}
       </div>
 
-      {fotos.length === 0 ? (
+      {fotos.length === 0 || !foto ? (
         <p className="text-center text-sm text-[#1a1a1a]/50">Todavía no hay fotos en esta categoría.</p>
       ) : (
-        <div className="relative">
-          <div
-            ref={trackRef}
-            className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {fotos.map((foto) => (
-              <div
+        <div className="mx-auto flex max-w-md flex-col items-center">
+          <div className="flex w-full items-center gap-3">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              disabled={fotos.length < 2}
+              aria-label="Foto anterior"
+              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-xl shadow-sm hover:bg-soft-bg disabled:opacity-30"
+            >
+              ‹
+            </button>
+
+            <div className="aspect-[4/5] flex-1 overflow-hidden rounded-sm bg-soft-bg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 key={foto.id}
-                data-card
-                className="aspect-[4/5] w-64 flex-shrink-0 snap-center overflow-hidden rounded-sm bg-soft-bg sm:w-80"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={foto.image_url} alt={foto.caption ?? ""} className="h-full w-full object-cover" />
-                {foto.caption && (
-                  <p className="mt-2 text-center text-xs text-[#1a1a1a]/60">{foto.caption}</p>
-                )}
-              </div>
-            ))}
+                src={foto.image_url}
+                alt={foto.caption ?? ""}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => go(1)}
+              disabled={fotos.length < 2}
+              aria-label="Foto siguiente"
+              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-xl shadow-sm hover:bg-soft-bg disabled:opacity-30"
+            >
+              ›
+            </button>
           </div>
 
+          {foto.caption && <p className="mt-3 text-center text-sm text-[#1a1a1a]/60">{foto.caption}</p>}
           {fotos.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() => scrollByCard(-1)}
-                aria-label="Foto anterior"
-                className="absolute left-0 top-[38%] -translate-x-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-lg shadow-sm hover:bg-soft-bg"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollByCard(1)}
-                aria-label="Foto siguiente"
-                className="absolute right-0 top-[38%] translate-x-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-lg shadow-sm hover:bg-soft-bg"
-              >
-                ›
-              </button>
-            </>
+            <p className="mt-2 text-xs text-[#1a1a1a]/40">
+              {index + 1} / {fotos.length}
+            </p>
           )}
         </div>
       )}
