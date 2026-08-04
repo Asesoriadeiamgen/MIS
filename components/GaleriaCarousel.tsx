@@ -49,7 +49,7 @@ export default function GaleriaCarousel({
       {fotos.length === 0 || !foto ? (
         <p className="text-center text-sm text-[#1a1a1a]/50">Todavía no hay fotos en esta categoría.</p>
       ) : (
-        <div className="mx-auto flex max-w-md flex-col items-center">
+        <div className="mx-auto flex max-w-2xl flex-col items-center">
           <div className="flex w-full items-center gap-3">
             <button
               type="button"
@@ -61,13 +61,13 @@ export default function GaleriaCarousel({
               ‹
             </button>
 
-            <div className="aspect-[4/5] flex-1 overflow-hidden rounded-sm bg-soft-bg">
+            <div className="aspect-[4/3] flex-1 overflow-hidden rounded-sm bg-soft-bg">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 key={foto.id}
                 src={foto.image_url}
                 alt={foto.caption ?? ""}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
 
