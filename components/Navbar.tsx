@@ -10,6 +10,12 @@ export default async function Navbar() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
+    isAdmin = !!profile?.is_admin;
+  }
+
   return (
     <header className="sticky top-0 z-10 border-b border-black/10 bg-[#ffffff]/90 backdrop-blur-sm">
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
@@ -24,7 +30,7 @@ export default async function Navbar() {
             </span>
           </span>
         </Link>
-        <MobileNav isLoggedIn={!!user} />
+        <MobileNav isLoggedIn={!!user} isAdmin={isAdmin} />
       </div>
     </header>
   );

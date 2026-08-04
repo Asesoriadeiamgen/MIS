@@ -673,15 +673,27 @@ export async function updateAboutPage(formData: FormData) {
   revalidatePath("/sobre-mi");
 }
 
+/** Sube una o varias fotos de una: todas quedan en la misma categoría. */
 export async function createGaleriaFoto(formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();
-  const { error } = await supabase.from("galeria_fotos").insert({
-    category: String(formData.get("category") || "").trim(),
-    image_url: String(formData.get("image_url") || ""),
-    caption: String(formData.get("caption") || "") || null,
-    sort_order: await topSortOrder("galeria_fotos"),
-  });
+  const category = String(formData.get("category") || "").trim();
+  const caption = String(formData.get("caption") || "") || null;
+  const imageUrls = String(formData.get("image_urls") || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (imageUrls.length === 0) throw new Error("Subí al menos una foto.");
+
+  const baseSortOrder = await topSortOrder("galeria_fotos");
+  const { error } = await supabase.from("galeria_fotos").insert(
+    imageUrls.map((image_url, i) => ({
+      category,
+      image_url,
+      caption,
+      sort_order: baseSortOrder - i,
+    }))
+  );
   if (error) throw new Error(error.message);
   revalidatePath("/admin/galeria");
   revalidatePath("/galeria");
@@ -691,11 +703,12 @@ export async function createGaleriaFoto(formData: FormData) {
 export async function updateGaleriaFoto(id: string, formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();
+  const imageUrl = String(formData.get("image_urls") || "").split(",")[0]?.trim();
   const { error } = await supabase
     .from("galeria_fotos")
     .update({
       category: String(formData.get("category") || "").trim(),
-      image_url: String(formData.get("image_url") || ""),
+      image_url: imageUrl,
       caption: String(formData.get("caption") || "") || null,
     })
     .eq("id", id);

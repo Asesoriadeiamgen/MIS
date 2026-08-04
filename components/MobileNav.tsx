@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import CartBadge from "@/components/CartBadge";
-import { IconMenu, IconClose, IconPerfil } from "@/components/icons";
+import { IconMenu, IconClose, IconPerfil, IconAdmin } from "@/components/icons";
 
 const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
@@ -18,7 +18,7 @@ const SECTIONS = [
   { href: "/agenda", label: "Agendá tu turno" },
 ];
 
-export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function MobileNav({ isLoggedIn, isAdmin }: { isLoggedIn: boolean; isAdmin: boolean }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
@@ -38,6 +38,11 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         ) : (
           <Link href="/cuenta/login" aria-label="Ingresar" title="Ingresar" className="hover:text-lilac-deep">
             <IconPerfil className="h-4 w-4" />
+          </Link>
+        )}
+        {isAdmin && (
+          <Link href="/admin" aria-label="Panel de administración" title="Panel de administración" className="text-lilac-deep hover:text-black">
+            <IconAdmin className="h-4 w-4" />
           </Link>
         )}
       </nav>
@@ -70,6 +75,11 @@ export default function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
             ) : (
               <Link href="/cuenta/login" onClick={close} className="hover:text-lilac-deep">
                 Ingresar
+              </Link>
+            )}
+            {isAdmin && (
+              <Link href="/admin" onClick={close} className="text-lilac-deep hover:text-black">
+                Panel de administración
               </Link>
             )}
           </div>

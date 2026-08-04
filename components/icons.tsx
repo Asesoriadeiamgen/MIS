@@ -128,6 +128,15 @@ export function IconFaq({ className }: IconProps) {
   );
 }
 
+export function IconAdmin({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M12 3.5l6.5 2.6v5.2c0 4.2-2.7 7.6-6.5 8.7-3.8-1.1-6.5-4.5-6.5-8.7V6.1L12 3.5Z" />
+      <path d="M9.3 12.2l1.9 1.9 3.5-3.9" />
+    </svg>
+  );
+}
+
 export function IconPerfil({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">

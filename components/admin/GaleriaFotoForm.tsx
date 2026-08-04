@@ -11,34 +11,42 @@ export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories:
   const router = useRouter();
   const editing = !!props.foto;
   const formRef = useRef<HTMLFormElement>(null);
-  const [imageUrl, setImageUrl] = useState(props.foto?.image_url ?? "");
+  const [imageUrls, setImageUrls] = useState<string[]>(props.foto ? [props.foto.image_url] : []);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  function removeImage(url: string) {
+    setImageUrls((prev) => prev.filter((u) => u !== url));
+  }
+
+  async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
     setUploading(true);
     const supabase = createClient();
-    const path = `${crypto.randomUUID()}-${file.name}`;
-    const { error } = await supabase.storage.from("covers").upload(path, file);
-    if (!error) {
-      const { data } = supabase.storage.from("covers").getPublicUrl(path);
-      setImageUrl(data.publicUrl);
+    const uploaded: string[] = [];
+    for (const file of Array.from(files)) {
+      const path = `${crypto.randomUUID()}-${file.name}`;
+      const { error } = await supabase.storage.from("covers").upload(path, file);
+      if (!error) {
+        const { data } = supabase.storage.from("covers").getPublicUrl(path);
+        uploaded.push(data.publicUrl);
+      }
     }
+    setImageUrls((prev) => (editing ? uploaded.slice(0, 1) : [...prev, ...uploaded]));
     setUploading(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!formRef.current) return;
-    if (!imageUrl) {
-      setError("Subí una foto.");
+    if (imageUrls.length === 0) {
+      setError(editing ? "Subí una foto." : "Subí al menos una foto.");
       return;
     }
     const formData = new FormData(formRef.current);
-    formData.set("image_url", imageUrl);
+    formData.set("image_urls", imageUrls.join(","));
     setSaving(true);
     setError(null);
     try {
@@ -49,7 +57,7 @@ export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories:
       }
       await createGaleriaFoto(formData);
       formRef.current.reset();
-      setImageUrl("");
+      setImageUrls([]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo guardar. Probá de nuevo.");
     } finally {
@@ -85,25 +93,31 @@ export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories:
         className={INPUT}
       />
       <div className="sm:col-span-2">
-        <label className="mb-1 block text-xs text-gray-500">Foto</label>
-        {imageUrl && (
-          <div className="relative mb-2 h-20 w-20 overflow-hidden rounded-md border">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageUrl} alt="" className="h-full w-full object-cover" />
-            <button
-              type="button"
-              onClick={() => setImageUrl("")}
-              className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center bg-black/70 text-xs text-white"
-            >
-              ×
-            </button>
+        <label className="mb-1 block text-xs text-gray-500">
+          {editing ? "Foto" : "Fotos (podés elegir varias juntas, van todas a la misma categoría)"}
+        </label>
+        {imageUrls.length > 0 && (
+          <div className="mb-2 flex flex-wrap gap-2">
+            {imageUrls.map((url) => (
+              <div key={url} className="relative h-20 w-20 overflow-hidden rounded-md border">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt="" className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => removeImage(url)}
+                  className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center bg-black/70 text-xs text-white"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
           </div>
         )}
-        <input type="file" accept="image/*" disabled={uploading} onChange={handleFile} />
+        <input type="file" accept="image/*" multiple={!editing} disabled={uploading} onChange={handleFiles} />
       </div>
       {error && <p className="text-sm text-red-600 sm:col-span-2">{error}</p>}
       <button type="submit" disabled={uploading || saving} className={`sm:col-span-2 ${BUTTON_PRIMARY}`}>
-        {saving ? "Guardando..." : editing ? "Guardar cambios" : "Agregar foto"}
+        {saving ? "Guardando..." : editing ? "Guardar cambios" : "Agregar foto(s)"}
       </button>
     </form>
   );

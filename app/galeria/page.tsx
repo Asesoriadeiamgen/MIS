@@ -35,8 +35,7 @@ export default async function GaleriaPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="mb-2 text-center font-serif text-3xl">Galería</h1>
-      <p className="mb-8 text-center text-[#1a1a1a]/70">Fotos de trabajos, organizadas por tipo de asesoría.</p>
+      <h1 className="mb-8 text-center font-serif text-3xl">Galería</h1>
 
       {categories.length === 0 ? (
         <p className="text-center text-sm text-[#1a1a1a]/50">Todavía no hay fotos publicadas.</p>
