@@ -263,6 +263,9 @@ function formatARS(value: number): string {
 
 export type WeeklyStats = {
   nuevosUsuarios: number;
+  turnosNuevos: number;
+  turnosConfirmados: number;
+  turnosProximaSemana: number;
   pedidosNuevos: number;
   pedidosPagados: number;
   ingresos: number;
@@ -271,11 +274,13 @@ export type WeeklyStats = {
   topProductos: [string, number][];
   totales: {
     usuarios: number;
-    libros: number;
-    agendas: number;
-    artesanias: number;
-    varios: number;
+    servicios: number;
+    formaciones: number;
     cursos: number;
+    ebooks: number;
+    portfolio: number;
+    testimonios: number;
+    blogPosts: number;
   };
 };
 
@@ -306,11 +311,14 @@ export async function sendBackupEmail(params: {
 
         <table style="width:100%; border-collapse: collapse; margin-bottom: 24px;">
           ${statRow("Usuarios nuevos", s.nuevosUsuarios)}
+          ${statRow("Turnos reservados esta semana", s.turnosNuevos)}
+          ${statRow("Turnos confirmados esta semana", s.turnosConfirmados)}
+          ${statRow("Turnos agendados próx. 7 días", s.turnosProximaSemana)}
           ${statRow("Pedidos nuevos", s.pedidosNuevos)}
           ${statRow("Pedidos pagados", s.pedidosPagados)}
           ${statRow("Ingresos (pedidos pagados)", formatARS(s.ingresos))}
-          ${statRow("Códigos de libro generados", s.codigosGenerados)}
-          ${statRow("Códigos de libro canjeados", s.codigosCanjeados)}
+          ${statRow("Códigos de ebook generados", s.codigosGenerados)}
+          ${statRow("Códigos de ebook canjeados", s.codigosCanjeados)}
         </table>
 
         <h2 style="font-size:15px; font-weight:bold; margin:0 0 8px;">Productos más vendidos esta semana</h2>
@@ -319,11 +327,13 @@ export async function sendBackupEmail(params: {
         <h2 style="font-size:15px; font-weight:bold; margin:24px 0 8px;">Totales acumulados</h2>
         <table style="width:100%; border-collapse: collapse; margin-bottom: 24px;">
           ${statRow("Usuarios registrados", s.totales.usuarios)}
-          ${statRow("Libros activos", s.totales.libros)}
-          ${statRow("Agendas activas", s.totales.agendas)}
-          ${statRow("Artesanías activas", s.totales.artesanias)}
-          ${statRow("Varios activos", s.totales.varios)}
+          ${statRow("Servicios activos", s.totales.servicios)}
+          ${statRow("Formaciones activas", s.totales.formaciones)}
           ${statRow("Cursos activos", s.totales.cursos)}
+          ${statRow("Ebooks activos", s.totales.ebooks)}
+          ${statRow("Portfolio activo", s.totales.portfolio)}
+          ${statRow("Testimonios activos", s.totales.testimonios)}
+          ${statRow("Notas de blog activas", s.totales.blogPosts)}
         </table>
 
         <p style="font-size:12px; color:#1a1a1a99; border-top:1px solid rgba(43,38,34,.12); padding-top:16px;">

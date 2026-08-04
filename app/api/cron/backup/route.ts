@@ -6,18 +6,30 @@ export const maxDuration = 30;
 
 const TABLES = [
   "profiles",
+  "servicios",
+  "packs",
+  "cursos",
   "books",
-  "agendas",
-  "artesanias",
-  "varios_products",
+  "portfolio",
+  "testimonios",
+  "blog_posts",
+  "faqs",
+  "turnos",
+  "disponibilidad_semanal",
+  "bloqueos_fecha",
   "orders",
   "order_items",
   "book_access",
   "discount_codes",
+  "about_page",
+  "galeria_fotos",
 ] as const;
 
 function computeWeeklyStats(backup: Record<string, unknown>): WeeklyStats {
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const now = Date.now();
+  const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const in7days = new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const today = new Date(now).toISOString();
 
   const profiles = (backup.profiles as { created_at: string }[]) ?? [];
   const orders = (backup.orders as { status: string; total: number; created_at: string }[]) ?? [];
@@ -25,8 +37,18 @@ function computeWeeklyStats(backup: Record<string, unknown>): WeeklyStats {
     (backup.order_items as { title: string; quantity: number; created_at: string }[]) ?? [];
   const bookAccess =
     (backup.book_access as { created_at: string; redeemed_at: string | null }[]) ?? [];
+  const turnos =
+    (backup.turnos as { created_at: string; start_at: string; status: string }[]) ?? [];
 
   const nuevosUsuarios = profiles.filter((p) => p.created_at > weekAgo).length;
+
+  const turnosSemana = turnos.filter((t) => t.created_at > weekAgo);
+  const turnosNuevos = turnosSemana.length;
+  const turnosConfirmados = turnosSemana.filter((t) => t.status === "confirmado").length;
+  const turnosProximaSemana = turnos.filter(
+    (t) => t.status === "confirmado" && t.start_at > today && t.start_at <= in7days
+  ).length;
+
   const pedidosSemana = orders.filter((o) => o.created_at > weekAgo);
   const pedidosPagadosSemana = pedidosSemana.filter((o) => o.status === "paid");
   const ingresos = pedidosPagadosSemana.reduce((sum, o) => sum + Number(o.total || 0), 0);
@@ -49,6 +71,9 @@ function computeWeeklyStats(backup: Record<string, unknown>): WeeklyStats {
 
   return {
     nuevosUsuarios,
+    turnosNuevos,
+    turnosConfirmados,
+    turnosProximaSemana,
     pedidosNuevos: pedidosSemana.length,
     pedidosPagados: pedidosPagadosSemana.length,
     ingresos,
@@ -57,12 +82,13 @@ function computeWeeklyStats(backup: Record<string, unknown>): WeeklyStats {
     topProductos,
     totales: {
       usuarios: profiles.length,
-      libros: activeCount("books"),
-      agendas: activeCount("agendas"),
-      artesanias: activeCount("artesanias"),
-      varios: activeCount("varios_products"),
-      cursos: (backup.cursos as { is_active?: boolean }[] | undefined)?.filter((r) => r.is_active)
-        .length ?? 0,
+      servicios: activeCount("servicios"),
+      formaciones: activeCount("packs"),
+      cursos: activeCount("cursos"),
+      ebooks: activeCount("books"),
+      portfolio: activeCount("portfolio"),
+      testimonios: activeCount("testimonios"),
+      blogPosts: activeCount("blog_posts"),
     },
   };
 }
