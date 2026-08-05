@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconCamara } from "@/components/icons";
 
 type Foto = { id: string; image_url: string; caption: string | null };
 
@@ -11,43 +12,66 @@ export default function GaleriaCarousel({
   categories: string[];
   photosByCategory: Record<string, Foto[]>;
 }) {
-  const [active, setActive] = useState(categories[0] ?? "");
+  // null = pantalla de carpetas. Al elegir una se pasa al carrusel de esa carpeta.
+  const [active, setActive] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
 
-  const fotos = photosByCategory[active] ?? [];
-  const foto = fotos[index];
-
-  function selectCategory(c: string) {
+  function openCategory(c: string) {
     setActive(c);
     setIndex(0);
   }
+
+  const fotos = active ? photosByCategory[active] ?? [] : [];
+  const foto = fotos[index];
 
   function go(direction: 1 | -1) {
     if (fotos.length === 0) return;
     setIndex((i) => (i + direction + fotos.length) % fotos.length);
   }
 
+  if (!active) {
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {categories.map((c) => {
+          const count = photosByCategory[c]?.length ?? 0;
+          return (
+            <button
+              key={c}
+              type="button"
+              onClick={() => openCategory(c)}
+              className="group flex items-center gap-4 rounded-sm bg-lilac-deep px-6 py-7 text-left text-white transition hover:-translate-y-0.5 hover:bg-lilac hover:shadow-md"
+            >
+              <IconCamara className="h-8 w-8 flex-shrink-0" />
+              <span>
+                <span className="block font-serif text-lg leading-snug">{c}</span>
+                <span className="mt-0.5 block text-xs text-white/75">
+                  {count} {count === 1 ? "foto" : "fotos"}
+                </span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div>
-      <div className="mb-6 flex flex-wrap justify-center gap-2">
-        {categories.map((c) => (
-          <button
-            key={c}
-            type="button"
-            onClick={() => selectCategory(c)}
-            className={`rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-widest transition ${
-              c === active
-                ? "border-lilac-deep bg-lilac-deep text-white"
-                : "border-black/15 text-[#1a1a1a]/70 hover:border-lilac-deep"
-            }`}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
+      <button
+        type="button"
+        onClick={() => setActive(null)}
+        className="mb-5 text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/60 hover:text-lilac-deep"
+      >
+        ← Volver a las carpetas
+      </button>
+
+      <h2 className="mb-5 flex items-center justify-center gap-2 text-center font-serif text-xl">
+        <IconCamara className="h-5 w-5 text-lilac-deep" />
+        {active}
+      </h2>
 
       {fotos.length === 0 || !foto ? (
-        <p className="text-center text-sm text-[#1a1a1a]/50">Todavía no hay fotos en esta categoría.</p>
+        <p className="text-center text-sm text-[#1a1a1a]/50">Todavía no hay fotos en esta carpeta.</p>
       ) : (
         <div className="mx-auto flex max-w-2xl flex-col items-center">
           <div className="flex w-full items-center gap-3">
