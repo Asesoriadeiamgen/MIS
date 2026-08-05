@@ -57,7 +57,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 409 });
   }
 
-  await Promise.all([
+  // El turno ya quedó reservado en la base. Si un email falla, no debe hacer
+  // fallar la respuesta (el cliente vería "no se pudo reservar" y reintentaría
+  // contra un horario que ya está ocupado por su propia reserva anterior).
+  const results = await Promise.allSettled([
     sendTurnoConfirmationEmail({
       to: clientEmail,
       clientName,
@@ -73,6 +76,11 @@ export async function POST(request: Request) {
       notes: notes || null,
     }),
   ]);
+  for (const r of results) {
+    if (r.status === "rejected") {
+      console.error("Turno reservado pero falló el envío de un email", r.reason);
+    }
+  }
 
   return NextResponse.json({ turno });
 }
