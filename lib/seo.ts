@@ -1,4 +1,4 @@
-export const SITE_NAME = "María Isabel Sosa";
+export const SITE_NAME = "María Isabel Imagen";
 export const SITE_TAGLINE = "Asesora y Coach en Imagen";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://tudominio.com.ar";
 export const SITE_DESCRIPTION =
