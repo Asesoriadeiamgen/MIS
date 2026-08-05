@@ -24,7 +24,7 @@ export async function updateProfile(formData: FormData) {
   const birthDay = Number(formData.get("birth_day")) || null;
   const birthMonth = Number(formData.get("birth_month")) || null;
 
-  await supabase
+  const { error: profileError } = await supabase
     .from("profiles")
     .update({
       phone: phone || null,
@@ -34,6 +34,10 @@ export async function updateProfile(formData: FormData) {
       birth_month: birthMonth,
     })
     .eq("id", user.id);
+
+  if (profileError) {
+    redirect(`/cuenta/perfil?error=${encodeURIComponent(profileError.message)}`);
+  }
 
   if (email && email !== user.email) {
     const { error } = await supabase.auth.updateUser({ email });

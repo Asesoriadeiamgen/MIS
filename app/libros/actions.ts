@@ -30,6 +30,7 @@ export async function redeemBookCode(formData: FormData) {
     .select("*")
     .eq("book_id", bookId)
     .eq("code", code)
+    .limit(1)
     .maybeSingle();
 
   if (access) {
@@ -53,6 +54,7 @@ export async function redeemBookCode(formData: FormData) {
     .eq("book_id", bookId)
     .eq("code", code)
     .eq("is_active", true)
+    .limit(1)
     .maybeSingle();
 
   if (!promo) {
@@ -64,6 +66,7 @@ export async function redeemBookCode(formData: FormData) {
     .select("id")
     .eq("book_id", bookId)
     .eq("user_id", user.id)
+    .limit(1)
     .maybeSingle();
 
   if (!existingAccess) {

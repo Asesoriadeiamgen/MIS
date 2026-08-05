@@ -3,7 +3,7 @@ export const SITE_TAGLINE = "Asesora y Coach en Imagen";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://tudominio.com.ar";
 export const SITE_DESCRIPTION =
   "Asesoría de imagen y coaching personal: colorimetría, guardarropa, personal shopper e imagen ejecutiva, online y presencial.";
-export const CONTACT_EMAIL = "misasesoraimagen@gmail.com";
+export const CONTACT_EMAIL = "misasesoriaimagen@gmail.com";
 // Código de país + número, sin "+" ni espacios (Argentina: 549 + código de área sin 0 + número sin 15).
 export const WHATSAPP_NUMBER = "5493516577125";
 export const INSTAGRAM_ACCOUNTS = [

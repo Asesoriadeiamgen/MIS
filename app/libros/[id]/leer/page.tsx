@@ -18,6 +18,7 @@ export default async function LeerLibroPage({ params }: { params: Promise<{ id: 
     .select("id")
     .eq("book_id", id)
     .eq("user_id", user.id)
+    .limit(1)
     .maybeSingle();
 
   const { data: book } = await supabase.from("books").select("*").eq("id", id).single();

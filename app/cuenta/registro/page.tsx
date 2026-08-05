@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import PasswordInput from "@/components/PasswordInput";
@@ -9,7 +8,7 @@ import { BUTTON_PRIMARY, INPUT, LABEL } from "@/lib/ui";
 import { MESES } from "@/lib/format";
 
 export default function RegistroPage() {
-  const router = useRouter();
+  const [done, setDone] = useState(false);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [dni, setDni] = useState("");
@@ -58,8 +57,22 @@ export default function RegistroPage() {
     }
 
     setLoading(false);
-    router.push("/");
-    router.refresh();
+    setDone(true);
+  }
+
+  if (done) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-16 text-center">
+        <h1 className="mb-4 font-serif text-3xl">¡Ya casi!</h1>
+        <p className="text-sm text-[#1a1a1a]/70">
+          Te enviamos un email a <strong>{email}</strong> para confirmar tu cuenta. Abrilo y hacé clic en el enlace
+          para poder iniciar sesión.
+        </p>
+        <Link href="/cuenta/login" className="mt-6 inline-block underline">
+          Ya confirmé, iniciar sesión
+        </Link>
+      </div>
+    );
   }
 
   return (

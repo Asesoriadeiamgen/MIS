@@ -190,10 +190,6 @@ export default function CartView(props: { userEmail: string | null }) {
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-[#1a1a1a]/60">
-        El costo de envío es adicional al precio del producto y se coordina por WhatsApp.
-      </p>
-
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
       {props.userEmail ? (
