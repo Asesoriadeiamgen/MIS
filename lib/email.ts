@@ -83,8 +83,11 @@ export async function sendBirthdayEmail(params: {
     subject: `¡Feliz cumpleaños${params.name ? `, ${params.name}` : ""}! 🎂`,
     html: `
       <div style="max-width: 480px; margin: 0 auto; padding: 40px 24px; background: #ffffff; border: 1px solid rgba(0,0,0,.08); font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <div style="display: inline-block; width: 56px; height: 56px; border-radius: 999px; background: #e4d9f7; line-height: 56px; font-size: 26px;">🎉</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="${siteUrl}/logo-full.png" alt="${SITE_NAME}" width="150" style="width: 150px; height: auto; display: inline-block;" />
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="display: inline-block; width: 56px; height: 56px; border-radius: 999px; background: #e4defa; line-height: 56px; font-size: 26px;">🎉</div>
         </div>
         <h1 style="text-align: center; font-size: 26px; font-weight: normal; margin: 0 0 16px;">
           ¡Feliz cumpleaños${params.name ? `, ${params.name}` : ""}!

@@ -45,29 +45,28 @@ export default function RegistroPage() {
 
     setLoading(true);
 
+    // Todo va en la metadata del signUp (y de ahí a profiles vía el trigger
+    // handle_new_user): si la confirmación por email está activada todavía no
+    // hay sesión acá, así que un UPDATE a profiles lo bloquearía la RLS
+    // (auth.uid() sería null) y se perdían teléfono y cumpleaños en silencio.
     const supabase = createClient();
-    const { data, error: signUpError } = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } },
+      options: {
+        data: {
+          full_name: fullName,
+          phone,
+          birth_day: Number(birthDay),
+          birth_month: Number(birthMonth),
+        },
+      },
     });
 
     if (signUpError) {
       setError(signUpError.message);
       setLoading(false);
       return;
-    }
-
-    if (data.user) {
-      await supabase
-        .from("profiles")
-        .update({
-          full_name: fullName,
-          phone,
-          birth_day: Number(birthDay),
-          birth_month: Number(birthMonth),
-        })
-        .eq("id", data.user.id);
     }
 
     setLoading(false);
@@ -105,7 +104,10 @@ export default function RegistroPage() {
           />
         </div>
         <div>
-          <label className={`mb-1.5 block ${LABEL}`}>Cumpleaños (día y mes)</label>
+          <div className="mb-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <label className={`block ${LABEL}`}>Cumpleaños (día y mes)</label>
+            <span className="text-xs font-medium text-lilac-deep">🎁 ¡Te enviamos un regalito!</span>
+          </div>
           <div className="flex gap-3">
             <select
               required
