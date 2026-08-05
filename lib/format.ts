@@ -20,6 +20,30 @@ export function formatTime(value: string): string {
   return value.slice(0, 5);
 }
 
+export const MESES = [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
+
+/** "5 de Agosto", o null si el perfil no tiene el cumpleaños cargado. */
+export function formatBirthday(
+  day: number | null | undefined,
+  month: number | null | undefined
+): string | null {
+  if (!day || !month || month < 1 || month > 12) return null;
+  return `${day} de ${MESES[month - 1]}`;
+}
+
 const DURATION_UNIT_LABELS: Record<string, [string, string]> = {
   sesiones: ["sesión", "sesiones"],
   meses: ["mes", "meses"],

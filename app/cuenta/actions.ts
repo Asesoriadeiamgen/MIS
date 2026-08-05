@@ -20,8 +20,20 @@ export async function updateProfile(formData: FormData) {
   const phone = String(formData.get("phone") || "").trim();
   const fullName = String(formData.get("full_name") || "").trim();
   const email = String(formData.get("email") || "").trim();
+  const dni = String(formData.get("dni") || "").trim();
+  const birthDay = Number(formData.get("birth_day")) || null;
+  const birthMonth = Number(formData.get("birth_month")) || null;
 
-  await supabase.from("profiles").update({ phone: phone || null, full_name: fullName || null }).eq("id", user.id);
+  await supabase
+    .from("profiles")
+    .update({
+      phone: phone || null,
+      full_name: fullName || null,
+      dni: dni || null,
+      birth_day: birthDay,
+      birth_month: birthMonth,
+    })
+    .eq("id", user.id);
 
   if (email && email !== user.email) {
     const { error } = await supabase.auth.updateUser({ email });

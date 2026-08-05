@@ -1,23 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatBirthday } from "@/lib/format";
 import ToggleAdminButton from "@/components/admin/ToggleAdminButton";
 import { toggleUserAdmin } from "@/app/admin/actions";
-
-const MESES = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
 
 export default async function AdminUsuariosPage() {
   const supabase = await createClient();
@@ -52,8 +37,12 @@ export default async function AdminUsuariosPage() {
                   {p.is_admin && <span className="ml-1 text-xs text-gray-500">(admin)</span>}
                 </p>
                 <p className="text-xs text-gray-500">
-                  {p.email} · {p.phone || "sin teléfono"}
-                  {p.birth_day && p.birth_month ? ` · ${p.birth_day} de ${MESES[p.birth_month - 1]}` : ""}
+                  {[
+                    p.email,
+                    p.phone || "sin teléfono",
+                    p.dni ? `DNI ${p.dni}` : "sin DNI",
+                    formatBirthday(p.birth_day, p.birth_month) || "sin cumpleaños",
+                  ].join(" · ")}
                 </p>
                 <p className="mt-0.5 text-xs text-gray-500">
                   {stats ? `${stats.count} compra(s) · ${formatPrice(stats.total)}` : "Sin compras"}

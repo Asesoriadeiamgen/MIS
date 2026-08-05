@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, MESES } from "@/lib/format";
 import { signOut, updateProfile } from "@/app/cuenta/actions";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
 import { BUTTON_OUTLINE, INPUT, LABEL } from "@/lib/ui";
@@ -99,6 +99,42 @@ export default async function PerfilPage({
               defaultValue={profile?.phone || ""}
               className={INPUT}
             />
+          </div>
+          <div>
+            <label className={`mb-1.5 block ${LABEL}`} htmlFor="dni">
+              DNI
+            </label>
+            <input
+              id="dni"
+              name="dni"
+              inputMode="numeric"
+              defaultValue={profile?.dni || ""}
+              className={INPUT}
+            />
+          </div>
+          <div>
+            <div className="mb-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <label className={`block ${LABEL}`}>Cumpleaños (día y mes)</label>
+              <span className="text-xs font-medium text-lilac-deep">🎁 ¡Te enviamos un regalito!</span>
+            </div>
+            <div className="flex gap-3">
+              <select name="birth_day" defaultValue={profile?.birth_day ?? ""} className={INPUT}>
+                <option value="">Día</option>
+                {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+              <select name="birth_month" defaultValue={profile?.birth_month ?? ""} className={INPUT}>
+                <option value="">Mes</option>
+                {MESES.map((m, i) => (
+                  <option key={m} value={i + 1}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <button type="submit" className={`self-start ${BUTTON_OUTLINE}`}>
             Guardar cambios

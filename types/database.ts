@@ -6,6 +6,7 @@ export type Profile = {
   email: string;
   full_name: string | null;
   phone: string | null;
+  dni: string | null;
   birth_day: number | null;
   birth_month: number | null;
   is_admin: boolean;

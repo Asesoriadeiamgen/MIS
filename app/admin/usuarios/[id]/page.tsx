@@ -1,22 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/format";
-
-const MESES = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
+import { formatPrice, formatDate, formatBirthday } from "@/lib/format";
 
 export default async function AdminUsuarioDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,15 +23,22 @@ export default async function AdminUsuarioDetailPage({ params }: { params: Promi
       <Link href="/admin/usuarios" className="text-xs underline">
         ← Volver a usuarios
       </Link>
-      <h1 className="mb-1 mt-2 text-xl font-semibold">{profile.full_name || "Sin nombre"}</h1>
-      <p className="text-sm text-gray-600">{profile.email}</p>
-      <p className="text-sm text-gray-600">Teléfono: {profile.phone || "—"}</p>
-      <p className="text-sm text-gray-600">
-        Cumpleaños:{" "}
-        {profile.birth_day && profile.birth_month
-          ? `${profile.birth_day} de ${MESES[profile.birth_month - 1]}`
-          : "—"}
-      </p>
+      <h1 className="mb-1 mt-2 text-xl font-semibold">
+        {profile.full_name || "Sin nombre"}
+        {profile.is_admin && <span className="ml-2 text-xs font-normal text-gray-500">(admin)</span>}
+      </h1>
+      <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+        <dt className="text-gray-500">Email</dt>
+        <dd>{profile.email}</dd>
+        <dt className="text-gray-500">Teléfono</dt>
+        <dd>{profile.phone || "—"}</dd>
+        <dt className="text-gray-500">DNI</dt>
+        <dd>{profile.dni || "—"}</dd>
+        <dt className="text-gray-500">Cumpleaños</dt>
+        <dd>{formatBirthday(profile.birth_day, profile.birth_month) || "—"}</dd>
+        <dt className="text-gray-500">Se registró</dt>
+        <dd>{formatDate(profile.created_at)}</dd>
+      </dl>
 
       <h2 className="mb-3 mt-8 text-lg font-medium">Compras</h2>
       <ul className="flex flex-col gap-3">

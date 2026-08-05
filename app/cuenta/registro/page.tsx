@@ -6,26 +6,13 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import PasswordInput from "@/components/PasswordInput";
 import { BUTTON_PRIMARY, INPUT, LABEL } from "@/lib/ui";
-
-const MESES = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
+import { MESES } from "@/lib/format";
 
 export default function RegistroPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [dni, setDni] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
   const [email, setEmail] = useState("");
@@ -57,6 +44,7 @@ export default function RegistroPage() {
         data: {
           full_name: fullName,
           phone,
+          dni,
           birth_day: Number(birthDay),
           birth_month: Number(birthMonth),
         },
@@ -102,6 +90,20 @@ export default function RegistroPage() {
             onChange={(e) => setPhone(e.target.value)}
             className={INPUT}
           />
+        </div>
+        <div>
+          <label className={`mb-1.5 block ${LABEL}`} htmlFor="dni">
+            DNI
+          </label>
+          <input
+            id="dni"
+            inputMode="numeric"
+            required
+            value={dni}
+            onChange={(e) => setDni(e.target.value)}
+            className={INPUT}
+          />
+          <p className="mt-1 text-xs text-[#1a1a1a]/50">Lo usamos para tus compras y facturación.</p>
         </div>
         <div>
           <div className="mb-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">

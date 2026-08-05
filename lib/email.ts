@@ -25,7 +25,7 @@ async function send(params: {
   const resend = getClient();
   const bcc = params.to === ADMIN_EMAIL ? undefined : ADMIN_EMAIL;
 
-  return resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM,
     to: params.to,
     bcc,
@@ -33,6 +33,16 @@ async function send(params: {
     html: params.html,
     attachments: params.attachments,
   });
+
+  // El SDK de Resend no tira excepción cuando el envío falla: devuelve
+  // { data: null, error }. Sin este chequeo, un rechazo (dominio sin
+  // verificar, destinatario no permitido, etc.) se veía como éxito y el
+  // mail nunca llegaba sin que nadie se enterara.
+  if (error) {
+    throw new Error(`Resend rechazó el envío a ${params.to}: ${error.message}`);
+  }
+
+  return data;
 }
 
 export async function sendBookAccessCodeEmail(params: {
