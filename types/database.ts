@@ -114,6 +114,7 @@ export type PortfolioItem = {
 export type GaleriaFoto = {
   id: string;
   category: string;
+  subcategory: string | null;
   image_url: string;
   caption: string | null;
   is_active: boolean;

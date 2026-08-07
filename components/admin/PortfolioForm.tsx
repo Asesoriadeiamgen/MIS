@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/imageCompress";
 import { createPortfolioItem, updatePortfolioItem } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import RichTextEditor from "@/components/admin/RichTextEditor";
@@ -21,8 +22,9 @@ function ImageField(props: {
     if (!file) return;
     setUploading(true);
     const supabase = createClient();
-    const path = `${crypto.randomUUID()}-${file.name}`;
-    const { error } = await supabase.storage.from("covers").upload(path, file);
+    const compressed = await compressImage(file);
+    const path = `${crypto.randomUUID()}-${compressed.name}`;
+    const { error } = await supabase.storage.from("covers").upload(path, compressed);
     if (!error) {
       const { data } = supabase.storage.from("covers").getPublicUrl(path);
       props.onChange(data.publicUrl);

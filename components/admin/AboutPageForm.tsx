@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/imageCompress";
 import { updateAboutPage } from "@/app/admin/actions";
 import { BUTTON_PRIMARY } from "@/lib/ui";
 import RichTextEditor from "@/components/admin/RichTextEditor";
@@ -20,8 +21,9 @@ export default function AboutPageForm(props: { about: AboutPage | null }) {
     if (!file) return;
     setUploading(true);
     const supabase = createClient();
-    const path = `${crypto.randomUUID()}-${file.name}`;
-    const { error } = await supabase.storage.from("covers").upload(path, file);
+    const compressed = await compressImage(file);
+    const path = `${crypto.randomUUID()}-${compressed.name}`;
+    const { error } = await supabase.storage.from("covers").upload(path, compressed);
     if (!error) {
       const { data } = supabase.storage.from("covers").getPublicUrl(path);
       setPhotoUrl(data.publicUrl);

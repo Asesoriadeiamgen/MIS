@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/imageCompress";
 import { createServicio, updateServicio } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import PriceField from "@/components/admin/PriceField";
@@ -25,8 +26,9 @@ export default function ServicioForm(props: { servicio?: Servicio }) {
     const supabase = createClient();
     const urls: string[] = [];
     for (const file of Array.from(files)) {
-      const path = `${crypto.randomUUID()}-${file.name}`;
-      const { error } = await supabase.storage.from("covers").upload(path, file);
+      const compressed = await compressImage(file);
+      const path = `${crypto.randomUUID()}-${compressed.name}`;
+      const { error } = await supabase.storage.from("covers").upload(path, compressed);
       if (!error) {
         const { data } = supabase.storage.from("covers").getPublicUrl(path);
         urls.push(data.publicUrl);

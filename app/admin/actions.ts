@@ -702,11 +702,12 @@ export async function updateAboutPage(formData: FormData) {
   revalidatePath("/sobre-mi");
 }
 
-/** Sube una o varias fotos de una: todas quedan en la misma categoría. */
+/** Sube una o varias fotos de una: todas quedan en la misma categoría (y subcarpeta, si se indica). */
 export async function createGaleriaFoto(formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();
   const category = String(formData.get("category") || "").trim();
+  const subcategory = String(formData.get("subcategory") || "").trim() || null;
   const caption = String(formData.get("caption") || "") || null;
   const imageUrls = String(formData.get("image_urls") || "")
     .split(",")
@@ -718,6 +719,7 @@ export async function createGaleriaFoto(formData: FormData) {
   const { error } = await supabase.from("galeria_fotos").insert(
     imageUrls.map((image_url, i) => ({
       category,
+      subcategory,
       image_url,
       caption,
       sort_order: baseSortOrder - i,
@@ -728,7 +730,7 @@ export async function createGaleriaFoto(formData: FormData) {
   revalidatePath("/galeria");
 }
 
-/** Cambiar la categoría acá es justamente cómo se "mueve" una foto de carpeta. */
+/** Cambiar la categoría/subcarpeta acá es justamente cómo se "mueve" una foto de carpeta. */
 export async function updateGaleriaFoto(id: string, formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();
@@ -737,6 +739,7 @@ export async function updateGaleriaFoto(id: string, formData: FormData) {
     .from("galeria_fotos")
     .update({
       category: String(formData.get("category") || "").trim(),
+      subcategory: String(formData.get("subcategory") || "").trim() || null,
       image_url: imageUrl,
       caption: String(formData.get("caption") || "") || null,
     })

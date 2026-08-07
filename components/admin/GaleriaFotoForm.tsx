@@ -3,11 +3,16 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/imageCompress";
 import { createGaleriaFoto, updateGaleriaFoto } from "@/app/admin/actions";
 import { BUTTON_PRIMARY, INPUT } from "@/lib/ui";
 import type { GaleriaFoto } from "@/types/database";
 
-export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories: string[] }) {
+export default function GaleriaFotoForm(props: {
+  foto?: GaleriaFoto;
+  categories: string[];
+  subcategories: string[];
+}) {
   const router = useRouter();
   const editing = !!props.foto;
   const formRef = useRef<HTMLFormElement>(null);
@@ -27,8 +32,9 @@ export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories:
     const supabase = createClient();
     const uploaded: string[] = [];
     for (const file of Array.from(files)) {
-      const path = `${crypto.randomUUID()}-${file.name}`;
-      const { error } = await supabase.storage.from("covers").upload(path, file);
+      const compressed = await compressImage(file);
+      const path = `${crypto.randomUUID()}-${compressed.name}`;
+      const { error } = await supabase.storage.from("covers").upload(path, compressed);
       if (!error) {
         const { data } = supabase.storage.from("covers").getPublicUrl(path);
         uploaded.push(data.publicUrl);
@@ -84,6 +90,25 @@ export default function GaleriaFotoForm(props: { foto?: GaleriaFoto; categories:
         </datalist>
         <p className="mt-1 text-xs text-gray-500">
           Escribí una categoría existente para agregarla ahí, o una nueva para crear una carpeta.
+        </p>
+      </div>
+      <div>
+        <label className="mb-1 block text-xs text-gray-500">Subcarpeta (opcional)</label>
+        <input
+          name="subcategory"
+          list="galeria-subcategorias"
+          placeholder="Ej: Charla en Universidad X"
+          defaultValue={props.foto?.subcategory ?? ""}
+          className={INPUT}
+        />
+        <datalist id="galeria-subcategorias">
+          {props.subcategories.map((s) => (
+            <option key={s} value={s} />
+          ))}
+        </datalist>
+        <p className="mt-1 text-xs text-gray-500">
+          Si la dejás vacía, la foto queda directo dentro de la categoría. Usala para agrupar series
+          dentro de una misma categoría (ej: cada charla dentro de "Charlas Institucionales").
         </p>
       </div>
       <input

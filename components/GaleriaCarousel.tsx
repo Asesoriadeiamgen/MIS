@@ -5,23 +5,68 @@ import { IconCamara } from "@/components/icons";
 
 type Foto = { id: string; image_url: string; caption: string | null };
 
+function FolderButton(props: { label: string; count: number; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={props.onClick}
+      className="group flex items-center gap-4 rounded-sm bg-lilac-deep px-6 py-7 text-left text-white transition hover:-translate-y-0.5 hover:bg-lilac hover:shadow-md"
+    >
+      <IconCamara className="h-8 w-8 flex-shrink-0" />
+      <span>
+        <span className="block font-serif text-lg leading-snug">{props.label}</span>
+        <span className="mt-0.5 block text-xs text-white/75">
+          {props.count} {props.count === 1 ? "foto" : "fotos"}
+        </span>
+      </span>
+    </button>
+  );
+}
+
 export default function GaleriaCarousel({
   categories,
   photosByCategory,
 }: {
   categories: string[];
-  photosByCategory: Record<string, Foto[]>;
+  // photosByCategory[category][subcategory] — subcategory "" agrupa las fotos
+  // sueltas de la categoría (sin subcarpeta).
+  photosByCategory: Record<string, Record<string, Foto[]>>;
 }) {
-  // null = pantalla de carpetas. Al elegir una se pasa al carrusel de esa carpeta.
-  const [active, setActive] = useState<string | null>(null);
+  // null = pantalla de carpetas. Al elegir una categoría, si tiene subcarpetas
+  // reales se muestra otra pantalla de carpetas antes de llegar al carrusel.
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
 
+  const subMap = activeCategory ? photosByCategory[activeCategory] ?? {} : {};
+  const subKeys = Object.keys(subMap);
+  const hasSubfolders = subKeys.some((k) => k !== "");
+
   function openCategory(c: string) {
-    setActive(c);
+    setActiveCategory(c);
+    setActiveSubcategory(null);
     setIndex(0);
   }
 
-  const fotos = active ? photosByCategory[active] ?? [] : [];
+  function openSubcategory(s: string) {
+    setActiveSubcategory(s);
+    setIndex(0);
+  }
+
+  function backToCategories() {
+    setActiveCategory(null);
+    setActiveSubcategory(null);
+  }
+
+  function backToSubcategories() {
+    setActiveSubcategory(null);
+    setIndex(0);
+  }
+
+  const fotos: Foto[] =
+    activeCategory && (activeSubcategory !== null || !hasSubfolders)
+      ? subMap[activeSubcategory ?? ""] ?? []
+      : [];
   const foto = fotos[index];
 
   function go(direction: 1 | -1) {
@@ -29,45 +74,66 @@ export default function GaleriaCarousel({
     setIndex((i) => (i + direction + fotos.length) % fotos.length);
   }
 
-  if (!active) {
+  // Pantalla 1: carpetas de categoría.
+  if (!activeCategory) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {categories.map((c) => {
-          const count = photosByCategory[c]?.length ?? 0;
-          return (
-            <button
-              key={c}
-              type="button"
-              onClick={() => openCategory(c)}
-              className="group flex items-center gap-4 rounded-sm bg-lilac-deep px-6 py-7 text-left text-white transition hover:-translate-y-0.5 hover:bg-lilac hover:shadow-md"
-            >
-              <IconCamara className="h-8 w-8 flex-shrink-0" />
-              <span>
-                <span className="block font-serif text-lg leading-snug">{c}</span>
-                <span className="mt-0.5 block text-xs text-white/75">
-                  {count} {count === 1 ? "foto" : "fotos"}
-                </span>
-              </span>
-            </button>
-          );
+          const count = Object.values(photosByCategory[c] ?? {}).reduce((sum, arr) => sum + arr.length, 0);
+          return <FolderButton key={c} label={c} count={count} onClick={() => openCategory(c)} />;
         })}
       </div>
     );
   }
 
+  // Pantalla 2: subcarpetas dentro de la categoría elegida (solo si existen).
+  if (hasSubfolders && activeSubcategory === null) {
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={backToCategories}
+          className="mb-5 text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/60 hover:text-lilac-deep"
+        >
+          ← Volver a las carpetas
+        </button>
+
+        <h2 className="mb-5 flex items-center justify-center gap-2 text-center font-serif text-xl">
+          <IconCamara className="h-5 w-5 text-lilac-deep" />
+          {activeCategory}
+        </h2>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {subKeys
+            .slice()
+            .sort((a, b) => (a === "" ? -1 : b === "" ? 1 : a.localeCompare(b)))
+            .map((s) => (
+              <FolderButton
+                key={s}
+                label={s || "Otras fotos"}
+                count={subMap[s].length}
+                onClick={() => openSubcategory(s)}
+              />
+            ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Pantalla 3: carrusel de fotos, de una foto a la vez.
   return (
     <div>
       <button
         type="button"
-        onClick={() => setActive(null)}
+        onClick={hasSubfolders ? backToSubcategories : backToCategories}
         className="mb-5 text-xs font-medium uppercase tracking-widest text-[#1a1a1a]/60 hover:text-lilac-deep"
       >
-        ← Volver a las carpetas
+        ← {hasSubfolders ? "Volver a las subcarpetas" : "Volver a las carpetas"}
       </button>
 
       <h2 className="mb-5 flex items-center justify-center gap-2 text-center font-serif text-xl">
         <IconCamara className="h-5 w-5 text-lilac-deep" />
-        {active}
+        {activeSubcategory ? `${activeCategory} — ${activeSubcategory}` : activeCategory}
       </h2>
 
       {fotos.length === 0 || !foto ? (

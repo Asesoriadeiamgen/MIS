@@ -9,8 +9,11 @@ export default async function EditarGaleriaFotoPage({ params }: { params: Promis
   const { data: foto } = await supabase.from("galeria_fotos").select("*").eq("id", id).single();
   if (!foto) notFound();
 
-  const { data: fotos } = await supabase.from("galeria_fotos").select("category");
+  const { data: fotos } = await supabase.from("galeria_fotos").select("category, subcategory");
   const categories = Array.from(new Set((fotos ?? []).map((f) => f.category))).sort();
+  const subcategories = Array.from(
+    new Set((fotos ?? []).map((f) => f.subcategory).filter((s): s is string => !!s))
+  ).sort();
 
   return (
     <div>
@@ -18,7 +21,7 @@ export default async function EditarGaleriaFotoPage({ params }: { params: Promis
         ← Volver a galería
       </Link>
       <h1 className="mb-4 mt-2 text-xl font-semibold">Editar foto</h1>
-      <GaleriaFotoForm foto={foto} categories={categories} />
+      <GaleriaFotoForm foto={foto} categories={categories} subcategories={subcategories} />
     </div>
   );
 }

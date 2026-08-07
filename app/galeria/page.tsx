@@ -23,10 +23,15 @@ export default async function GaleriaPage() {
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
 
+  type Foto = { id: string; image_url: string; caption: string | null };
+
   const categories = Array.from(new Set((fotos ?? []).map((f) => f.category)));
-  const photosByCategory: Record<string, { id: string; image_url: string; caption: string | null }[]> = {};
+  // Dentro de cada categoría, las fotos se agrupan por subcarpeta; las que no
+  // tienen subcarpeta quedan bajo la clave "" (carrusel directo, como antes).
+  const photosByCategory: Record<string, Record<string, Foto[]>> = {};
   for (const foto of fotos ?? []) {
-    (photosByCategory[foto.category] ??= []).push({
+    const bySub = (photosByCategory[foto.category] ??= {});
+    (bySub[foto.subcategory || ""] ??= []).push({
       id: foto.id,
       image_url: foto.image_url,
       caption: foto.caption,
