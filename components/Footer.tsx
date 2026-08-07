@@ -58,9 +58,9 @@ export default function Footer() {
           {CONTACT_EMAIL}
         </a>
 
-        <p className="text-xs text-[#1a1a1a]/50">
-          © {new Date().getFullYear()} {SITE_NAME} — Hecho con cariño.
-        </p>
+        <p className="text-xs text-[#1a1a1a]/50">© {new Date().getFullYear()} {SITE_NAME}</p>
+        <p className="text-xs text-[#1a1a1a]/50">Hecho con Amor by Lua Azul</p>
+        <p className="text-xs text-[#1a1a1a]/50">@Lua.Azul26 · luaazul@gmail.com</p>
       </div>
     </footer>
   );
