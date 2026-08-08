@@ -48,19 +48,33 @@ export default function Footer() {
               {c.label}
             </a>
           ))}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="flex items-center gap-1.5 hover:text-[#1a1a1a]"
+          >
+            <IconMail className="h-4 w-4" />
+            {CONTACT_EMAIL}
+          </a>
         </nav>
 
-        <a
-          href={`mailto:${CONTACT_EMAIL}`}
-          className="flex items-center gap-1.5 text-xs text-[#1a1a1a]/70 hover:text-[#1a1a1a]"
-        >
-          <IconMail className="h-4 w-4" />
-          {CONTACT_EMAIL}
-        </a>
-
-        <p className="text-xs text-[#1a1a1a]/50">© {new Date().getFullYear()} {SITE_NAME}</p>
-        <p className="text-xs text-[#1a1a1a]/50">Hecho con Amor by Lua Azul</p>
-        <p className="text-xs text-[#1a1a1a]/50">@Lua.Azul26 · luaazul@gmail.com</p>
+        <p className="text-xs text-[#1a1a1a]/50">
+          © {new Date().getFullYear()} Hecho con Amor by Lua Azul
+        </p>
+        <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#1a1a1a]/50">
+          <a
+            href="https://instagram.com/Lua.Azul26"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 hover:text-[#1a1a1a]/70"
+          >
+            <IconInstagram className="h-4 w-4" />
+            @Lua.Azul26
+          </a>
+          <a href="mailto:luaazul@gmail.com" className="flex items-center gap-1.5 hover:text-[#1a1a1a]/70">
+            <IconMail className="h-4 w-4" />
+            luaazul@gmail.com
+          </a>
+        </nav>
       </div>
     </footer>
   );
