@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isRateLimited } from "@/lib/rateLimit";
+import { sendTestimonioPendingNotificationEmail } from "@/lib/email";
 
 /**
  * Cualquier usuario logueado puede mandar su testimonio, pero queda
@@ -43,6 +44,14 @@ export async function submitTestimonio(formData: FormData) {
   });
   if (error) {
     redirect(`/testimonios/enviar?error=${encodeURIComponent("No se pudo enviar. Probá de nuevo.")}`);
+  }
+
+  // El testimonio ya quedó guardado; si el aviso por mail falla, no debe
+  // impedir que el usuario vea la confirmación de envío.
+  try {
+    await sendTestimonioPendingNotificationEmail({ clientName, quote, rating });
+  } catch (err) {
+    console.error("No se pudo enviar el aviso de nuevo testimonio", err);
   }
 
   revalidatePath("/admin/testimonios");

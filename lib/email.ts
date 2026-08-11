@@ -209,6 +209,33 @@ export async function sendAdminOrderNotificationEmail(params: {
   });
 }
 
+export async function sendTestimonioPendingNotificationEmail(params: {
+  clientName: string;
+  quote: string;
+  rating: number | null;
+}) {
+  const adminUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/admin/testimonios`;
+
+  return send({
+    to: ADMIN_EMAIL,
+    subject: `Nuevo testimonio para revisar — ${params.clientName}`,
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 520px;">
+        <h2 style="font-weight: normal; margin: 0 0 4px;">Nuevo testimonio para revisar</h2>
+        <p style="font-size: 13px; color: #1a1a1a99; margin: 0 0 16px;">
+          De: <strong>${params.clientName}</strong>${params.rating ? ` — ${"★".repeat(params.rating)}` : ""}
+        </p>
+        <p style="font-size: 14px; line-height: 1.6; border-left: 3px solid #e4defa; padding-left: 12px;">
+          ${params.quote}
+        </p>
+        <p style="margin-top: 20px;">
+          <a href="${adminUrl}" style="font-size: 13px;">Revisar en el panel de admin →</a>
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendTurnoConfirmationEmail(params: {
   to: string;
   clientName: string;
