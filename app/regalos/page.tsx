@@ -41,8 +41,10 @@ export default async function RegalosPage() {
                 className="flex flex-col overflow-hidden rounded-sm border border-black/10 bg-white shadow-sm"
               >
                 {v.image_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={v.image_url} alt="" className="h-40 w-full object-cover" />
+                  <div className="h-40 w-full bg-soft-bg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={v.image_url} alt="" className="h-full w-full object-contain" />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-5">
                   <h2 className="font-serif text-lg">{v.name}</h2>
