@@ -16,7 +16,7 @@ import {
   IconAgenda,
 } from "@/components/icons";
 import WelcomeGateOverlay from "@/components/WelcomeGateOverlay";
-import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import TestimonioCard from "@/components/TestimonioCard";
 
 const SECTIONS = [
   { href: "/sobre-mi", title: "Sobre mí", Icon: IconPerfil },
@@ -93,17 +93,18 @@ export default async function Home() {
       {testimonios && testimonios.length > 0 && (
         <section className="bg-soft-bg">
           <div className="mx-auto max-w-5xl px-4 py-14">
-            <h2 className="mb-8 text-center font-serif text-2xl">Lo que dicen mis clientas</h2>
-            <div className="grid gap-5 sm:grid-cols-3">
-              {testimonios.map((t) => (
-                <div key={t.id} className="rounded-sm border border-black/10 bg-white p-6 text-sm">
-                  <div
-                    className="prose prose-sm max-w-none text-[#1a1a1a]/80 before:content-['\201C'] after:content-['\201D'] [&_p]:inline"
-                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.quote) }}
-                  />
-                  <p className="mt-4 font-medium">{t.client_name}</p>
-                </div>
-              ))}
+            <div className="rounded-sm border border-black/10 bg-white/60 p-6 sm:p-10">
+              <h2 className="mb-8 text-center font-serif text-2xl">Lo que dicen mis clientas</h2>
+              <div className="grid gap-5 sm:grid-cols-3">
+                {testimonios.map((t) => (
+                  <TestimonioCard key={t.id} testimonio={t} />
+                ))}
+              </div>
+              <p className="mt-8 text-center">
+                <Link href="/testimonios" className="text-sm underline hover:text-lilac-deep">
+                  Ver todos los testimonios
+                </Link>
+              </p>
             </div>
           </div>
         </section>
