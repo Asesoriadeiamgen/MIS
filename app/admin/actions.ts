@@ -30,7 +30,15 @@ function readPrice(formData: FormData, field: string): number | null {
   return Number(formData.get(field)) || 0;
 }
 
-type OrderableTable = "books" | "servicios" | "packs" | "portfolio" | "testimonios" | "faqs" | "galeria_fotos";
+type OrderableTable =
+  | "books"
+  | "servicios"
+  | "packs"
+  | "portfolio"
+  | "testimonios"
+  | "faqs"
+  | "galeria_fotos"
+  | "tienda_categorias";
 
 /** Los productos nuevos se agregan arriba de todo, adelante del orden manual existente. */
 async function topSortOrder(table: OrderableTable): Promise<number> {
@@ -707,6 +715,63 @@ export async function updateAboutPage(formData: FormData) {
 }
 
 /** Sube una o varias fotos de una: todas quedan en la misma categoría (y subcarpeta, si se indica). */
+export async function createTiendaCategoria(formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("tienda_categorias").insert({
+    title: String(formData.get("title")),
+    description: String(formData.get("description") || "") || null,
+    href: String(formData.get("href")),
+    emoji: String(formData.get("emoji") || "") || null,
+    sort_order: await topSortOrder("tienda_categorias"),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/tienda-categorias");
+  revalidatePath("/tienda");
+}
+
+export async function reorderTiendaCategorias(orderedIds: string[]) {
+  await requireAdmin();
+  await reorderTable("tienda_categorias", orderedIds);
+  revalidatePath("/admin/tienda-categorias");
+  revalidatePath("/tienda");
+}
+
+export async function toggleTiendaCategoriaActive(id: string, isActive: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("tienda_categorias").update({ is_active: isActive }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/tienda-categorias");
+  revalidatePath("/tienda");
+}
+
+export async function deleteTiendaCategoria(id: string) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { error } = await admin.from("tienda_categorias").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/tienda-categorias");
+  revalidatePath("/tienda");
+}
+
+export async function updateTiendaCategoria(id: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("tienda_categorias")
+    .update({
+      title: String(formData.get("title")),
+      description: String(formData.get("description") || "") || null,
+      href: String(formData.get("href")),
+      emoji: String(formData.get("emoji") || "") || null,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/tienda-categorias");
+  revalidatePath("/tienda");
+}
+
 export async function createGaleriaFoto(formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();

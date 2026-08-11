@@ -135,6 +135,17 @@ export type Testimonio = {
   created_at: string;
 };
 
+export type TiendaCategoria = {
+  id: string;
+  title: string;
+  description: string | null;
+  href: string;
+  emoji: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
 export type BlogPost = {
   id: string;
   title: string;
@@ -290,6 +301,7 @@ export type Database = {
       about_page: Table<AboutPage>;
       rate_limit_events: Table<RateLimitEvent>;
       galeria_fotos: Table<GaleriaFoto>;
+      tienda_categorias: Table<TiendaCategoria>;
       orders: Table<
         Order,
         [
