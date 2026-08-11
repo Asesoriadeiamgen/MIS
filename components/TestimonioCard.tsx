@@ -18,7 +18,7 @@ export default function TestimonioCard({ testimonio }: { testimonio: Testimonio 
   const needsTruncation = plainQuote.length > PREVIEW_LENGTH;
 
   return (
-    <div className="flex flex-col rounded-sm border border-black/10 bg-white p-6 text-sm">
+    <div className="flex flex-col rounded-sm border border-black/15 bg-white p-6 text-sm shadow-sm">
       {testimonio.rating && <p className="mb-2 text-lilac-deep">{"★".repeat(testimonio.rating)}</p>}
       {expanded || !needsTruncation ? (
         <div
