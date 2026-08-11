@@ -93,7 +93,7 @@ export default async function Home() {
       {testimonios && testimonios.length > 0 && (
         <section className="bg-soft-bg">
           <div className="mx-auto max-w-5xl px-4 py-14">
-            <div className="rounded-sm border border-black/10 bg-white/60 p-6 sm:p-10">
+            <div className="rounded-sm border border-black/10 bg-white p-6 sm:p-10">
               <h2 className="mb-8 text-center font-serif text-2xl">Lo que dicen mis clientas</h2>
               <div className="grid gap-5 sm:grid-cols-3">
                 {testimonios.map((t) => (
