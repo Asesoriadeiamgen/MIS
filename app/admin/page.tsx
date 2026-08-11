@@ -15,6 +15,7 @@ const LINKS = [
   { href: "/admin/libros", label: "Ebooks/Guías" },
   { href: "/admin/cursos", label: "Cursos" },
   { href: "/admin/tienda-categorias", label: "Categorías Tienda" },
+  { href: "/admin/vouchers", label: "Vouchers" },
   { href: "/admin/cupones", label: "Cupones" },
   { href: "/admin/codigos-libros", label: "Códigos ebooks" },
   { href: "/admin/usuarios", label: "Usuarios" },

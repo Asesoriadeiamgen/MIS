@@ -38,7 +38,8 @@ type OrderableTable =
   | "testimonios"
   | "faqs"
   | "galeria_fotos"
-  | "tienda_categorias";
+  | "tienda_categorias"
+  | "vouchers";
 
 /** Los productos nuevos se agregan arriba de todo, adelante del orden manual existente. */
 async function topSortOrder(table: OrderableTable): Promise<number> {
@@ -770,6 +771,62 @@ export async function updateTiendaCategoria(id: string, formData: FormData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/tienda-categorias");
   revalidatePath("/tienda");
+}
+
+export async function createVoucher(formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("vouchers").insert({
+    name: String(formData.get("name")),
+    description: String(formData.get("description") || "") || null,
+    price: readPrice(formData, "price"),
+    image_url: String(formData.get("image_url") || "") || null,
+    sort_order: await topSortOrder("vouchers"),
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/vouchers");
+  revalidatePath("/regalos");
+}
+
+export async function reorderVouchers(orderedIds: string[]) {
+  await requireAdmin();
+  await reorderTable("vouchers", orderedIds);
+  revalidatePath("/admin/vouchers");
+}
+
+export async function toggleVoucherActive(id: string, isActive: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("vouchers").update({ is_active: isActive }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/vouchers");
+  revalidatePath("/regalos");
+}
+
+export async function deleteVoucher(id: string) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { error } = await admin.from("vouchers").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/vouchers");
+  revalidatePath("/regalos");
+}
+
+export async function updateVoucher(id: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("vouchers")
+    .update({
+      name: String(formData.get("name")),
+      description: String(formData.get("description") || "") || null,
+      price: readPrice(formData, "price"),
+      image_url: String(formData.get("image_url") || "") || null,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/vouchers");
+  revalidatePath("/regalos");
 }
 
 export async function createGaleriaFoto(formData: FormData) {

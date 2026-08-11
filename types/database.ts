@@ -111,6 +111,17 @@ export type PortfolioItem = {
   created_at: string;
 };
 
+export type Voucher = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number | null;
+  image_url: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
 export type GaleriaFoto = {
   id: string;
   category: string;
@@ -302,6 +313,7 @@ export type Database = {
       rate_limit_events: Table<RateLimitEvent>;
       galeria_fotos: Table<GaleriaFoto>;
       tienda_categorias: Table<TiendaCategoria>;
+      vouchers: Table<Voucher>;
       orders: Table<
         Order,
         [
