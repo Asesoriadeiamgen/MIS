@@ -2,9 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { submitTestimonio } from "@/app/testimonios/actions";
+import SubmitOnceButton from "@/components/SubmitOnceButton";
 import { BUTTON_PRIMARY, INPUT, LABEL } from "@/lib/ui";
 
-export const metadata = { title: "Dejá tu testimonio" };
+export const metadata = { title: "Dejá tu testimonio", robots: { index: false, follow: false } };
 
 export default async function EnviarTestimonioPage({
   searchParams,
@@ -50,6 +51,24 @@ export default async function EnviarTestimonioPage({
             />
           </div>
           <div>
+            <label className={`mb-1.5 block ${LABEL}`} htmlFor="product_or_service">
+              ¿Qué compraste o qué servicio recibiste?
+            </label>
+            <input
+              id="product_or_service"
+              name="product_or_service"
+              required
+              placeholder="Ej. Asesoría de imagen, Personal shopper..."
+              className={INPUT}
+            />
+          </div>
+          <div>
+            <label className={`mb-1.5 block ${LABEL}`} htmlFor="purchase_month">
+              ¿Cuándo? (mes y año aproximado)
+            </label>
+            <input id="purchase_month" name="purchase_month" type="month" required className={INPUT} />
+          </div>
+          <div>
             <label className={`mb-1.5 block ${LABEL}`} htmlFor="quote">
               Tu testimonio
             </label>
@@ -69,9 +88,9 @@ export default async function EnviarTestimonioPage({
             </select>
           </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <button type="submit" className={BUTTON_PRIMARY}>
+          <SubmitOnceButton pendingLabel="Enviando..." className={BUTTON_PRIMARY}>
             Enviar testimonio
-          </button>
+          </SubmitOnceButton>
         </form>
       )}
     </div>

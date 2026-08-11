@@ -5,6 +5,11 @@ import ToggleActiveButton from "@/components/admin/ToggleActiveButton";
 import DeleteButton from "@/components/admin/DeleteButton";
 import DraggableList from "@/components/admin/DraggableList";
 import { toggleTestimonioActive, deleteTestimonio, reorderTestimonios } from "@/app/admin/actions";
+import { formatMonthYear } from "@/lib/format";
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "");
+}
 
 export default async function AdminTestimoniosPage() {
   const supabase = await createClient();
@@ -21,8 +26,11 @@ export default async function AdminTestimoniosPage() {
           <div>
             <p className="text-sm font-medium">{item.client_name}</p>
             <p className="text-xs text-gray-500">
-              {item.quote.slice(0, 60)}
-              {item.quote.length > 60 ? "…" : ""}
+              {[item.product_or_service, formatMonthYear(item.purchase_month)].filter(Boolean).join(" · ")}
+            </p>
+            <p className="text-xs text-gray-500">
+              {stripHtml(item.quote).slice(0, 60)}
+              {stripHtml(item.quote).length > 60 ? "…" : ""}
             </p>
           </div>
           <div className="flex items-center gap-4">

@@ -72,6 +72,20 @@ export default function TestimonioForm(props: { testimonio?: Testimonio }) {
           </option>
         ))}
       </select>
+      <input
+        name="product_or_service"
+        placeholder="Producto o servicio (ej. Asesoría de imagen)"
+        required
+        defaultValue={props.testimonio?.product_or_service ?? ""}
+        className={INPUT}
+      />
+      <input
+        name="purchase_month"
+        type="month"
+        required
+        defaultValue={props.testimonio?.purchase_month ?? ""}
+        className={INPUT}
+      />
       <div className="sm:col-span-2">
         <label className="mb-1 block text-xs text-gray-500">Testimonio</label>
         <RichTextEditor name="quote" defaultValue={props.testimonio?.quote ?? ""} />

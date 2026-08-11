@@ -28,11 +28,13 @@ export async function submitTestimonio(formData: FormData) {
 
   const clientName = String(formData.get("client_name") || "").trim();
   const quote = String(formData.get("quote") || "").trim();
+  const productOrService = String(formData.get("product_or_service") || "").trim();
+  const purchaseMonth = String(formData.get("purchase_month") || "").trim();
   const ratingRaw = Number(formData.get("rating"));
   const rating = ratingRaw >= 1 && ratingRaw <= 5 ? ratingRaw : null;
 
-  if (!clientName || !quote) {
-    redirect(`/testimonios/enviar?error=${encodeURIComponent("Completá tu nombre y el testimonio.")}`);
+  if (!clientName || !quote || !productOrService || !purchaseMonth) {
+    redirect(`/testimonios/enviar?error=${encodeURIComponent("Completá todos los campos.")}`);
   }
 
   const admin = createAdminClient();
@@ -40,6 +42,8 @@ export async function submitTestimonio(formData: FormData) {
     client_name: clientName,
     quote: quote.replace(/\n+/g, "<br/>"),
     rating,
+    product_or_service: productOrService,
+    purchase_month: purchaseMonth,
     is_active: false,
   });
   if (error) {

@@ -128,6 +128,8 @@ export type Testimonio = {
   quote: string;
   photo_url: string | null;
   rating: number | null;
+  product_or_service: string | null;
+  purchase_month: string | null;
   is_active: boolean;
   sort_order: number;
   created_at: string;

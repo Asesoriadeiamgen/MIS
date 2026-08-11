@@ -35,6 +35,16 @@ export const MESES = [
   "Diciembre",
 ];
 
+/** "2026-03" -> "Marzo 2026". Devuelve el valor tal cual si no matchea el formato esperado. */
+export function formatMonthYear(value: string | null | undefined): string {
+  if (!value) return "";
+  const match = value.match(/^(\d{4})-(\d{2})$/);
+  if (!match) return value;
+  const monthIndex = Number(match[2]) - 1;
+  if (monthIndex < 0 || monthIndex > 11) return value;
+  return `${MESES[monthIndex]} ${match[1]}`;
+}
+
 /** "5 de Agosto", o null si el perfil no tiene el cumpleaños cargado. */
 export function formatBirthday(
   day: number | null | undefined,

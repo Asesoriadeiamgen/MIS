@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { buildSocialMeta, SITE_NAME } from "@/lib/seo";
-import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import TestimonioCard from "@/components/TestimonioCard";
 
 const title = "Testimonios";
 const description = `Lo que dicen las clientas de ${SITE_NAME}.`;
@@ -37,16 +37,7 @@ export default async function TestimoniosPage() {
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
           {testimonios.map((t) => (
-            <div key={t.id} className="rounded-sm border border-black/10 bg-white p-6 text-sm">
-              {t.rating && (
-                <p className="mb-2 text-lilac-deep">{"★".repeat(t.rating)}</p>
-              )}
-              <div
-                className="prose prose-sm max-w-none text-[#1a1a1a]/80 before:content-['\201C'] after:content-['\201D'] [&_p]:inline"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.quote) }}
-              />
-              <p className="mt-4 font-medium">{t.client_name}</p>
-            </div>
+            <TestimonioCard key={t.id} testimonio={t} />
           ))}
         </div>
       )}

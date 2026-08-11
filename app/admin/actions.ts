@@ -375,6 +375,8 @@ export async function createTestimonio(formData: FormData) {
     quote: String(formData.get("quote")),
     photo_url: String(formData.get("photo_url") || "") || null,
     rating: Number(formData.get("rating")) || null,
+    product_or_service: String(formData.get("product_or_service") || "") || null,
+    purchase_month: String(formData.get("purchase_month") || "") || null,
     sort_order: await topSortOrder("testimonios"),
   });
   if (error) throw new Error(error.message);
@@ -416,6 +418,8 @@ export async function updateTestimonio(id: string, formData: FormData) {
       quote: String(formData.get("quote")),
       photo_url: String(formData.get("photo_url") || "") || null,
       rating: Number(formData.get("rating")) || null,
+      product_or_service: String(formData.get("product_or_service") || "") || null,
+      purchase_month: String(formData.get("purchase_month") || "") || null,
     })
     .eq("id", id);
   if (error) throw new Error(error.message);
