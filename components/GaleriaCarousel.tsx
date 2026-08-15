@@ -37,6 +37,22 @@ export default function GaleriaCarousel({
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
+  // Subcarpetas desplegadas (acordeón): cada una se abre/cierra por separado.
+  const [openSubcats, setOpenSubcats] = useState<Set<string>>(new Set());
+
+  function toggleSubcat(s: string) {
+    setOpenSubcats((prev) => {
+      const next = new Set(prev);
+      if (next.has(s)) next.delete(s);
+      else next.add(s);
+      return next;
+    });
+  }
+
+  function openPhoto(s: string, photoIndex: number) {
+    setActiveSubcategory(s);
+    setIndex(photoIndex);
+  }
 
   const subMap = activeCategory ? photosByCategory[activeCategory] ?? {} : {};
   const subKeys = Object.keys(subMap);
@@ -45,11 +61,6 @@ export default function GaleriaCarousel({
   function openCategory(c: string) {
     setActiveCategory(c);
     setActiveSubcategory(null);
-    setIndex(0);
-  }
-
-  function openSubcategory(s: string) {
-    setActiveSubcategory(s);
     setIndex(0);
   }
 
@@ -103,18 +114,56 @@ export default function GaleriaCarousel({
           {activeCategory}
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-3">
           {subKeys
             .slice()
             .sort((a, b) => (a === "" ? -1 : b === "" ? 1 : a.localeCompare(b)))
-            .map((s) => (
-              <FolderButton
-                key={s}
-                label={s || "Otras fotos"}
-                count={subMap[s].length}
-                onClick={() => openSubcategory(s)}
-              />
-            ))}
+            .map((s) => {
+              const isOpen = openSubcats.has(s);
+              const fotosSub = subMap[s];
+              return (
+                <div key={s} className="overflow-hidden rounded-sm border border-black/10 bg-white">
+                  <button
+                    type="button"
+                    onClick={() => toggleSubcat(s)}
+                    className="flex w-full items-center gap-4 bg-lilac-deep px-6 py-5 text-left text-white transition hover:bg-lilac"
+                  >
+                    <IconCamara className="h-7 w-7 flex-shrink-0" />
+                    <span className="flex-1">
+                      <span className="block font-serif text-lg leading-snug">{s || "Otras fotos"}</span>
+                      <span className="mt-0.5 block text-xs text-white/75">
+                        {fotosSub.length} {fotosSub.length === 1 ? "foto" : "fotos"}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className={`text-xl transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    >
+                      ⌄
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="grid grid-cols-3 gap-2 p-3 sm:grid-cols-4">
+                      {fotosSub.map((foto, i) => (
+                        <button
+                          key={foto.id}
+                          type="button"
+                          onClick={() => openPhoto(s, i)}
+                          className="aspect-square overflow-hidden rounded-sm bg-soft-bg"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={foto.image_url}
+                            alt={foto.caption ?? ""}
+                            className="h-full w-full object-cover transition hover:scale-105"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
         </div>
       </div>
     );
