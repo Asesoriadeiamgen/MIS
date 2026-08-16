@@ -18,6 +18,7 @@ export const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || CONTACT_EMAIL
  */
 async function send(params: {
   to: string;
+  cc?: string;
   subject: string;
   html: string;
   attachments?: { filename: string; content: string }[];
@@ -28,6 +29,7 @@ async function send(params: {
   const { data, error } = await resend.emails.send({
     from: FROM,
     to: params.to,
+    cc: params.cc,
     bcc,
     subject: params.subject,
     html: params.html,
@@ -121,6 +123,68 @@ export async function sendBirthdayEmail(params: {
         </div>
       </div>
     `,
+  });
+}
+
+function formatARSPrice(value: number | null): string {
+  if (value === null) return "";
+  return new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(
+    value
+  );
+}
+
+export async function sendVoucherEmail(params: {
+  to: string;
+  cc?: string;
+  buyerName: string;
+  recipientName: string | null;
+  isGift: boolean;
+  voucherName: string;
+  price: number | null;
+  imageBase64: string | null;
+  imageFilename: string;
+}) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const bodyText = params.isGift
+    ? `¡Gracias por tu compra, ${params.buyerName}! Le mandamos una copia de este mail a ${params.recipientName || "la persona que elegiste"} para que ya tenga su regalo.`
+    : `¡Gracias por tu compra, ${params.buyerName}! Acá tenés tu voucher.`;
+
+  return send({
+    to: params.to,
+    cc: params.cc,
+    subject: params.isGift ? `Tu regalo de ${SITE_NAME} 🎁` : `Tu voucher de ${SITE_NAME}`,
+    html: `
+      <div style="max-width: 480px; margin: 0 auto; padding: 40px 24px; background: #ffffff; border: 1px solid rgba(0,0,0,.08); font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="${siteUrl}/logo-full.png" alt="${SITE_NAME}" width="150" style="width: 150px; height: auto; display: inline-block;" />
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="display: inline-block; width: 56px; height: 56px; border-radius: 999px; background: #e4defa; line-height: 56px; font-size: 26px;">${params.isGift ? "🎁" : "✨"}</div>
+        </div>
+        <h1 style="text-align: center; font-size: 26px; font-weight: normal; margin: 0 0 16px;">
+          ${params.isGift ? "¡Tenés un regalo!" : "¡Gracias por tu compra!"}
+        </h1>
+        <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #1a1a1acc;">
+          ${bodyText}
+        </p>
+        <div style="text-align: center; margin: 28px 0; padding: 16px; border: 1px dashed rgba(43,38,34,.25);">
+          <p style="margin: 0 0 8px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #1a1a1a99;">Voucher</p>
+          <p style="margin: 0; font-size: 20px; font-weight: bold;">${params.voucherName}</p>
+          ${params.price !== null ? `<p style="margin: 10px 0 0; font-size: 16px; color: #1a1a1a99;">${formatARSPrice(params.price)}</p>` : ""}
+        </div>
+        <p style="text-align: center; font-size: 12px; color: #1a1a1a99; margin: 0 0 8px;">
+          Encontrás la imagen de tu voucher adjunta a este mail. Cualquier duda, escribinos por WhatsApp.
+        </p>
+        <div style="text-align: center; margin-top: 8px;">
+          <a href="${siteUrl}" style="display: inline-block; padding: 12px 28px; background: #1a1a1a; color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
+            Visitá nuestro sitio
+          </a>
+        </div>
+      </div>
+    `,
+    attachments: params.imageBase64
+      ? [{ filename: params.imageFilename, content: params.imageBase64 }]
+      : undefined,
   });
 }
 

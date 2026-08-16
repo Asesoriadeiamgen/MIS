@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { generateAccessCode } from "@/lib/codes";
-import { sendBookAccessCodeEmail } from "@/lib/email";
+import { sendBookAccessCodeEmail, sendVoucherEmail } from "@/lib/email";
 
 /**
  * Todas las Server Actions de este archivo son solo para el admin. Las que
@@ -827,6 +827,57 @@ export async function updateVoucher(id: string, formData: FormData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/vouchers");
   revalidatePath("/regalos");
+}
+
+/**
+ * La compra de un voucher se coordina por WhatsApp (todavía no hay pago
+ * automático), así que es el admin quien le avisa a mano al sistema que se
+ * vendió uno, completando comprador/a (y destinatario/a si es regalo). Desde
+ * acá se dispara el mail con la imagen del voucher adjunta.
+ */
+export async function sendVoucherPurchaseEmail(formData: FormData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const voucherId = String(formData.get("voucher_id"));
+  const buyerName = String(formData.get("buyer_name") || "").trim();
+  const buyerEmail = String(formData.get("buyer_email") || "").trim();
+  const isGift = formData.get("is_gift") === "on";
+  const recipientName = String(formData.get("recipient_name") || "").trim() || null;
+  const recipientEmail = String(formData.get("recipient_email") || "").trim() || null;
+
+  if (!buyerName || !buyerEmail) throw new Error("Completá el nombre y el email de quien compra.");
+  if (isGift && !recipientEmail) throw new Error("Completá el email de la persona regalada.");
+
+  const { data: voucher } = await admin.from("vouchers").select("*").eq("id", voucherId).single();
+  if (!voucher) throw new Error("Voucher no encontrado.");
+
+  let imageBase64: string | null = null;
+  let imageFilename = "voucher.jpg";
+  if (voucher.image_url) {
+    try {
+      const res = await fetch(voucher.image_url);
+      if (res.ok) {
+        const buffer = Buffer.from(await res.arrayBuffer());
+        imageBase64 = buffer.toString("base64");
+        imageFilename = voucher.image_url.split("/").pop() || imageFilename;
+      }
+    } catch (err) {
+      console.error("No se pudo descargar la imagen del voucher para adjuntar", err);
+    }
+  }
+
+  await sendVoucherEmail({
+    to: buyerEmail,
+    cc: isGift ? recipientEmail ?? undefined : undefined,
+    buyerName,
+    recipientName,
+    isGift,
+    voucherName: voucher.name,
+    price: voucher.price,
+    imageBase64,
+    imageFilename,
+  });
 }
 
 export async function createGaleriaFoto(formData: FormData) {

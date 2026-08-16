@@ -34,6 +34,9 @@ export default async function AdminVouchersPage() {
                 </div>
               </div>
               <div className="flex items-center gap-4">
+                <Link href={`/admin/vouchers/${item.id}/enviar`} className="text-xs font-medium text-lilac-deep underline">
+                  Enviar mail
+                </Link>
                 <Link href={`/admin/vouchers/${item.id}/editar`} className="text-xs underline">
                   Editar
                 </Link>
