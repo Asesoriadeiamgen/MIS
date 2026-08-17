@@ -875,6 +875,7 @@ export async function sendVoucherPurchaseEmail(formData: FormData) {
     isGift,
     voucherName: voucher.name,
     price: voucher.price,
+    imageUrl: voucher.image_url,
     imageBase64,
     imageFilename,
   });

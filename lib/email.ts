@@ -141,6 +141,7 @@ export async function sendVoucherEmail(params: {
   isGift: boolean;
   voucherName: string;
   price: number | null;
+  imageUrl: string | null;
   imageBase64: string | null;
   imageFilename: string;
 }) {
@@ -167,13 +168,20 @@ export async function sendVoucherEmail(params: {
         <p style="text-align: center; font-size: 15px; line-height: 1.6; color: #1a1a1acc;">
           ${bodyText}
         </p>
-        <div style="text-align: center; margin: 28px 0; padding: 16px; border: 1px dashed rgba(43,38,34,.25);">
+        ${
+          params.imageUrl
+            ? `<div style="text-align: center; margin: 28px 0;">
+                <img src="${params.imageUrl}" alt="${params.voucherName}" width="400" style="width: 100%; max-width: 400px; height: auto; display: inline-block; border-radius: 4px;" />
+              </div>`
+            : ""
+        }
+        <div style="text-align: center; margin: 0 0 28px; padding: 16px; border: 1px dashed rgba(43,38,34,.25);">
           <p style="margin: 0 0 8px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #1a1a1a99;">Voucher</p>
           <p style="margin: 0; font-size: 20px; font-weight: bold;">${params.voucherName}</p>
           ${params.price !== null ? `<p style="margin: 10px 0 0; font-size: 16px; color: #1a1a1a99;">${formatARSPrice(params.price)}</p>` : ""}
         </div>
         <p style="text-align: center; font-size: 12px; color: #1a1a1a99; margin: 0 0 8px;">
-          Encontrás la imagen de tu voucher adjunta a este mail. Cualquier duda, escribinos por WhatsApp.
+          Cualquier duda, escribinos por WhatsApp.
         </p>
         <div style="text-align: center; margin-top: 8px;">
           <a href="${siteUrl}" style="display: inline-block; padding: 12px 28px; background: #1a1a1a; color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
