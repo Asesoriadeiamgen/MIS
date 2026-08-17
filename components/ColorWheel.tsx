@@ -155,7 +155,7 @@ export default function ColorWheel() {
             <button
               type="button"
               onClick={savePalette}
-              className="ml-auto rounded-sm border border-black/15 px-3 py-1.5 text-xs font-medium uppercase tracking-widest hover:bg-soft-bg"
+              className="ml-auto rounded-sm bg-lilac-deep px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-white transition hover:bg-lilac"
             >
               Guardar
             </button>
