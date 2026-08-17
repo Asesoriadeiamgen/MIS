@@ -11,12 +11,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: servicios },
     { data: packs },
     { data: blogPosts },
+    { data: colorimetriaPosts },
   ] = await Promise.all([
     admin.from("books").select("id, created_at").eq("is_active", true),
     admin.from("cursos").select("id, created_at").eq("is_active", true),
     admin.from("servicios").select("id, created_at").eq("is_active", true),
     admin.from("packs").select("id, created_at").eq("is_active", true),
     admin.from("blog_posts").select("slug, published_at").eq("is_active", true),
+    admin.from("colorimetria_posts").select("slug, published_at").eq("is_active", true),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -24,8 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/sobre-mi`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/servicios`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/formaciones`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${SITE_URL}/portfolio`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/galeria`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/colorimetria`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/tienda`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/libros`, changeFrequency: "weekly", priority: 0.6 },
@@ -61,6 +63,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...(blogPosts || []).map((post) => ({
       url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: post.published_at,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    })),
+    ...(colorimetriaPosts || []).map((post) => ({
+      url: `${SITE_URL}/colorimetria/${post.slug}`,
       lastModified: post.published_at,
       changeFrequency: "monthly" as const,
       priority: 0.5,

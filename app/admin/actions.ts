@@ -34,7 +34,6 @@ type OrderableTable =
   | "books"
   | "servicios"
   | "packs"
-  | "portfolio"
   | "testimonios"
   | "faqs"
   | "galeria_fotos"
@@ -318,64 +317,6 @@ export async function updatePack(id: string, formData: FormData) {
   revalidatePath("/formaciones");
 }
 
-export async function createPortfolioItem(formData: FormData) {
-  await requireAdmin();
-  const supabase = await createClient();
-  const { error } = await supabase.from("portfolio").insert({
-    title: String(formData.get("title") || "") || null,
-    description: String(formData.get("description") || "") || null,
-    image_url: String(formData.get("image_url") || "") || null,
-    before_image_url: String(formData.get("before_image_url") || "") || null,
-    after_image_url: String(formData.get("after_image_url") || "") || null,
-    sort_order: await topSortOrder("portfolio"),
-  });
-  if (error) throw new Error(error.message);
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portfolio");
-}
-
-export async function reorderPortfolio(orderedIds: string[]) {
-  await requireAdmin();
-  await reorderTable("portfolio", orderedIds);
-  revalidatePath("/admin/portfolio");
-}
-
-export async function togglePortfolioActive(id: string, isActive: boolean) {
-  await requireAdmin();
-  const supabase = await createClient();
-  const { error } = await supabase.from("portfolio").update({ is_active: isActive }).eq("id", id);
-  if (error) throw new Error(error.message);
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portfolio");
-}
-
-export async function deletePortfolioItem(id: string) {
-  await requireAdmin();
-  const admin = createAdminClient();
-  const { error } = await admin.from("portfolio").delete().eq("id", id);
-  if (error) throw new Error(error.message);
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portfolio");
-}
-
-export async function updatePortfolioItem(id: string, formData: FormData) {
-  await requireAdmin();
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("portfolio")
-    .update({
-      title: String(formData.get("title") || "") || null,
-      description: String(formData.get("description") || "") || null,
-      image_url: String(formData.get("image_url") || "") || null,
-      before_image_url: String(formData.get("before_image_url") || "") || null,
-      after_image_url: String(formData.get("after_image_url") || "") || null,
-    })
-    .eq("id", id);
-  if (error) throw new Error(error.message);
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portfolio");
-}
-
 export async function createTestimonio(formData: FormData) {
   await requireAdmin();
   const supabase = await createClient();
@@ -496,6 +437,59 @@ export async function updateBlogPost(id: string, formData: FormData) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/blog");
   revalidatePath("/blog");
+}
+
+export async function createColorimetriaPost(formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const title = String(formData.get("title"));
+  const { error } = await supabase.from("colorimetria_posts").insert({
+    title,
+    slug: slugify(String(formData.get("slug") || "") || title),
+    excerpt: String(formData.get("excerpt") || "") || null,
+    content: String(formData.get("content") || ""),
+    cover_url: String(formData.get("cover_url") || "") || null,
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/colorimetria");
+  revalidatePath("/colorimetria");
+}
+
+export async function toggleColorimetriaPostActive(id: string, isActive: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase.from("colorimetria_posts").update({ is_active: isActive }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/colorimetria");
+  revalidatePath("/colorimetria");
+}
+
+export async function deleteColorimetriaPost(id: string) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { error } = await admin.from("colorimetria_posts").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/colorimetria");
+  revalidatePath("/colorimetria");
+}
+
+export async function updateColorimetriaPost(id: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const title = String(formData.get("title"));
+  const { error } = await supabase
+    .from("colorimetria_posts")
+    .update({
+      title,
+      slug: slugify(String(formData.get("slug") || "") || title),
+      excerpt: String(formData.get("excerpt") || "") || null,
+      content: String(formData.get("content") || ""),
+      cover_url: String(formData.get("cover_url") || "") || null,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/colorimetria");
+  revalidatePath("/colorimetria");
 }
 
 export async function createFaq(formData: FormData) {

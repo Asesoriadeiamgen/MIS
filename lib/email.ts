@@ -390,9 +390,10 @@ export type WeeklyStats = {
     formaciones: number;
     cursos: number;
     ebooks: number;
-    portfolio: number;
+    vouchers: number;
     testimonios: number;
     blogPosts: number;
+    colorimetriaPosts: number;
   };
 };
 
@@ -443,9 +444,10 @@ export async function sendBackupEmail(params: {
           ${statRow("Formaciones activas", s.totales.formaciones)}
           ${statRow("Cursos activos", s.totales.cursos)}
           ${statRow("Ebooks activos", s.totales.ebooks)}
-          ${statRow("Portfolio activo", s.totales.portfolio)}
+          ${statRow("Vouchers activos", s.totales.vouchers)}
           ${statRow("Testimonios activos", s.totales.testimonios)}
           ${statRow("Notas de blog activas", s.totales.blogPosts)}
+          ${statRow("Artículos de colorimetría", s.totales.colorimetriaPosts)}
         </table>
 
         <p style="font-size:12px; color:#1a1a1a99; border-top:1px solid rgba(43,38,34,.12); padding-top:16px;">

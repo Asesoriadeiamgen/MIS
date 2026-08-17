@@ -10,9 +10,10 @@ const TABLES = [
   "packs",
   "cursos",
   "books",
-  "portfolio",
+  "vouchers",
   "testimonios",
   "blog_posts",
+  "colorimetria_posts",
   "faqs",
   "turnos",
   "disponibilidad_semanal",
@@ -86,9 +87,10 @@ function computeWeeklyStats(backup: Record<string, unknown>): WeeklyStats {
       formaciones: activeCount("packs"),
       cursos: activeCount("cursos"),
       ebooks: activeCount("books"),
-      portfolio: activeCount("portfolio"),
+      vouchers: activeCount("vouchers"),
       testimonios: activeCount("testimonios"),
       blogPosts: activeCount("blog_posts"),
+      colorimetriaPosts: activeCount("colorimetria_posts"),
     },
   };
 }

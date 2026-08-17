@@ -77,16 +77,6 @@ export function IconPack({ className }: IconProps) {
   );
 }
 
-export function IconPortfolio({ className }: IconProps) {
-  return (
-    <svg {...common} className={className} aria-hidden="true">
-      <rect x="3.5" y="4.5" width="17" height="13" rx="1.2" />
-      <circle cx="8.3" cy="9" r="1.4" />
-      <path d="M4 15.5l4.8-4 4 3 3-2.5 4.2 3.5" />
-    </svg>
-  );
-}
-
 export function IconCamara({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">
@@ -123,6 +113,17 @@ export function IconTienda({ className }: IconProps) {
       <path d="M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
       <path d="M3.5 9.5h17l-1.5-5h-14z" />
       <path d="M9 12.5a3 3 0 0 0 6 0" />
+    </svg>
+  );
+}
+
+export function IconColorimetria({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 3.5A8.5 8.5 0 0 1 20.5 12" />
+      <path d="M12 3.5v8.5l6 6" />
+      <path d="M12 3.5A8.5 8.5 0 0 0 3.5 12" />
     </svg>
   );
 }

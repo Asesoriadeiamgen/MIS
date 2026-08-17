@@ -99,18 +99,6 @@ export type Pack = {
   created_at: string;
 };
 
-export type PortfolioItem = {
-  id: string;
-  title: string | null;
-  description: string | null;
-  image_url: string | null;
-  before_image_url: string | null;
-  after_image_url: string | null;
-  is_active: boolean;
-  sort_order: number;
-  created_at: string;
-};
-
 export type Voucher = {
   id: string;
   name: string;
@@ -158,6 +146,18 @@ export type TiendaCategoria = {
 };
 
 export type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  cover_url: string | null;
+  published_at: string;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type ColorimetriaPost = {
   id: string;
   title: string;
   slug: string;
@@ -301,9 +301,9 @@ export type Database = {
       cursos: Table<Curso>;
       servicios: Table<Servicio>;
       packs: Table<Pack>;
-      portfolio: Table<PortfolioItem>;
       testimonios: Table<Testimonio>;
       blog_posts: Table<BlogPost>;
+      colorimetria_posts: Table<ColorimetriaPost>;
       faqs: Table<Faq>;
       disponibilidad_semanal: Table<DisponibilidadSemanal>;
       bloqueos_fecha: Table<BloqueoFecha>;

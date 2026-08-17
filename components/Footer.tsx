@@ -7,7 +7,7 @@ const SECTIONS = [
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/servicios", label: "Servicios" },
   { href: "/formaciones", label: "Formaciones" },
-  { href: "/portfolio", label: "Portfolio" },
+  { href: "/colorimetria", label: "Colorimetría" },
   { href: "/testimonios", label: "Testimonios" },
   { href: "/blog", label: "Blog" },
   { href: "/libros", label: "Ebooks" },
