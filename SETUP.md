@@ -1,38 +1,58 @@
 # Guía de configuración
 
 Este proyecto es el sitio de María Isabel Imagen: Next.js con Servicios, Formaciones/Packs, Cursos,
-Ebooks y Portfolio a la venta, agenda de turnos propia, Galería de fotos con subcarpetas, Blog,
-Testimonios, FAQ, carrito de compra con pago por Mercado Pago, registro de usuarios y un repositorio
-de ebooks protegido por pago o código. Para que funcione de punta a punta hace falta crear tres
-cuentas externas (Supabase, Mercado Pago, Resend) y cargar sus credenciales en variables de entorno.
+Ebooks, Vouchers de regalo y Colorimetría, agenda de turnos propia, Galería de fotos con subcarpetas,
+Blog, Testimonios con moderación, FAQ, carrito de compra con pago por Mercado Pago, registro de
+usuarios y un repositorio de ebooks protegido por pago o código. Para que funcione de punta a punta
+hace falta crear tres cuentas externas (Supabase, Mercado Pago, Resend) y cargar sus credenciales en
+variables de entorno.
 
 ## Características del sitio
 
 - **Servicios y Formaciones/Packs**: catálogo editable desde `/admin`, con precios "a consultar"
   opcionales, imágenes múltiples y orden manual (drag-and-drop).
-- **Tienda de Ebooks y Cursos**: pago online vía Mercado Pago; los ebooks se entregan con un código
-  de acceso único por compra (o códigos promocionales compartidos) y lectura protegida en el sitio.
+- **Tienda**: categorías de la vidriera (Ebooks, Cursos, Formaciones, Consultorías, etc.) editables
+  desde `/admin/tienda-categorias` (título, descripción, emoji, link, orden) en vez de estar fijas en
+  el código. Los ebooks se cobran online vía Mercado Pago y se entregan con un código de acceso único
+  por compra (o códigos promocionales compartidos) con lectura protegida en el sitio; las Formaciones
+  y los Vouchers de regalo se coordinan por WhatsApp por ahora.
+- **Vouchers de regalo**: catálogo simple (`/admin/vouchers`, público en `/regalos`) con nombre,
+  precio, foto y compra por WhatsApp. Como la compra no pasa por un pago automático, el admin puede
+  avisarle al sistema que se vendió uno (`/admin/vouchers/[id]/enviar`) completando comprador/a y,
+  si es regalo, destinatario/a — dispara un mail con diseño propio y la imagen del voucher, con copia
+  a la persona regalada cuando corresponde.
 - **Agenda de turnos**: disponibilidad semanal configurable, bloqueos de fechas puntuales, reserva
-  pública con confirmación por email al cliente y al admin.
-- **Galería de fotos con subcarpetas**: las fotos se organizan por categoría (ej. "Charlas
+  pública con confirmación por email al cliente y al admin (no se pierde una reserva exitosa aunque
+  el email de confirmación falle).
+- **Galería de fotos con subcarpetas y acordeón**: las fotos se organizan por categoría (ej. "Charlas
   Institucionales") y, opcionalmente, por subcarpeta dentro de la categoría (ej. cada charla puntual)
-  — así una misma categoría puede agrupar varias series de fotos sin mezclarlas.
+  — cada subcarpeta se abre/cierra de forma independiente mostrando una grilla de miniaturas, y desde
+  ahí se entra al carrusel de una foto por vez.
+- **Colorimetría**: sección de artículos (mismo patrón que el Blog, editable desde
+  `/admin/colorimetria`). El primer artículo incluye un círculo cromático interactivo
+  ([`components/ColorWheel.tsx`](components/ColorWheel.tsx)): elegís un color tocando/arrastrando en
+  la rueda y muestra al instante sus combinaciones armónicas (complementaria, análoga, tríada,
+  cuadrada), con opción de guardar paletas para comparar (persistidas en el navegador).
 - **Optimización automática de imágenes**: toda foto subida desde `/admin` (galería, blog,
-  testimonios, portfolio, cursos, formaciones, servicios, sobre mí, tapas de ebooks) se redimensiona
-  y recomprime en el navegador antes de subirse (máximo 1920px de lado más largo, JPEG calidad ~82%)
-  — buena calidad visual, mucho menos espacio ocupado en Supabase Storage. Ver
+  testimonios, cursos, formaciones, servicios, sobre mí, tapas de ebooks, vouchers, colorimetría) se
+  redimensiona y recomprime en el navegador antes de subirse (máximo 1920px de lado más largo, JPEG
+  calidad ~82%) — buena calidad visual, mucho menos espacio ocupado en Supabase Storage. Ver
   [`lib/imageCompress.ts`](lib/imageCompress.ts). Para reoptimizar fotos que ya estaban subidas antes
   de este cambio, ver `scripts/optimizar-fotos-existentes.mjs` (requiere `npm install sharp --no-save`
   antes de correrlo, ya que es una herramienta puntual, no una dependencia del sitio en producción).
-- **Blog, Testimonios, FAQ, Portfolio (antes/después)**: contenido editable desde `/admin`, con
-  editor de texto enriquecido para los campos largos.
+- **Blog, Testimonios, FAQ**: contenido editable desde `/admin`, con editor de texto enriquecido para
+  los campos largos. Los testimonios además se pueden mandar desde el sitio público
+  (`/testimonios/enviar`, requiere estar logueado) y quedan pendientes de aprobación — el admin recibe
+  un mail avisando y los revisa/publica desde `/admin/testimonios` antes de que se vean.
 - **Cupones de descuento**: por porcentaje o monto fijo, con generación automática de un cupón de
   10% off el día del cumpleaños de cada usuario (día/mes se piden en el registro).
 - **Backups automáticos**: todos los domingos se genera y envía por email un resumen semanal de
   actividad (usuarios nuevos, turnos, pedidos, ingresos) junto con un backup completo de la base en
   JSON adjunto (`/api/cron/backup`, cron de Vercel).
-- **Panel de admin**: protegido por rol (`profiles.is_admin`), con gestión de todo el contenido de
-  arriba más usuarios (datos de perfil, DNI, cumpleaños, compras) y pedidos.
+- **Panel de admin**: protegido por rol (`profiles.is_admin`) tanto a nivel de página como de cada
+  acción del servidor, con un dashboard de métricas (pedidos pendientes, testimonios por aprobar,
+  usuarios) y gestión de todo el contenido de arriba más usuarios (datos de perfil, DNI, cumpleaños,
+  compras) y pedidos.
 
 ## 0. Antes de arrancar
 
@@ -93,8 +113,8 @@ Este repo hoy es local, sin remoto. Para conectarlo:
    ```sql
    update public.profiles set is_admin = true where email = 'tu-email@ejemplo.com';
    ```
-   Con eso ya podés entrar a `/admin` para cargar servicios, formaciones, cursos, ebooks, portfolio,
-   testimonios, blog, FAQ, galería y turnos.
+   Con eso ya podés entrar a `/admin` para cargar servicios, formaciones, cursos, ebooks, vouchers,
+   testimonios, blog, colorimetría, FAQ, galería y turnos.
 6. Por defecto Supabase pide **confirmar el email** antes de dejar iniciar sesión. Revisá la bandeja
    de entrada (y spam) del email que usaste, o desactivá esa confirmación en **Authentication →
    Providers → Email** mientras estás probando en local.
