@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-black/5";
 
@@ -8,10 +8,16 @@ const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-bla
  * Editor mínimo sin dependencias: contentEditable + document.execCommand.
  * Alcanza para negrita/itálica/listas/links en las notas del blog sin sumar
  * una librería de terceros. Guarda HTML en un input hidden con el `name` dado.
+ *
+ * El input hidden usa `value` controlado por estado (no `defaultValue` +
+ * mutación imperativa): si el formulario padre vuelve a renderizar por
+ * cualquier motivo (ej. subir una foto), React reaplica el `defaultValue`
+ * original al input no controlado y se pierde lo que el usuario ya escribió,
+ * aunque el texto siga viéndose en pantalla.
  */
 export default function RichTextEditor(props: { name: string; defaultValue?: string }) {
   const editorRef = useRef<HTMLDivElement>(null);
-  const hiddenRef = useRef<HTMLInputElement>(null);
+  const [html, setHtml] = useState(props.defaultValue ?? "");
 
   function exec(command: string, value?: string) {
     editorRef.current?.focus();
@@ -20,9 +26,7 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
   }
 
   function sync() {
-    if (hiddenRef.current && editorRef.current) {
-      hiddenRef.current.value = editorRef.current.innerHTML;
-    }
+    if (editorRef.current) setHtml(editorRef.current.innerHTML);
   }
 
   function handleLink() {
@@ -70,7 +74,7 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
         className="min-h-[200px] rounded-sm border border-black/15 bg-white px-3 py-2 text-sm focus:border-black/40 focus:outline-none [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_ul]:list-disc"
         dangerouslySetInnerHTML={{ __html: props.defaultValue ?? "" }}
       />
-      <input ref={hiddenRef} type="hidden" name={props.name} defaultValue={props.defaultValue ?? ""} />
+      <input type="hidden" name={props.name} value={html} readOnly />
     </div>
   );
 }
