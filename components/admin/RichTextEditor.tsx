@@ -14,6 +14,12 @@ const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-bla
  * cualquier motivo (ej. subir una foto), React reaplica el `defaultValue`
  * original al input no controlado y se pierde lo que el usuario ya escribió,
  * aunque el texto siga viéndose en pantalla.
+ *
+ * Cuando arranca vacío se renderiza con un <br> adentro en vez de nada: un
+ * contentEditable realmente vacío (sin ningún nodo hijo) hace que Chrome en
+ * Android no ubique el cursor al tocarlo, así que tocar el recuadro no hace
+ * nada. El <br> le da al navegador un lugar donde poner el cursor sin que
+ * cuente como contenido real (se sigue guardando "" si no se escribe nada).
  */
 export default function RichTextEditor(props: { name: string; defaultValue?: string }) {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -26,7 +32,9 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
   }
 
   function sync() {
-    if (editorRef.current) setHtml(editorRef.current.innerHTML);
+    if (!editorRef.current) return;
+    const value = editorRef.current.innerHTML;
+    setHtml(value === "<br>" ? "" : value);
   }
 
   function handleLink() {
@@ -72,7 +80,7 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
         onInput={sync}
         onBlur={sync}
         className="min-h-[200px] rounded-sm border border-black/15 bg-white px-3 py-2 text-sm focus:border-black/40 focus:outline-none [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_ul]:list-disc"
-        dangerouslySetInnerHTML={{ __html: props.defaultValue ?? "" }}
+        dangerouslySetInnerHTML={{ __html: props.defaultValue || "<br>" }}
       />
       <input type="hidden" name={props.name} value={html} readOnly />
     </div>
