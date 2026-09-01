@@ -20,6 +20,14 @@ const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-bla
  * Android no ubique el cursor al tocarlo, así que tocar el recuadro no hace
  * nada. El <br> le da al navegador un lugar donde poner el cursor sin que
  * cuente como contenido real (se sigue guardando "" si no se escribe nada).
+ *
+ * sync() se llama solo en blur y desde los botones de formato, NUNCA en
+ * onInput: si se llamara en cada tecla, cada una dispara un re-render de
+ * React sobre este mismo nodo contentEditable, y en el teclado de Android
+ * eso corta la composición del autocorrector/predictivo — la letra llega a
+ * mostrarse un instante y se borra sola. Sincronizar recién al perder el
+ * foco alcanza igual, porque un click en otro campo (o en "Guardar") dispara
+ * blur antes que cualquier otro handler.
  */
 export default function RichTextEditor(props: { name: string; defaultValue?: string }) {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -77,7 +85,6 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
         ref={editorRef}
         contentEditable
         suppressContentEditableWarning
-        onInput={sync}
         onBlur={sync}
         className="min-h-[200px] rounded-sm border border-black/15 bg-white px-3 py-2 text-sm focus:border-black/40 focus:outline-none [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_ul]:list-disc"
         dangerouslySetInnerHTML={{ __html: props.defaultValue || "<br>" }}
