@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-black/5";
 
@@ -9,29 +9,34 @@ const BUTTON = "rounded-sm border border-black/15 px-2 py-1 text-xs hover:bg-bla
  * Alcanza para negrita/itálica/listas/links en las notas del blog sin sumar
  * una librería de terceros. Guarda HTML en un input hidden con el `name` dado.
  *
- * El input hidden usa `value` controlado por estado (no `defaultValue` +
- * mutación imperativa): si el formulario padre vuelve a renderizar por
- * cualquier motivo (ej. subir una foto), React reaplica el `defaultValue`
- * original al input no controlado y se pierde lo que el usuario ya escribió,
- * aunque el texto siga viéndose en pantalla.
+ * El contenido inicial se pone una sola vez, imperativamente, en un useEffect
+ * que corre solo al montar — el div contentEditable NUNCA recibe
+ * `dangerouslySetInnerHTML` en el JSX. Esto no es cosmético: si el div
+ * declarara su HTML por prop, cualquier re-render de este componente (el
+ * propio, por ejemplo al sincronizar el input hidden) hace que React
+ * reaplique ese HTML y borre lo que el usuario ya tipeó, aunque el string
+ * de la prop no haya cambiado entre renders — se comprobó así en este
+ * proyecto (React 19): un solo re-render alcanza para vaciar el recuadro,
+ * no hace falta que se dispare en cada tecla. Al no declarar el HTML en el
+ * JSX, React no vuelve a tocar el contenido del nodo nunca más después del
+ * montaje, así que re-renderizar (por escribir, por subir una foto en el
+ * formulario padre, etc.) ya no puede pisarlo.
  *
- * Cuando arranca vacío se renderiza con un <br> adentro en vez de nada: un
- * contentEditable realmente vacío (sin ningún nodo hijo) hace que Chrome en
- * Android no ubique el cursor al tocarlo, así que tocar el recuadro no hace
- * nada. El <br> le da al navegador un lugar donde poner el cursor sin que
- * cuente como contenido real (se sigue guardando "" si no se escribe nada).
- *
- * sync() se llama solo en blur y desde los botones de formato, NUNCA en
- * onInput: si se llamara en cada tecla, cada una dispara un re-render de
- * React sobre este mismo nodo contentEditable, y en el teclado de Android
- * eso corta la composición del autocorrector/predictivo — la letra llega a
- * mostrarse un instante y se borra sola. Sincronizar recién al perder el
- * foco alcanza igual, porque un click en otro campo (o en "Guardar") dispara
- * blur antes que cualquier otro handler.
+ * El input hidden sigue usando `value` controlado por estado (no
+ * `defaultValue` + mutación imperativa) para no perder lo escrito si el
+ * formulario padre se re-renderiza por otro motivo (ej. subir una foto).
  */
 export default function RichTextEditor(props: { name: string; defaultValue?: string }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [html, setHtml] = useState(props.defaultValue ?? "");
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = props.defaultValue || "<br>";
+    }
+    // Solo al montar: a partir de acá el contenido lo maneja el DOM directamente.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function exec(command: string, value?: string) {
     editorRef.current?.focus();
@@ -85,9 +90,9 @@ export default function RichTextEditor(props: { name: string; defaultValue?: str
         ref={editorRef}
         contentEditable
         suppressContentEditableWarning
+        onInput={sync}
         onBlur={sync}
         className="min-h-[200px] rounded-sm border border-black/15 bg-white px-3 py-2 text-sm focus:border-black/40 focus:outline-none [&_a]:underline [&_li]:ml-4 [&_ol]:list-decimal [&_ul]:list-disc"
-        dangerouslySetInnerHTML={{ __html: props.defaultValue || "<br>" }}
       />
       <input type="hidden" name={props.name} value={html} readOnly />
     </div>
