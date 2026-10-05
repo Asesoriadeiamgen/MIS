@@ -1,0 +1,29 @@
+{
+ "name": "María Isabel Sosa · Imagen",
+ "short_name": "MI Imagen",
+ "description": "Asesoría de imagen: arquetipo, colorimetría, cuerpo, combinaciones y fichas.",
+ "lang": "es",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#FAFAFA",
+ "theme_color": "#FAFAFA",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

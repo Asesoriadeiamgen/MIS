@@ -1,0 +1,1318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAFAFA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MI Imagen">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>María Isabel Sosa · Imagen</title>
+<style>
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/playfair-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/playfair-display-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/playfair-display-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Alex Brush";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/alex-brush-latin-400-normal.woff2) format("woff2")}
+.install{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0}
+</style>
+<style>
+/* Layout: taller de modista — ficha de clienta a la izquierda, informe tipo "lookbook" a la derecha; cinta métrica como hilo conductor */
+:root{
+  --bg:#F3F1F6; --surface:#FFFFFF; --ink:#231B2E; --muted:#6C6478; --line:#DCD5E3;
+  --accent:#7A2E4D; --accent-soft:#F1E3EA; --ok:#2F6B4F; --warn:#9A3B2B;
+  --hero:transparent; --script:var(--display);
+  --display:"Bodoni Moda", "Didot", Georgia, serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17121D; --surface:#211A29; --ink:#EEE8F3; --muted:#A69CB3; --line:#3A3045;
+  --accent:#E08AAE; --accent-soft:#3A2333; --ok:#8FCDAE; --warn:#F0A08F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17121D; --surface:#211A29; --ink:#EEE8F3; --muted:#A69CB3; --line:#3A3045;
+  --accent:#E08AAE; --accent-soft:#3A2333; --ok:#8FCDAE; --warn:#F0A08F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 64px}
+header{display:grid;gap:6px;margin-bottom:8px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,5vw,48px);line-height:1.05;margin:0;text-wrap:balance}
+h1 em{color:var(--accent)}
+.lede{color:var(--muted);max-width:62ch;margin:0}
+.tape{height:22px;margin:18px 0 26px;border-block:1px solid var(--line);
+  background:
+   repeating-linear-gradient(90deg,var(--muted) 0 1px,transparent 1px 50px) 0 0/100% 12px no-repeat,
+   repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 10px) 0 0/100% 7px no-repeat;
+  opacity:.8}
+.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+form.ficha{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;gap:18px;}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:10px}
+legend{font-family:var(--display);font-size:19px;padding:0;margin-bottom:6px}
+label{display:grid;gap:4px;font-size:12.5px;font-weight:500;color:var(--muted)}
+select,input[type=text]{font:inherit;font-size:14.5px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:9px 10px;width:100%}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:block;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink);font-size:13px}
+.seg input:checked+span{color:var(--accent)}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.hint{font-size:12px;color:var(--muted);margin:0}
+.btn{font:inherit;font-weight:600;border:1px solid var(--accent);background:var(--accent);color:var(--surface);padding:10px 16px;border-radius:4px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.report{display:grid;gap:22px;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;min-width:0}
+.hero{display:grid;gap:12px;border-top:3px solid var(--accent)}
+.hero h2{font-family:var(--display);font-weight:400;font-size:clamp(26px,3.6vw,36px);margin:0;line-height:1.1;text-wrap:balance}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--ink);font-weight:600}
+h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0 0 4px}
+h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:16px 0 6px;font-weight:600}
+.sub{color:var(--muted);margin:0 0 10px;max-width:68ch}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.sw{display:grid;gap:5px;font-size:11.5px;color:var(--muted)}
+.sw i{display:block;aspect-ratio:1/1.1;max-width:100%;border-radius:3px 3px 0 0;border:1px solid rgba(127,127,127,.25);
+  clip-path:polygon(0 0,100% 0,100% 92%,94% 100%,88% 92%,82% 100%,76% 92%,70% 100%,64% 92%,58% 100%,52% 92%,46% 100%,40% 92%,34% 100%,28% 92%,22% 100%,16% 92%,10% 100%,4% 92%,0 100%)}
+.sw.small{grid-template-columns:1fr}
+.avoid .sw i{position:relative;opacity:.9}
+.avoid .sw i::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 47%,var(--surface) 47% 53%,transparent 53%)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 24px}
+ul.list{margin:0;padding-left:18px;display:grid;gap:3px}
+ul.list li::marker{color:var(--accent)}
+.shadow{background:var(--accent-soft);border-radius:4px;padding:12px 14px;margin-top:14px;font-size:14px}
+.shadow b{color:var(--accent)}
+.no{color:var(--warn)}
+.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.look{border:1px solid var(--line);border-radius:4px;padding:14px;display:grid;gap:8px;align-content:start}
+.look .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.look p{margin:0;font-size:14px}
+.dots{display:flex;gap:4px}
+.dots i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(127,127,127,.3)}
+.capsule{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;counter-reset:c}
+.capsule div{border-bottom:1px solid var(--line);padding:6px 0;font-size:14px;display:flex;gap:8px;align-items:baseline}
+.capsule div::before{counter-increment:c;content:counter(c,decimal-leading-zero);font-family:var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:4px;font-size:13px}
+textarea.fallback{width:100%;min-height:140px;font:inherit;font-size:12px;margin-top:10px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+@media (prefers-reduced-motion:no-preference){.report.first .card{animation:rise .4s ease both}}
+@keyframes rise{from{transform:translateY(6px)}to{transform:none}}
+
+.quizbtn{font:inherit;font-size:13.5px;font-weight:600;border:1px dashed var(--accent);background:var(--accent-soft);color:var(--accent);padding:9px 12px;border-radius:4px;cursor:pointer;text-align:left}
+.quiz{display:grid;gap:16px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mode{font:inherit;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:16px;cursor:pointer;display:grid;gap:6px}
+.mode:hover,.opt:hover{border-color:var(--accent)}
+.mode b{font-family:var(--display);font-weight:400;font-size:20px}
+.mode span{font-size:13px;color:var(--muted)}
+.progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.qcount{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.qtext{font-family:var(--display);font-size:clamp(21px,3vw,27px);line-height:1.2;margin:0;text-wrap:balance}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.opt{font:inherit;font-size:14px;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:4px;padding:11px 13px;cursor:pointer}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.likert .opt{text-align:center;padding:10px 4px;font-size:12.5px;display:grid;gap:2px}
+.likert .opt b{font-family:var(--display);font-size:20px;font-weight:400}
+.qnav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.bars{display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:120px minmax(0,1fr) 42px;gap:10px;align-items:center;font-size:13.5px}
+.bar .track{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.bar .track i{display:block;height:100%;background:var(--muted);border-radius:5px}
+.bar.top .track i{background:var(--accent)}
+.bar.top span:first-child{font-weight:600}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.profile{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.profile div{border-top:2px solid var(--accent);padding-top:8px;font-size:13.5px}
+.profile b{display:block;font-family:var(--display);font-weight:400;font-size:19px}
+@media (max-width:480px){.bar{grid-template-columns:96px minmax(0,1fr) 38px}}
+
+.fichas{display:grid;gap:8px}
+.fichas h5{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:7px 0}
+.frow b{display:block;font-size:14px}
+.frow small{color:var(--muted);font-size:12px}
+.frow.cur b{color:var(--accent)}
+.mini{font:inherit;font-size:12.5px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:4px;padding:5px 9px;cursor:pointer}
+.mini.danger{color:var(--warn);border-color:var(--warn)}
+.fbtns{display:flex;gap:6px}
+textarea#notas{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:9px 10px;width:100%;min-height:70px;resize:vertical}
+.empty{font-size:13px;color:var(--muted);margin:0}
+
+.bodypick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.bodypick button{font:inherit;font-size:11.5px;line-height:1.25;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 4px 8px;cursor:pointer;display:grid;gap:4px;justify-items:center;text-align:center}
+.bodypick button:hover{border-color:var(--accent)}
+.bodypick button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.bodypick svg{width:100%;max-width:78px;height:auto;display:block}
+.mq-body{fill:var(--surface);stroke:var(--ink);stroke-width:1.4}
+.bodypick button[aria-pressed="true"] .mq-body{fill:var(--accent);stroke:var(--accent);fill-opacity:.18}
+.mq-stand{stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round}
+.mq-line{stroke:var(--accent);stroke-width:.8;stroke-dasharray:2 2;opacity:.7}
+.mq-big{max-width:120px;margin:0 auto 4px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.backup{display:flex;gap:6px;flex-wrap:wrap}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.topbar .brand{font-family:var(--display);font-size:17px;margin-right:auto}
+.topbar .btn{padding:8px 13px;font-size:14px}
+.badge{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--surface);color:var(--accent);font-size:12px;line-height:20px;text-align:center}
+.editing{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border-radius:4px;padding:9px 12px;font-size:13.5px;color:var(--accent)}
+.editing b{color:var(--ink)}
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(20,14,26,.45);display:flex;justify-content:center;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 16px) 12px calc(env(safe-area-inset-bottom,0px) + 16px);overflow-y:auto}
+.sheet{background:var(--surface);color:var(--ink);border-radius:8px;width:100%;max-width:680px;padding:20px;display:grid;gap:14px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.sheet header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0}
+.sheet h3{margin:0}
+#buscar{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:10px 12px;width:100%}
+.fcard{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:12px}
+.fcard.cur{border-color:var(--accent)}
+.fcard b{font-size:15.5px;display:block}
+.fcard small{color:var(--muted);font-size:12.5px;display:block}
+.fcard .fbtns{flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:480px){.fcard{grid-template-columns:minmax(0,1fr)}.fcard .fbtns{justify-content:flex-start}}
+.mini.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+
+.topbar .brand{display:flex;align-items:center;gap:8px;min-width:0}
+.topbar .brand img{height:30px;width:auto;display:block}
+.topbar .brand small{display:block;font-family:var(--body);font-size:11px;color:var(--muted);letter-spacing:.04em}
+header.band{background:var(--hero);border-radius:6px;padding:22px 20px;margin-top:14px}
+.slogan{font-family:var(--script);font-size:clamp(26px,4vw,34px);color:var(--accent);margin:2px 0 0;line-height:1.1}
+.hero .rlogo{max-height:90px;width:auto;justify-self:start}
+.firma{display:grid;gap:4px;font-size:14px}
+.firma b{font-family:var(--display);font-weight:400;font-size:18px}
+.credito{font-size:11px;color:var(--muted);text-align:center;margin-top:4px}
+.topbar{flex-wrap:nowrap}
+.topbar .brand{flex:1 1 auto;margin-right:0}
+.topbar .brand>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topbtns{display:flex;gap:6px;flex:0 0 auto}
+.show-sm{display:none}
+@media (max-width:480px){.hide-sm{display:none}.show-sm{display:inline}.topbar .btn{padding:7px 10px;font-size:13px}.topbar .brand small{display:none}.topbar .brand img{height:26px}}
+.cuenta{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;background:var(--bg)}
+.cuenta h5{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.cuenta input{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+.cuenta .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cuenta .msg{font-size:13px;margin:0}
+.linkbtn{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0}
+.hlogo{background:#fff;border-radius:16px;padding:10px 14px;justify-self:start;display:block}
+.hlogo img{display:block;max-height:150px;width:auto}
+</style>
+
+<style>[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="topbar" aria-label="Menú">
+  <span class="brand" id="topBrand">Espejo de Estilo</span>
+  <div class="topbtns">
+  <button type="button" class="btn ghost" id="topNueva" aria-label="Nueva ficha">+ Nueva<span class="hide-sm"> ficha</span></button>
+  <button type="button" class="btn" id="topFichas" aria-label="Mis fichas"><span class="hide-sm">Mis fichas</span><span class="show-sm">Fichas</span><span class="badge" id="fichasCount">0</span></button>
+  </div>
+</nav>
+<header id="hBox">
+  <span class="eyebrow" id="hEyebrow">Asesoría de imagen · arquetipos junguianos · colorimetría</span>
+  <h1 id="hTitulo">Espejo de <em>Estilo</em> Arquetípico</h1>
+  <p class="slogan" id="hSlogan" hidden></p>
+  <div class="install" id="install" hidden>
+    <button type="button" class="btn" id="btnInstalar">Instalar app</button>
+    <span class="hint" id="iosHint" hidden>En iPhone: tocá Compartir y luego «Agregar a pantalla de inicio».</span>
+  </div>
+  <p class="lede" id="hLede">Completá la ficha y el informe se arma al instante: paleta personal, prendas y texturas según el arquetipo, cortes según el cuerpo, ajustes por edad, looks y armario cápsula.</p>
+</header>
+<div class="tape" aria-hidden="true"></div>
+
+<div class="grid">
+<form class="ficha" id="ficha" autocomplete="off">
+  <div class="editing" id="editing" hidden></div>
+  <fieldset>
+    <legend>Ficha</legend>
+    <label for="nombre">Nombre (opcional)
+      <input type="text" id="nombre" value="" placeholder="Nombre de la persona">
+    </label>
+    <div class="seg" role="radiogroup" aria-label="Línea de ropa">
+      <label><input type="radio" name="genero" id="gen-f" value="f" checked>Femenino</label>
+      <label><input type="radio" name="genero" id="gen-m" value="m">Masculino</label>
+    </div>
+    <div class="two">
+      <label for="edad">Edad
+        <select id="edad">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="1">18 a 29</option><option value="2">30 a 44</option>
+          <option value="3">45 a 59</option><option value="4">60 o más</option>
+        </select>
+      </label>
+      <label for="altura">Altura
+        <select id="altura">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="baja">Baja (−1,60 / −1,70 m)</option>
+          <option value="media">Media</option>
+          <option value="alta">Alta (+1,72 / +1,85 m)</option>
+        </select>
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Arquetipo</legend>
+    <div class="seg" role="radiogroup" aria-label="Sistema de arquetipos">
+      <label><input type="radio" name="sistema" id="sis-12" value="j12" checked>12 junguianos</label>
+      <label><input type="radio" name="sistema" id="sis-7" value="f7">7 femeninos</label>
+    </div>
+    <p class="hint" id="sisHint"></p>
+    <label for="arq1">Dominante
+      <select id="arq1"></select>
+    </label>
+    <label for="arq2">Secundario (opcional)
+      <select id="arq2"></select>
+    </label>
+    <button type="button" class="quizbtn" id="abrirQuiz">¿No sabés cuál es? Descubrilo con el cuestionario →</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Color</legend>
+    <div class="two">
+      <label for="ojos">Ojos
+        <select id="ojos">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="azulclaro">Azul claro / celeste</option>
+          <option value="azulgris">Azul grisáceo / gris</option>
+          <option value="verde">Verde</option>
+          <option value="avellana">Avellana / miel</option>
+          <option value="marronclaro">Marrón claro</option>
+          <option value="marronoscuro">Marrón oscuro</option>
+          <option value="negro">Negro</option>
+        </select>
+      </label>
+      <label for="pelo">Pelo natural
+        <select id="pelo">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="rubioceniza">Rubio ceniza</option>
+          <option value="rubiodorado">Rubio dorado</option>
+          <option value="cobrizo">Pelirrojo / cobrizo</option>
+          <option value="castclaro">Castaño claro</option>
+          <option value="castmedio">Castaño medio</option>
+          <option value="castoscuro">Castaño oscuro</option>
+          <option value="negro">Negro</option>
+          <option value="canoso">Canoso / plateado</option>
+        </select>
+      </label>
+      <label for="piel">Piel
+        <select id="piel">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="0">Muy clara</option>
+          <option value="1">Clara / media</option>
+          <option value="2">Trigueña / oliva</option>
+          <option value="3">Morena / oscura</option>
+        </select>
+      </label>
+      <label for="subtono">Subtono
+        <select id="subtono">
+          <option value="" selected disabled>Elegí…</option>
+          <option value="calido">Cálido</option>
+          <option value="neutro">Neutro</option>
+          <option value="frio">Frío</option>
+        </select>
+      </label>
+    </div>
+    <p class="hint">Subtono: venas verdosas y te favorece el oro → cálido. Venas azuladas y te favorece la plata → frío. Ambos por igual → neutro.</p>
+    <label for="estacion">Estación (si ya la conocés)
+      <select id="estacion"><option value="auto">Calcular automáticamente</option></select>
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Cuerpo</legend>
+    <div class="bodypick" id="bodypick" role="group" aria-label="Elegí el tipo de cuerpo"></div>
+    <label for="cuerpo" class="vh">Tipo de cuerpo
+      <select id="cuerpo" class="vh" tabindex="-1" aria-hidden="true"></select>
+    </label>
+    <p class="hint" id="cuerpoHint"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Notas</legend>
+    <label for="notas">Observaciones de la sesión (se guardan con la ficha)
+      <textarea id="notas" placeholder="Ej.: prefiere no usar escotes, trabaja en oficina, evento el 12/11…"></textarea>
+    </label>
+  </fieldset>
+  <p class="hint" id="saveStatus" role="status" hidden></p>
+  <div class="actions">
+    <button type="button" class="btn" id="guardar">Guardar ficha</button>
+    <button type="button" class="btn ghost" id="nueva">Nueva ficha</button>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn ghost" id="copiar">Copiar informe</button>
+    <button type="button" class="btn ghost" id="verInforme">Ver informe ↓</button>
+  </div>
+  <button type="button" class="mini" id="formFichas">Ver todas mis fichas</button>
+</form>
+
+<div class="report">
+<section class="card quiz" id="quiz" hidden></section>
+<main class="report first" id="informe" aria-live="polite" style="gap:22px"></main>
+</div>
+</div>
+<div class="overlay" id="panel" hidden role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+ <div class="sheet">
+  <header><h3 id="panelTitle">Mis fichas</h3><button type="button" class="mini" id="cerrarPanel">Cerrar ✕</button></header>
+  <input type="search" id="buscar" placeholder="Buscar por nombre, arquetipo o notas…" aria-label="Buscar ficha">
+  <div class="cuenta" id="cuenta" hidden></div>
+  <p class="hint" id="donde"></p>
+  <div class="fichas" id="fichas"></div>
+  <div class="backup" id="backup" hidden>
+    <button type="button" class="mini" id="exportar">Descargar copia de fichas</button>
+    <label class="mini" for="importar" style="display:inline-block">Restaurar copia</label>
+    <input type="file" id="importar" accept=".json,application/json" class="vh">
+  </div>
+ </div>
+</div>
+<p class="credito" id="credito" hidden></p>
+<p class="foot">Las recomendaciones son orientativas: una asesora de imagen las ajusta a la persona real, su contexto y su gusto.</p>
+</div>
+
+<script src="vendor/supabase.js"></script>
+<script>
+/*BRAND_START*/
+const BRAND={"appName": "María Isabel Sosa · Imagen", "marca": "María Isabel Sosa", "subtitulo": "Asesora y Coach en Imagen", "eyebrow": "Imagen, autoconocimiento y presencia", "titulo": "Ficha de <em>imagen y estilo</em>", "lede": "Completá la ficha y el informe se arma al instante: paleta personal, prendas y texturas según el arquetipo, cortes según el cuerpo, ajustes por edad, combinaciones y armario cápsula. Una imagen coherente entre lo interno y lo externo.", "slogan": "No te dejes para después", "logoBarra": "brand/icono-barra.png", "logoInforme": "brand/logo-informe.png", "colores": {"accent": "#B00E0D", "accentSoft": "#EFEBFC", "bg": "#FAFAFA", "surface": "#FFFFFF", "ink": "#1A1A1A", "muted": "#5C5766", "line": "#E2DDF0", "hero": "#E4DEFA", "ok": "#2F6B4F", "warn": "#B00E0D"}, "fuentes": {"display": "\"Playfair Display\", Georgia, Cambria, serif", "body": "Arial, Helvetica, sans-serif", "script": "\"Alex Brush\", \"Playfair Display\", cursive"}, "soloClaro": true, "reemplazos": [["looks", "combinaciones"], ["look", "conjunto"], ["lookbook", "guía"]], "contacto": {"whatsapp": "", "instagram": "@mariaisabel.imagen", "web": "www.mariaisabelimagen.com.ar"}, "firmaInforme": "Informe preparado por María Isabel Sosa · Asesora y Coach en Imagen", "credito": "", "supabase": {"url": "https://kufponrnfwxwaakuzgfz.supabase.co", "key": "sb_publishable_TDQbmeAvpbJBHnrIeD3qyg_BHaoBpyb", "tabla": "app_fichas"}, "logoCabecera": "brand/logo-informe.png"};
+/*BRAND_END*/
+function applyBrand(){
+ const B=BRAND, el=id=>document.getElementById(id);
+ if(B.appName) document.title=B.appName;
+ const tb=el("topBrand");
+ tb.innerHTML=(B.logoBarra?`<img src="${B.logoBarra}" alt="">`:"")+`<span>${B.marca||"Espejo de Estilo"}${B.subtitulo?`<small>${B.subtitulo}</small>`:""}</span>`;
+ if(B.logoCabecera){const d=document.createElement("span");d.className="hlogo";d.innerHTML=`<img src="${B.logoCabecera}" alt="${B.marca||""}">`;el("hBox").prepend(d);}
+ if(B.eyebrow) el("hEyebrow").textContent=B.eyebrow;
+ if(B.titulo) el("hTitulo").innerHTML=B.titulo;
+ if(B.lede) el("hLede").textContent=B.lede;
+ if(B.slogan){el("hSlogan").textContent=B.slogan;el("hSlogan").hidden=false;}
+ if(B.credito){el("credito").textContent=B.credito;el("credito").hidden=false;}
+ const c=B.colores, f=B.fuentes;
+ if(c||f){
+  const v=[];
+  if(c){const map={accent:"--accent",accentSoft:"--accent-soft",bg:"--bg",surface:"--surface",ink:"--ink",muted:"--muted",line:"--line",hero:"--hero",ok:"--ok",warn:"--warn"};
+   for(const k in map) if(c[k]) v.push(`${map[k]}:${c[k]}`);}
+  if(f){if(f.display)v.push(`--display:${f.display}`);if(f.body)v.push(`--body:${f.body}`);if(f.script)v.push(`--script:${f.script}`);}
+  if(B.soloClaro) v.push("color-scheme:light");
+  const st=document.createElement("style"); st.textContent=`:root:root:root{${v.join(";")}}`; document.head.appendChild(st);
+ }
+ if(c&&c.hero) el("hBox").classList.add("band");
+ if(B.css){const st2=document.createElement("style");st2.textContent=B.css;document.head.appendChild(st2);}
+}
+function brandText(root){
+ const R=BRAND.reemplazos||[]; if(!R.length||!root) return;
+ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); const nodes=[]; while(w.nextNode()) nodes.push(w.currentNode);
+ nodes.forEach(n=>{let t=n.nodeValue; R.forEach(([a,b])=>{t=t.replace(new RegExp("\\b"+a+"\\b","g"),b).replace(new RegExp("\\b"+a.charAt(0).toUpperCase()+a.slice(1)+"\\b","g"),b.charAt(0).toUpperCase()+b.slice(1));}); if(t!==n.nodeValue) n.nodeValue=t;});
+}
+function brandStr(t){(BRAND.reemplazos||[]).forEach(([a,b])=>{t=t.replace(new RegExp("\\b"+a+"\\b","g"),b).replace(new RegExp("\\b"+a.charAt(0).toUpperCase()+a.slice(1)+"\\b","g"),b.charAt(0).toUpperCase()+b.slice(1));});return t;}
+applyBrand();
+const ARQ = {
+ inocente:{n:"El Inocente",estilo:"Romántico fresco",esencia:"Luz, confianza y frescura. La imagen dice: soy auténtica, accesible y optimista.",
+  claves:["luminoso","limpio","delicado","fresco"],
+  pf:["Camisas blancas con detalles (cuello bebé, alforzas)","Vestidos camiseros y midi","Cárdigans livianos","Blusas con lazo suave","Jeans claros de corte recto","Bailarinas y zapatillas blancas"],
+  pm:["Camisas oxford blancas o celestes","Polos y chombas de algodón","Chinos claros","Sweaters livianos de cuello redondo","Zapatillas blancas de cuero"],
+  telas:["Algodón","Lino","Batista","Punto suave","Piqué"],est:["Florales pequeños","Lunares","Rayas finas","Vichy"],
+  acc:["Perlas pequeñas","Colgantes delicados","Relojes de malla fina","Bolso pequeño estructurado"],
+  color:"Los tonos claros y luminosos de tu paleta, con mucho blanco o crudo como base.",
+  sombra:"Infantilizar la imagen con exceso de volados, moños o pasteles, y perder autoridad en contextos profesionales.",
+  looks:{f:["Pantalón recto {n1}, blusa con lazo {c1} y cárdigan {n2}; bailarinas.","Vestido camisero {c2} con cinturón fino y zapatillas blancas.","Vestido midi {c3} de caída suave, perlas pequeñas y sandalia de taco bajo."],
+         m:["Chino {n1}, camisa oxford {c1} y sweater liviano {n2}.","Jean claro, polo {c2} y zapatillas blancas.","Traje {n2} claro, camisa {c1} sin corbata, mocasines."]}},
+ huerfano:{n:"El Huérfano",estilo:"Natural cercano",esencia:"Realismo y empatía. La imagen dice: soy una más, confiable y sin pretensiones.",
+  claves:["cercano","práctico","honesto","cómodo"],
+  pf:["Jeans de buen calce","Remeras lisas de algodón grueso","Camisas de denim o franela","Sweaters de punto","Chaqueta utilitaria","Botas o zapatillas cómodas"],
+  pm:["Jeans oscuros","Remeras lisas de buen gramaje","Camisa de franela o denim","Campera tipo trucker","Botas de cuero"],
+  telas:["Denim","Algodón","Punto","Gamuza","Franela"],est:["Rayas marineras","Cuadros escoceses","Liso"],
+  acc:["Bolso o mochila de cuero","Reloj sencillo","Joyas mínimas","Gorro tejido"],
+  color:"Los neutros de tu paleta como base y uno o dos tonos medios para dar vida.",
+  sombra:"El descuido: ropa gastada o sin forma que comunica invisibilidad o 'no me importa'.",
+  looks:{f:["Pantalón recto {n1}, sweater {c1} y saco desestructurado {n2}.","Jean, remera rayada {n2}/{c2} y chaqueta utilitaria {n1}.","Vestido de punto {c3} con botas y aros simples."],
+         m:["Pantalón chino {n1}, camisa de denim y sweater {c1}.","Jean, remera {c2} y campera trucker.","Saco {n2} desestructurado, remera de buen gramaje {c1} y jean oscuro."]}},
+ guerrero:{n:"El Guerrero",estilo:"Estructurado deportivo",esencia:"Coraje y determinación. La imagen dice: soy capaz, enfocada y voy a resolver.",
+  claves:["firme","eficiente","estructurado","enérgico"],
+  pf:["Blazers de hombro marcado","Pantalones de vestir rectos","Chaqueta de cuero","Piezas de inspiración militar","Botas con caña","Prendas técnicas de calidad"],
+  pm:["Blazer estructurado","Chaqueta tipo bomber o field","Pantalón de sarga recto","Borcegos o botas","Remeras técnicas"],
+  telas:["Gabardina","Cuero","Lana fría","Tejidos técnicos","Sarga"],est:["Liso","Geométricos marcados","Camuflaje muy sutil"],
+  acc:["Reloj robusto","Cinturón de cuero","Bolso estructurado","Joyas metálicas geométricas"],
+  color:"Los tonos profundos e intensos de tu paleta, con contraste marcado entre prendas.",
+  sombra:"La dureza: un look demasiado rígido o agresivo. Sumá siempre una pieza más suave (seda, punto fino).",
+  looks:{f:["Blazer estructurado {n1}, remera {c1} y pantalón recto {n2}; mocasín.","Chaqueta de cuero {n2}, jean oscuro y botas; remera {c2}.","Mono o jumpsuit {c3} con cinturón y sandalia de taco firme."],
+         m:["Blazer {n1}, remera de cuello redondo {c1} y pantalón de sarga {n2}.","Chaqueta field {n2}, remera {c2}, jean oscuro y borcegos.","Traje {n1} de corte entallado, camisa {c1} y zapatos de cuero."]}},
+ bienhechor:{n:"El Bienhechor",estilo:"Clásico amable",esencia:"Cuidado y generosidad. La imagen dice: conmigo estás segura, te escucho.",
+  claves:["cálido","suave","acogedor","prolijo"],
+  pf:["Cárdigans y sweaters de punto","Vestidos fluidos","Blusas suaves","Pantalones cómodos de buena caída","Ruanas y pashminas","Calzado cómodo y prolijo"],
+  pm:["Sweaters de lana merino","Camisas de algodón peinado","Pantalones chinos","Chaleco tejido","Zapatos de cuero cómodos"],
+  telas:["Lana merino","Cachemira","Algodón peinado","Modal"],est:["Florales suaves","Paisley","Texturas tejidas"],
+  acc:["Pañuelos","Joyas con significado","Bolso amplio","Reloj clásico"],
+  color:"Los tonos medios y suaves de tu paleta, que se ven cálidos y amables.",
+  sombra:"Postergarse: ropa 'para no molestar', sin forma o anticuada. Cuidarte a vos también se ve.",
+  looks:{f:["Pantalón fluido {n1}, blusa {c1} y cárdigan largo {n2}.","Sweater de punto {c2}, jean y pañuelo estampado.","Vestido envolvente {c3} con pashmina {n1}."],
+         m:["Chino {n1}, camisa {c1} y sweater merino {n2}.","Jean, sweater de cuello redondo {c2} y zapatillas de cuero.","Saco de lana {n2}, camisa {c1} y pantalón de vestir {n1}."]}},
+ amante:{n:"El Amante",estilo:"Sensual romántico",esencia:"Pasión, belleza y conexión. La imagen dice: disfruto, me siento bien en mi piel.",
+  claves:["sensual","fluido","rico","femenino/magnético"],
+  pf:["Vestidos envolventes","Blusas de seda","Escotes en V","Faldas lápiz o midi fluidas","Encaje en detalles","Tacones o sandalias finas"],
+  pm:["Camisas de seda o viscosa","Sweaters de punto fino al cuerpo","Pantalones de caída suave","Saco de terciopelo","Mocasines de gamuza"],
+  telas:["Seda","Satén","Terciopelo","Encaje","Punto fino"],est:["Florales grandes","Animal print sutil","Liso con brillo"],
+  acc:["Aros statement","Cinturón que marque la cintura","Labial en tu tono","Perfume como firma"],
+  color:"Los tonos más ricos y saturados de tu paleta: rojos, ciruelas, rosas profundos.",
+  sombra:"Hipersexualizar o vestir para la mirada ajena. La sensualidad que funciona es la que se siente propia.",
+  looks:{f:["Falda lápiz {n1}, blusa de seda {c1} y salones.","Jean al cuerpo, top de encaje {c2} y blazer {n2}.","Vestido envolvente {c3} con aros grandes y sandalia fina."],
+         m:["Pantalón de vestir {n1}, camisa de seda {c1} desabrochada un botón.","Jean oscuro, punto fino {c2} al cuerpo y mocasines de gamuza.","Saco de terciopelo {c3}, camisa {n2} y pantalón {n1}."]}},
+ destructor:{n:"El Destructor",estilo:"Rebelde transgresor",esencia:"Transformación y ruptura. La imagen dice: no sigo reglas ajenas, me reinvento.",
+  claves:["audaz","rockero","asimétrico","intenso"],
+  pf:["Cuero en su versión más oscura","Jeans rotos o encerados","Borcegos","Remeras gráficas","Prendas asimétricas","Sastrería deconstruida"],
+  pm:["Campera de cuero","Jeans negros o encerados","Borcegos","Remeras gráficas","Camisas oversize"],
+  telas:["Cuero","Denim","Malla","Vinilo"],est:["Gráficos","Tachas","Cuadros grunge"],
+  acc:["Cadenas","Anillos múltiples","Tachas","Gafas oscuras"],
+  color:"Los tonos más oscuros de tu paleta, con un único acento intenso.",
+  sombra:"La provocación vacía: cambiar por cambiar, sin dirección. La ruptura comunica cuando tiene un propósito.",
+  looks:{f:["Blazer oversize {n1}, remera {c1} y jean encerado; borcegos.","Campera de cuero, remera gráfica {n2} y falda midi {c2}.","Vestido asimétrico {n1} con cadenas y botas."],
+         m:["Saco desestructurado {n1}, remera gráfica y jean negro.","Campera de cuero, camisa oversize {c2} y borcegos.","Traje {n1} sin corbata, remera {c1} y botas."]}},
+ sabio:{n:"El Sabio",estilo:"Clásico intelectual",esencia:"Conocimiento y criterio. La imagen dice: pienso antes de hablar, sé de lo que hablo.",
+  claves:["sobrio","pulido","atemporal","refinado"],
+  pf:["Camisas de buen corte","Polerones y sweaters de cuello alto","Blazers de tweed","Pantalones de sastrería","Trench","Mocasines"],
+  pm:["Camisa oxford","Sweater de cuello alto","Saco de tweed","Pantalón de franela","Mocasines o derby"],
+  telas:["Lana","Tweed","Algodón oxford","Cachemira"],est:["Pied de poule","Espiga","Príncipe de Gales","Cuadros finos"],
+  acc:["Anteojos con montura de personalidad","Reloj clásico","Maletín o bolso tote","Pañuelo"],
+  color:"Los neutros sofisticados y los tonos profundos y apagados de tu paleta.",
+  sombra:"La frialdad: un look tan sobrio que se vuelve uniforme sin vida. Un detalle de color humaniza.",
+  looks:{f:["Pantalón de sastrería {n1}, cuello alto {c1} y blazer de tweed.","Jean oscuro, camisa {c2} y trench {n2}.","Vestido tubo {n1} con pañuelo {c3} y mocasines."],
+         m:["Pantalón de franela {n1}, cuello alto {c1} y saco de tweed.","Chino {n2}, camisa oxford {c2} y sweater en V.","Traje {n1} de lana, camisa {c1} y corbata tejida {c3}."]}},
+ mago:{n:"El Mago",estilo:"Místico visionario",esencia:"Transformación y visión. La imagen dice: veo más allá, conecto mundos.",
+  claves:["envolvente","simbólico","fluido","magnético"],
+  pf:["Kimonos y capas","Tapados largos","Vestidos largos fluidos","Drapeados","Túnicas modernas","Pantalones palazzo"],
+  pm:["Tapado largo","Camisa de cuello mao","Kimono o saco sin solapa","Pantalón de caída amplia","Botas de cuero"],
+  telas:["Terciopelo","Gasa","Seda","Brillos sutiles","Iridiscentes"],est:["Celestiales","Degradés","Geometría sagrada","Simbólicos"],
+  acc:["Piedras y cristales","Anillos con significado","Colgantes largos","Joyas antiguas"],
+  color:"Los tonos joya de tu paleta (violetas, azules, verdes profundos) y degradés.",
+  sombra:"El disfraz: tanto simbolismo que parece un personaje. Un elemento místico por look alcanza.",
+  looks:{f:["Palazzo {n1}, blusa {c1} y kimono largo {c2}.","Jean, remera {n2} y tapado largo {c3}; colgante con piedra.","Vestido largo de terciopelo {c1} con anillos de piedras."],
+         m:["Pantalón amplio {n1}, camisa mao {c1} y saco sin solapa {n2}.","Jean oscuro, remera {c2} y tapado largo {n1}.","Saco de terciopelo {c3}, camisa mao {n2}, botas."]}},
+ soberano:{n:"El Soberano",estilo:"Elegante de poder",esencia:"Liderazgo y orden. La imagen dice: tengo el control, podés confiar en mi criterio.",
+  claves:["impecable","de calidad","estructurado","atemporal"],
+  pf:["Trajes sastre","Blazers impecables","Abrigo de paño","Camisas de seda","Vestidos tubo","Zapatos de cuero de calidad"],
+  pm:["Traje a medida","Camisa de vestir planchada","Abrigo de paño","Sweater de cachemira","Zapatos oxford"],
+  telas:["Lana fina","Seda","Cachemira","Cuero noble"],est:["Liso","Rayas diplomáticas","Monograma discreto"],
+  acc:["Reloj de calidad","Joyas finas","Bolso estructurado premium","Cinturón de cuero"],
+  color:"Los neutros profundos de tu paleta como base más un color joya como firma.",
+  sombra:"La rigidez y la ostentación: imponer distancia. Una pieza más relajada vuelve el poder cercano.",
+  looks:{f:["Traje sastre {n1}, camisa de seda {c1} y salones.","Pantalón de lana {n2}, sweater de cachemira {c2} y mocasines.","Vestido tubo {c3} con abrigo de paño {n1} y joyas finas."],
+         m:["Traje {n1}, camisa {n3} y corbata {c1}.","Pantalón de lana {n2}, cachemira {c2} y mocasines.","Traje oscuro {n1}, camisa blanca y pañuelo de bolsillo {c3}."]}},
+ bufon:{n:"El Bufón",estilo:"Lúdico creativo",esencia:"Alegría y espontaneidad. La imagen dice: la vida se disfruta, conmigo hay buena energía.",
+  claves:["alegre","colorido","sorpresivo","relajado"],
+  pf:["Mezclas de estampados","Remeras con frase","Prendas oversize","Zapatillas de color","Overoles","Piezas vintage"],
+  pm:["Camisas estampadas","Remeras con gráfica","Zapatillas de color","Medias divertidas","Pantalones de color"],
+  telas:["Algodón","Denim","Texturas divertidas","Lentejuelas"],est:["Lunares grandes","Rayas multicolor","Ilustraciones","Mezclas"],
+  acc:["Anteojos de color","Aros llamativos","Medias divertidas","Gorras"],
+  color:"Los tonos más vivos y alegres de tu paleta, combinados entre sí.",
+  sombra:"No ser tomada en serio cuando el contexto lo pide. Reservá el juego para un detalle en situaciones formales.",
+  looks:{f:["Pantalón {n1}, blusa estampada {c1} y blazer {c2}.","Overol de denim, remera {c3} y zapatillas de color.","Vestido de lunares {c1} con aros grandes {c2}."],
+         m:["Pantalón {n1}, camisa estampada {c1} y medias divertidas.","Jean, remera gráfica {c2} y zapatillas {c3}.","Traje {n2} con camisa {c1} y zapatillas de cuero."]}},
+ explorador:{n:"El Explorador",estilo:"Natural aventurero",esencia:"Libertad y autenticidad. La imagen dice: soy independiente, curiosa y real.",
+  claves:["libre","natural","funcional","bohemio"],
+  pf:["Chaquetas utilitarias","Camisas safari","Pantalones cargo","Botas","Sweaters tejidos gruesos","Sombreros y ponchos"],
+  pm:["Camisa safari o de lino","Pantalón cargo","Chaqueta field","Botas de cuero","Sweater tejido"],
+  telas:["Lino","Algodón rústico","Cuero envejecido","Lana gruesa","Gamuza"],est:["Étnicos","Mapas","Cuadros","Tierra"],
+  acc:["Mochila de cuero","Pulseras de cuero o tela","Joyas artesanales","Sombrero"],
+  color:"Los tierras y verdes de tu paleta, con texturas naturales.",
+  sombra:"La desprolijidad: ropa 'de paso' sin compromiso. Lo natural también se elige y se cuida.",
+  looks:{f:["Pantalón ancho de lino {n1}, camisa safari {c1} y cinturón de cuero.","Jean, sweater tejido {c2} y botas; sombrero.","Vestido largo estampado étnico {c3} con botas y poncho {n2}."],
+         m:["Pantalón {n1}, camisa de lino {c1} y chaqueta field {n2}.","Cargo {n2}, remera {c2} y botas.","Saco de lino {n1}, camisa {c3} y pantalón chino."]}},
+ creador:{n:"El Creador",estilo:"Artístico original",esencia:"Imaginación y expresión propia. La imagen dice: tengo una visión y la muestro.",
+  claves:["original","de autor","inesperado","expresivo"],
+  pf:["Piezas de diseño independiente","Siluetas inesperadas","Capas asimétricas","Color block","Prendas artesanales","Calzado escultórico"],
+  pm:["Camisas de corte especial","Sacos sin estructura","Color block","Prendas de diseñador independiente","Zapatillas de diseño"],
+  telas:["Mezcla de texturas","Lino","Neopreno","Tejidos artesanales"],est:["Abstractos","Pinceladas","Color block","Arte"],
+  acc:["Joyas de autor","Anteojos de diseño","Bolso único","Calzado escultórico"],
+  color:"Combinaciones inesperadas dentro de tu paleta: complementarios o color block.",
+  sombra:"La dispersión: demasiados mensajes en un mismo look. Elegí una pieza protagonista por vez.",
+  looks:{f:["Pantalón {c1}, blusa {c2} en color block y saco {n1}.","Jean, remera {n2} y chaqueta de diseño {c3}.","Vestido de silueta escultórica {c1} con joya de autor."],
+         m:["Pantalón {n1}, camisa de corte especial {c1} y saco sin estructura {c2}.","Jean, remera {n2} y zapatillas de diseño {c3}.","Traje {c1} con remera {n3} y anteojos de diseño."]}}
+};
+
+/* Versión masculina de telas, estampados, accesorios y sombras */
+const MASC={
+ inocente:{telasM:["Algodón","Lino","Oxford","Piqué","Punto liviano"],estM:["Rayas finas","Vichy","Cuadros pequeños","Liso claro"],accM:["Reloj de malla fina o correa clara","Cinturón de cuero claro","Zapatillas blancas impecables","Mochila o bolso de cuero claro"],sombraM:"Verse aniñado: prendas demasiado juveniles o exceso de pasteles que restan autoridad en el trabajo."},
+ huerfano:{estM:["Cuadros escoceses","Rayas marineras","Liso"],accM:["Mochila o morral de cuero","Reloj sencillo","Gorra o gorro tejido","Cinturón de cuero gastado"]},
+ guerrero:{estM:["Liso","Geométricos marcados","Camuflaje sutil"],accM:["Reloj robusto","Cinturón de cuero firme","Botas de calidad","Maletín o mochila estructurada"]},
+ bienhechor:{estM:["Cuadros suaves","Texturas tejidas","Paisley discreto"],accM:["Bufanda","Reloj clásico","Morral amplio","Pañuelo de bolsillo"]},
+ amante:{telasM:["Lino fino","Seda o viscosa","Terciopelo","Gamuza","Punto fino"],estM:["Liso con textura rica","Paisley","Estampado sutil en camisas"],accM:["Un buen perfume como firma","Reloj elegante","Cinturón de cuero fino","Mocasines de gamuza"],sombraM:"Exagerar la seducción: camisas demasiado abiertas o ajustadas. El magnetismo que funciona es el que se ve natural."},
+ destructor:{estM:["Gráficos","Cuadros grunge","Liso negro"],accM:["Cadenas","Anillos","Gafas oscuras","Borcegos"]},
+ sabio:{estM:["Pied de poule","Espiga","Príncipe de Gales","Cuadros finos"],accM:["Anteojos con montura de personalidad","Reloj clásico","Maletín","Corbata tejida o pañuelo de bolsillo"]},
+ mago:{telasM:["Terciopelo","Lino","Lana fina","Gamuza"],estM:["Geométricos","Simbólicos discretos","Liso profundo"],accM:["Anillo con piedra o significado","Pulsera de piedras","Colgante discreto","Botas de cuero"]},
+ soberano:{estM:["Liso","Rayas diplomáticas","Príncipe de Gales"],accM:["Reloj de calidad","Gemelos","Cinturón de cuero noble","Maletín premium"]},
+ bufon:{estM:["Camisas estampadas","Rayas de color","Lunares pequeños en corbata o medias"],accM:["Medias divertidas","Anteojos de color","Gorras","Zapatillas de color"]},
+ explorador:{estM:["Cuadros","Étnicos discretos","Liso en tonos tierra"],accM:["Mochila de cuero","Pulseras de cuero","Sombrero","Reloj de campo"]},
+ creador:{estM:["Abstractos","Color block","Gráficos de autor"],accM:["Anillo o accesorio de autor","Anteojos de diseño","Mochila o bolso único","Zapatillas de diseño"]}
+};
+for(const k in MASC) Object.assign(ARQ[k],MASC[k]);
+const MASC2={
+ inocente:{esenciaM:"Luz, confianza y frescura. La imagen dice: soy auténtico, accesible y optimista.",clavesM:["luminoso","limpio","fresco","cercano"]},
+ huerfano:{esenciaM:"Realismo y empatía. La imagen dice: soy uno más, confiable y sin pretensiones."},
+ guerrero:{esenciaM:"Coraje y determinación. La imagen dice: soy capaz, enfocado y voy a resolver."},
+ bienhechor:{esenciaM:"Cuidado y generosidad. La imagen dice: conmigo hay confianza, te escucho.",clavesM:["cálido","cercano","acogedor","prolijo"]},
+ amante:{esenciaM:"Pasión, belleza y conexión. La imagen dice: disfruto la vida y me siento cómodo en mi piel.",clavesM:["sensual","fluido","rico","magnético"]},
+ bufon:{sombraM:"No ser tomado en serio cuando el contexto lo pide. Reservá el humor para un detalle en situaciones formales."},
+ explorador:{esenciaM:"Libertad y autenticidad. La imagen dice: soy independiente, curioso y real."}
+};
+for(const k in MASC2) Object.assign(ARQ[k],MASC2[k]);
+const ALTURA_M={
+ baja:["Monocromo o tono sobre tono para alargar la figura","Pantalones al tobillo o con quiebre mínimo","Sacos cortos que no pasen la cola","Cuadros y estampados pequeños","Evitar abrigos muy largos y pantalones muy anchos"],
+ media:["Podés usar casi todos los largos","Cuidá las proporciones: saco que cubra justo la cola y pantalón sin exceso de tela"],
+ alta:["Abrigos largos y sacos con más largo te favorecen","Cortes horizontales (cinturón contrastante, capas) suavizan la verticalidad","Cuadros y texturas grandes te sientan bien","Pantalones con quiebre o dobladillo"]
+};
+const EDAD_M={
+ 1:["Etapa para experimentar: probá tendencias en prendas económicas e invertí en básicos","Armá tu primera cápsula con buen jean, chino, saco y calzado de calidad","Cuidado con lo demasiado juvenil en entrevistas o trabajos formales"],
+ 2:["Invertí en sastrería y calzado de calidad","Un buen saco y un abrigo atemporal sostienen tu imagen profesional","Actualizá cortes de jean, anteojos y corte de pelo cada pocos años"],
+ 3:["Priorizá la calidad del tejido y el calce: un ajuste de sastre cambia todo","Acercá los colores de tu paleta al rostro con camisas, sweaters y bufandas","Evitá vestir 'para tu edad': vestí para tu arquetipo con cortes actuales","Si aparecen canas, revisá la paleta: suele enfriarse y suavizarse"],
+ 4:["Telas nobles y cómodas: lana merino, cachemira, lino y algodón de calidad","Color cerca del rostro para dar luz: camisas y sweaters en tus mejores tonos","Calzado cómodo y actual (mocasines, zapatillas de cuero, botas bajas)","Mantené un detalle con personalidad: anteojos, reloj o bufanda","Con pelo canoso, tu paleta probablemente se enfrió: priorizá tonos frescos"]
+};
+const B7=(base,o)=>Object.assign({},ARQ[base],{base},o);
+const ARQ7={
+ madre:B7("bienhechor",{n:"La Madre",estilo:"Clásico acogedor",esencia:"Nutrir y sostener. La imagen dice: conmigo estás a salvo.",claves:["cálido","suave","contenedor","natural"],
+  pf:["Sweaters y cárdigans amplios de punto","Vestidos camiseros de algodón","Blusas suaves de buena caída","Pantalones cómodos y prolijos","Ruanas y pashminas","Calzado cómodo de cuero"],
+  sombra:"Disolverse en el cuidado de otros: ropa sin forma, elegida solo por practicidad. Tu bienestar también merece verse."}),
+ doncella:B7("inocente",{n:"La Doncella",estilo:"Romántico juvenil",esencia:"Frescura, ilusión y apertura. La imagen dice: estoy abierta a la vida y a lo nuevo.",claves:["fresco","liviano","delicado","luminoso"],
+  pf:["Blusas con volados suaves","Vestidos floreados","Faldas plisadas midi","Cárdigans cortos","Bailarinas y sandalias livianas","Vinchas y hebillas"],
+  sombra:"Infantilizar la imagen: exceso de moños, volados o pasteles que restan autoridad en el trabajo."}),
+ cazadora:B7("explorador",{n:"La Cazadora",estilo:"Deportivo independiente",esencia:"Independencia, fuerza y conexión con la naturaleza. La imagen dice: me basto a mí misma.",claves:["ágil","libre","funcional","fuerte"],
+  pf:["Pantalones cargo o jogger de calidad","Prendas técnicas y calzas","Chaquetas utilitarias","Chalecos acolchados","Botas o zapatillas de trekking urbano","Cuero simple, sin adornos"],
+  telas:["Tejidos técnicos","Algodón","Cuero","Gamuza","Lana"],est:["Liso","Camuflaje sutil","Cuadros"],
+  acc:["Mochila","Reloj deportivo","Gorra","Joyas mínimas metálicas"],
+  color:"Los tierras, verdes y tonos profundos de tu paleta.",
+  sombra:"Rechazar todo lo suave o femenino por miedo a parecer vulnerable. Una pieza fluida equilibra.",
+  looks:{f:["Pantalón cargo {n1}, remera {c1} y chaqueta utilitaria {n2}; zapatillas de cuero.","Calza técnica, buzo {c2} y chaleco acolchado {n1}.","Mono {c3} de corte recto con cinturón y botas."],m:ARQ.explorador.looks.m}}),
+ mistica:B7("mago",{n:"La Mística",estilo:"Espiritual etéreo",esencia:"Interioridad, calma y conexión con lo sagrado. La imagen dice: vivo desde adentro.",claves:["sereno","etéreo","fluido","simbólico"],
+  pf:["Vestidos largos y fluidos","Túnicas","Kimonos","Capas de gasa","Pantalones amplios de lino","Sandalias simples"],
+  telas:["Gasa","Lino","Seda","Algodón orgánico"],est:["Mandalas","Celestiales","Degradés","Liso"],
+  acc:["Cristales","Mala o collar de cuentas","Anillos con piedras","Pañuelos"],
+  sombra:"Desconectarse del mundo: una imagen tan etérea que parece ausente o descuidada."}),
+ reina:B7("soberano",{n:"La Reina",esencia:"Liderazgo, confianza y gusto por lo bello. La imagen dice: ocupo mi lugar con seguridad."}),
+ sabia:B7("sabio",{n:"La Sabia",esencia:"Claridad, verdad y criterio propio. La imagen dice: sé de lo que hablo."}),
+ amante:B7("amante",{n:"La Amante"})
+};
+const SIS={j12:ARQ,f7:ARQ7};
+const sis=()=>document.querySelector('input[name=sistema]:checked').value;
+const cur=()=>SIS[sis()];
+const PAL = {
+ "Primavera clara":{d:"Luminosa, cálida y delicada.",metal:"Oro claro u oro rosa",
+  best:[["Melocotón","#F6B89A"],["Coral claro","#F48C7F"],["Amarillo manteca","#F7DC7A"],["Verde manzana","#B5D86A"],["Menta cálida","#A8D8A8"],["Turquesa claro","#49C1B8"],["Aqua","#7FD1C7"],["Celeste cálido","#8EC5E8"],["Lavanda cálida","#B9A5D6"],["Rosa salmón","#F7A8A0"]],
+  neu:[["Marfil","#FFF6E5"],["Arena","#E6D3B3"],["Camel claro","#D8B48A"],["Marino claro","#4A5F86"]],
+  no:[["Negro","#111111"],["Borgoña","#6D1F2E"],["Chocolate","#4A2C1D"],["Carbón","#3A3A3A"]]},
+ "Primavera cálida":{d:"Dorada, cálida y vital.",metal:"Oro amarillo",
+  best:[["Coral","#FF7F50"],["Durazno","#FFB07C"],["Amarillo dorado","#F2C14E"],["Mandarina","#F28C28"],["Rojo tomate","#E5432A"],["Lima cálido","#9BC53D"],["Verde hoja","#5C9E3F"],["Turquesa cálido","#2BB3A3"],["Azul cielo cálido","#5BA4D9"],["Camel dorado","#C99A5B"]],
+  neu:[["Crema","#FAF0DC"],["Beige cálido","#E3C9A0"],["Camel","#C19A6B"],["Marrón dorado","#8B5A2B"]],
+  no:[["Negro","#111111"],["Gris frío","#8C939B"],["Fucsia frío","#C2185B"],["Azul hielo","#CFE8F5"]]},
+ "Primavera brillante":{d:"Cálida, clara y de alto contraste.",metal:"Oro brillante",
+  best:[["Rojo amapola","#E8352E"],["Coral intenso","#FF5A4E"],["Amarillo sol","#FFD23F"],["Papaya","#FF8C42"],["Fucsia cálido","#F0457B"],["Esmeralda cálido","#00A86B"],["Kiwi","#8FD14F"],["Turquesa","#00B5AD"],["Azul real cálido","#2A6FDB"],["Violeta claro","#8E6CDE"]],
+  neu:[["Blanco cálido","#FFFAF0"],["Gris cálido","#A49A8E"],["Camel","#C8A06A"],["Azul marino","#1F2F5A"]],
+  no:[["Malva grisáceo","#A99BA6"],["Caqui apagado","#8E8A6E"],["Topo","#8B7D72"],["Beige grisáceo","#BDB5A6"]]},
+ "Verano claro":{d:"Fría, clara y suave.",metal:"Plata u oro blanco",
+  best:[["Rosa empolvado","#F2B8C6"],["Frambuesa suave","#D97A9A"],["Lila","#C8A2C8"],["Lavanda","#C3B1E1"],["Periwinkle","#8FA6E0"],["Celeste","#A7C7E7"],["Aqua frío","#8DD3D9"],["Menta fría","#B4E1D2"],["Limón pálido","#F5EFA0"],["Gris azulado","#A3B1C2"]],
+  neu:[["Blanco suave","#F7F7F5"],["Gris perla","#CFCFD4"],["Rosa beige","#E3CFCB"],["Marino suave","#4A5A7A"]],
+  no:[["Naranja","#F28C28"],["Negro","#111111"],["Marrón dorado","#8B5A2B"],["Mostaza","#D4A017"]]},
+ "Verano frío":{d:"Fresca, rosada y elegante.",metal:"Plata",
+  best:[["Rosa frambuesa","#C2457A"],["Rojo frambuesa","#B83256"],["Rosa chicle","#E07AA5"],["Ciruela suave","#8E4A7A"],["Lavanda","#9F8FCB"],["Azul Francia","#4F76C4"],["Celeste acero","#7DA3C4"],["Petróleo suave","#3E7C91"],["Verde agua","#5FB3A7"],["Menta","#90D0C0"]],
+  neu:[["Blanco roto frío","#F2F2F0"],["Gris perla","#C9CBD1"],["Marengo","#5C6470"],["Azul marino","#2B3A5C"]],
+  no:[["Naranja","#F28C28"],["Camel","#C19A6B"],["Amarillo dorado","#F2C14E"],["Oliva","#6B6B2F"]]},
+ "Verano suave":{d:"Fría, empolvada y armoniosa.",metal:"Plata mate u oro rosa",
+  best:[["Rosa viejo","#C9919B"],["Rosa palo","#D8B4B8"],["Malva","#A5839B"],["Frambuesa apagado","#A85872"],["Ciruela empolvada","#7D5A72"],["Lavanda gris","#A69CBF"],["Azul grisáceo","#7D93AD"],["Azul pizarra","#66798F"],["Jade suave","#6E9E8F"],["Salvia","#9CAF88"]],
+  neu:[["Hueso","#ECE7DF"],["Gris piedra","#A8A8A6"],["Topo frío","#8B8580"],["Marino apagado","#3E4C63"]],
+  no:[["Negro","#111111"],["Blanco puro","#FFFFFF"],["Naranja brillante","#FF7A00"],["Fucsia eléctrico","#E6007E"]]},
+ "Otoño suave":{d:"Cálida, tenue y terrosa.",metal:"Oro mate o bronce",
+  best:[["Terracota suave","#C27C5F"],["Coral apagado","#D88A72"],["Durazno apagado","#D8A08A"],["Mostaza suave","#C9A44A"],["Caqui","#A79B6E"],["Oliva claro","#8A8B5A"],["Salvia","#8F9E7A"],["Petróleo apagado","#4E7A7D"],["Café con leche","#A07F62"],["Ciruela tostado","#7D4E57"]],
+  neu:[["Crudo","#EFE6D6"],["Topo beige","#B9A898"],["Camel","#B08B66"],["Chocolate con leche","#6E5340"]],
+  no:[["Negro","#111111"],["Blanco puro","#FFFFFF"],["Fucsia","#E6007E"],["Azul eléctrico","#0055FF"]]},
+ "Otoño cálido":{d:"Dorada, especiada y profunda.",metal:"Oro amarillo, cobre o bronce",
+  best:[["Calabaza","#D2691E"],["Ámbar","#E09F3E"],["Mostaza","#D4A017"],["Terracota","#C0583A"],["Óxido","#B7472A"],["Rojo ladrillo","#A23B2A"],["Oliva","#6B7A2F"],["Musgo","#5C6B2E"],["Petróleo","#1F6F78"],["Camel dorado","#C68E3F"]],
+  neu:[["Crema","#F3E6CC"],["Caqui","#A8996B"],["Camel","#C19A6B"],["Chocolate","#5B3A29"]],
+  no:[["Negro","#111111"],["Gris frío","#8C939B"],["Rosa chicle","#FF4FA3"],["Azul hielo","#CFE8F5"]]},
+ "Otoño profundo":{d:"Cálida, oscura y rica.",metal:"Oro antiguo o cobre",
+  best:[["Naranja quemado","#CC5500"],["Cobre","#B5652B"],["Terracota oscuro","#A0442C"],["Borgoña cálido","#7B2D26"],["Mostaza oscura","#B8860B"],["Oliva oscuro","#4B5320"],["Verde bosque","#2F5233"],["Petróleo profundo","#134E5E"],["Ciruela","#5B2A43"],["Chocolate","#4A2C1D"]],
+  neu:[["Crema oscuro","#E8D9BF"],["Camel","#B08350"],["Café","#3E2A1F"],["Carbón cálido","#2B2622"]],
+  no:[["Rosa bebé","#F4C2C2"],["Celeste pálido","#CFE8F5"],["Lila claro","#D9C7E8"],["Gris plata","#C0C0C0"]]},
+ "Invierno frío":{d:"Fría, nítida y contrastada.",metal:"Plata o platino",
+  best:[["Rojo puro","#C8102E"],["Burdeos frío","#7A1F3D"],["Fucsia","#C2185B"],["Violeta","#6A1B9A"],["Azul real","#1F4FB4"],["Azul marino","#14213D"],["Turquesa frío","#0097A7"],["Esmeralda","#00875A"],["Rosa hielo","#F6D6E3"],["Azul hielo","#D6ECF5"]],
+  neu:[["Blanco puro","#FFFFFF"],["Gris plata","#BFC3C9"],["Carbón","#36393F"],["Negro","#111111"]],
+  no:[["Naranja","#F28C28"],["Camel","#C19A6B"],["Mostaza","#D4A017"],["Marrón dorado","#8B5A2B"]]},
+ "Invierno brillante":{d:"Fría, vibrante y de máximo contraste.",metal:"Plata brillante",
+  best:[["Fucsia eléctrico","#E6007E"],["Rosa chicle","#FF4FA3"],["Rojo cereza","#D2042D"],["Violeta intenso","#7B2CBF"],["Azul eléctrico","#0055FF"],["Cobalto","#0047AB"],["Turquesa intenso","#00B7C7"],["Esmeralda brillante","#009B77"],["Menta helado","#A8F0D8"],["Limón frío","#FFF44F"]],
+  neu:[["Blanco puro","#FFFFFF"],["Carbón","#36393F"],["Azul noche","#0B1D3A"],["Negro","#111111"]],
+  no:[["Caqui","#A79B6E"],["Mostaza apagada","#B89B4A"],["Topo","#8B7D72"],["Salvia","#9CAF88"]]},
+ "Invierno profundo":{d:"Fría, oscura e intensa.",metal:"Plata u oro blanco",
+  best:[["Rojo vino","#8B0A1A"],["Burdeos","#6D1A36"],["Fucsia profundo","#A3195B"],["Ciruela","#4B1E3F"],["Berenjena","#3E1F47"],["Azul tinta","#1B2A4A"],["Petróleo frío","#0F4C5C"],["Verde botella","#0B4F3C"],["Esmeralda oscuro","#046307"],["Pizarra","#3B4252"]],
+  neu:[["Blanco nieve","#FAFAFA"],["Carbón","#36393F"],["Chocolate frío","#3B2A2A"],["Negro","#111111"]],
+  no:[["Durazno","#FFB07C"],["Amarillo manteca","#F7DC7A"],["Naranja claro","#FFB347"],["Beige dorado","#E3C9A0"]]}
+};
+
+const CUERPO = {
+ f:{
+  reloj:{n:"Reloj de arena",h:"Hombros y caderas alineados, cintura marcada.",obj:"Acompañar la curva y marcar la cintura sin agregar volumen.",
+   arriba:["Escote en V, corazón o cruzado","Blusas y tops al cuerpo o con cinturón","Blazers entallados de un botón"],
+   abajo:["Faldas lápiz y tubo","Pantalones de tiro alto, rectos o bootcut","Jeans al cuerpo de tiro alto"],
+   vest:["Vestidos envolventes (wrap)","Vestidos tubo y entallados","Cinturones en la cintura natural"],
+   no:["Prendas rectas y amplias que borran la cintura","Volúmenes grandes arriba o abajo","Tiro bajo"]},
+  triangulo:{n:"Triángulo (pera)",h:"Caderas más anchas que los hombros.",obj:"Llevar la atención arriba y equilibrar hombros con caderas.",
+   arriba:["Escotes barco, cuadrados o hombros descubiertos","Colores claros, estampados y detalles arriba","Blazers con hombro estructurado","Mangas con volumen"],
+   abajo:["Faldas en A y evasé","Pantalones rectos, palazzo o bootcut","Colores oscuros y lisos abajo"],
+   vest:["Vestidos con falda en A","Vestidos con detalles en el escote"],
+   no:["Bolsillos o estampados grandes en caderas","Pantalones chupines claros","Prendas que terminan justo en la cadera"]},
+  invertido:{n:"Triángulo invertido",h:"Hombros más anchos que las caderas.",obj:"Suavizar los hombros y dar volumen abajo.",
+   arriba:["Escote en V profundo o redondeado","Mangas raglán o sin hombreras","Colores oscuros y lisos arriba","Blusas fluidas"],
+   abajo:["Faldas con vuelo, plisadas o en A","Pantalones palazzo, wide leg, cargo","Estampados y colores claros abajo"],
+   vest:["Vestidos con falda amplia","Vestidos con escote en V"],
+   no:["Hombreras y mangas abullonadas","Escote barco","Detalles o volados en los hombros"]},
+  rectangulo:{n:"Rectángulo",h:"Hombros, cintura y caderas similares.",obj:"Crear curvas y definir la cintura.",
+   arriba:["Péplum y blusas con cintura marcada","Escotes redondos, corazón o cruzados","Chalecos y blazers con cinturón"],
+   abajo:["Faldas con vuelo o tulipa","Pantalones de tiro alto con pinzas","Jeans mom o con detalles en bolsillos"],
+   vest:["Vestidos con cinturón","Vestidos cruzados","Capas y texturas para crear volumen"],
+   no:["Prendas rectas de una sola pieza sin forma","Total looks muy ajustados de arriba abajo"]},
+  ovalo:{n:"Óvalo (manzana)",h:"Volumen centrado en el abdomen; piernas y brazos más finos.",obj:"Alargar el torso y crear líneas verticales.",
+   arriba:["Escote en V profundo","Blusas de caída fluida que no ajustan el abdomen","Tapados y sacos largos abiertos","Corte imperio"],
+   abajo:["Pantalones rectos de tiro medio con pretina plana","Faldas rectas o en A hasta la rodilla","Mostrar piernas"],
+   vest:["Vestidos imperio","Vestidos camiseros abiertos","Monocromo para alargar"],
+   no:["Cinturones en la cintura","Telas brillantes o rígidas en el centro","Prendas ajustadas en el abdomen"]}
+ },
+ m:{
+  trapecio:{n:"Trapecio",h:"Hombros algo más anchos que la cintura; proporción equilibrada.",obj:"Mantener la proporción natural con calces entallados.",
+   arriba:["Camisas slim o regular fit","Sacos de hombro natural","Remeras al cuerpo sin ajustar"],
+   abajo:["Pantalones rectos o slim","Chinos de tiro medio"],
+   vest:["Trajes entallados","Casi todos los cortes funcionan"],
+   no:["Prendas muy holgadas que esconden la figura"]},
+  invertido:{n:"Triángulo invertido",h:"Hombros y pecho anchos, cintura estrecha.",obj:"Equilibrar dando presencia a las piernas.",
+   arriba:["Escote en V","Camisas de colores medios o oscuros","Sacos sin hombreras"],
+   abajo:["Pantalones rectos con algo de volumen","Colores claros o texturas abajo","Cargo o con pinzas"],
+   vest:["Sacos de solapa ancha y un botón"],
+   no:["Hombreras","Pantalones muy chupines","Rayas horizontales en el pecho"]},
+  rectangulo:{n:"Rectángulo",h:"Hombros, cintura y caderas similares.",obj:"Crear forma en V con hombros y capas.",
+   arriba:["Sacos estructurados con hombro marcado","Capas: camisa + sweater + campera","Rayas horizontales en el pecho","Bolsillos en el pecho"],
+   abajo:["Pantalones rectos o slim","Colores más oscuros abajo"],
+   vest:["Trajes cruzados","Chalecos"],
+   no:["Prendas totalmente rectas y holgadas","Total looks sin estructura"]},
+  triangulo:{n:"Triángulo",h:"Cadera más ancha que los hombros.",obj:"Ensanchar visualmente hombros y estilizar abajo.",
+   arriba:["Sacos con hombro estructurado","Colores claros y estampados arriba","Cuellos altos y solapas anchas"],
+   abajo:["Pantalones rectos oscuros","Tiro medio, sin pinzas"],
+   vest:["Sacos que cubren la cadera"],
+   no:["Pantalones claros ajustados","Bolsillos voluminosos en caderas","Remeras demasiado ajustadas"]},
+  ovalo:{n:"Óvalo",h:"Volumen centrado en el abdomen.",obj:"Crear líneas verticales y alargar.",
+   arriba:["Camisas de caída recta, por fuera","Sacos de un botón abiertos","Escote en V","Rayas verticales finas"],
+   abajo:["Pantalones rectos de tiro medio-alto","Tiradores en lugar de cinturón"],
+   vest:["Monocromo oscuro","Trajes de un botón"],
+   no:["Prendas ajustadas en el abdomen","Rayas horizontales","Cinturones llamativos"]}
+ }
+};
+
+const SIL={
+ f:{reloj:[26,25,14,27],triangulo:[20,20,15,30],invertido:[30,27,17,20],rectangulo:[23,22,20,23],ovalo:[22,25,29,25]},
+ m:{trapecio:[31,27,21,23],invertido:[34,30,18,21],rectangulo:[26,25,24,25],triangulo:[23,23,23,28],ovalo:[26,28,32,27]}
+};
+function maniqui(w,lines){
+ const [sh,bu,wa,hi]=w, cx=50;
+ const pts=[[7,4],[8,12],[sh,22],[bu,42],[wa,66],[hi,92],[hi-4,108]];
+ const P=pts.map(([x,y])=>[cx+x,y]);
+ // Catmull-Rom -> Bezier (lado derecho, de arriba a abajo)
+ let d=`M${P[0][0]},${P[0][1]}`;
+ for(let i=0;i<P.length-1;i++){
+  const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+  const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+  d+=` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0]},${p2[1]}`;
+ }
+ const right=d, left=d.replace(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g,(m,x,y)=>`${(2*cx-x).toFixed(1)},${y}`);
+ // cuerpo: derecha hacia abajo, base, izquierda hacia arriba (invertida)
+ const Lp=[...P].reverse().map(([x,y])=>[2*cx-x,y]);
+ let dl=`L${Lp[0][0]},${Lp[0][1]}`;
+ for(let i=0;i<Lp.length-1;i++){
+  const p0=Lp[i-1]||Lp[i],p1=Lp[i],p2=Lp[i+1],p3=Lp[i+2]||p2;
+  const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+  dl+=` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0]},${p2[1]}`;
+ }
+ const ln=lines?[[22,sh],[66,wa],[92,hi]].map(([y,x])=>`<line class="mq-line" x1="${cx-x-6}" y1="${y}" x2="${cx+x+6}" y2="${y}"/>`).join(""):"";
+ return `<svg viewBox="0 0 100 140" aria-hidden="true"><path class="mq-stand" d="M50 108 V130 M36 136 Q50 128 64 136"/><path class="mq-body" d="${right} ${dl} Z"/><ellipse class="mq-body" cx="50" cy="4" rx="7" ry="2.2"/>${ln}</svg>`;
+}
+function drawBodyPick(){
+ const g=gen(), v=$("cuerpo").value;
+ $("bodypick").innerHTML=Object.keys(CUERPO[g]).map(k=>`<button type="button" data-body="${k}" aria-pressed="${k===v}">${maniqui(SIL[g][k],k===v)}<span>${esc(CUERPO[g][k].n)}</span></button>`).join("");
+}
+
+/* Paletas masculinas: mismos principios de cada estación, en tonos habituales en ropa de hombre.
+   Orden por rol: 0 azul claro/medio · 1 azul profundo · 2 verde · 3 verde profundo/oliva · 4 acento cálido · 5 acento profundo · 6 tierra/gris · 7-9 complementarios */
+const PAL_M={
+ "Primavera clara":[["Azul cielo","#8EC5E8"],["Azul medio cálido","#5B8DC9"],["Verde menta","#A8D8A8"],["Salvia claro","#A7B88A"],["Coral suave","#F09A84"],["Turquesa profundo","#2A9D8F"],["Camel claro","#D8B48A"],["Aqua","#7FD1C7"],["Amarillo manteca","#F7DC7A"],["Verde manzana","#B5D86A"]],
+ "Primavera cálida":[["Azul cielo cálido","#5BA4D9"],["Petróleo cálido","#1F6F78"],["Verde hoja","#5C9E3F"],["Oliva","#6B7A2F"],["Rojo tomate","#E5432A"],["Ladrillo cálido","#B5442E"],["Camel dorado","#C99A5B"],["Turquesa cálido","#2BB3A3"],["Amarillo dorado","#F2C14E"],["Mandarina","#F28C28"]],
+ "Primavera brillante":[["Azul real cálido","#2A6FDB"],["Azul marino brillante","#1F3F8A"],["Esmeralda cálido","#00A86B"],["Verde botella cálido","#1E6B4A"],["Rojo amapola","#E8352E"],["Rojo cereza cálido","#C41E3A"],["Camel","#C8A06A"],["Turquesa","#00B5AD"],["Amarillo sol","#FFD23F"],["Kiwi","#8FD14F"]],
+ "Verano claro":[["Celeste","#A7C7E7"],["Azul pizarra","#66798F"],["Menta fría","#B4E1D2"],["Verde agua grisáceo","#8FB3A9"],["Rosa pálido (camisas)","#E8C6CE"],["Lavanda grisácea","#A9A3C9"],["Gris azulado","#A3B1C2"],["Periwinkle","#8FA6E0"],["Aqua frío","#8DD3D9"],["Limón pálido","#F5EFA0"]],
+ "Verano frío":[["Azul Francia","#4F76C4"],["Azul acero","#4A6B8A"],["Verde agua","#5FB3A7"],["Petróleo suave","#3E7C91"],["Frambuesa oscuro","#9E2F4E"],["Ciruela suave","#8E4A7A"],["Gris azulado","#8C9BB0"],["Celeste acero","#7DA3C4"],["Lavanda","#9F8FCB"],["Menta","#90D0C0"]],
+ "Verano suave":[["Azul grisáceo","#7D93AD"],["Azul pizarra","#66798F"],["Salvia","#9CAF88"],["Jade suave","#6E9E8F"],["Vino suave","#8E4A5A"],["Ciruela empolvada","#7D5A72"],["Gris humo","#8D9199"],["Eucalipto","#7F9C8C"],["Lavanda gris","#A69CBF"],["Petróleo apagado","#4E7A7D"]],
+ "Otoño suave":[["Petróleo grisáceo","#5B7A86"],["Petróleo apagado","#4E7A7D"],["Salvia","#8F9E7A"],["Oliva claro","#8A8B5A"],["Terracota suave","#C27C5F"],["Ciruela tostado","#7D4E57"],["Caqui","#A79B6E"],["Musgo suave","#6F7A4E"],["Mostaza suave","#C9A44A"],["Café con leche","#A07F62"]],
+ "Otoño cálido":[["Petróleo","#1F6F78"],["Petróleo profundo","#154E56"],["Musgo","#5C6B2E"],["Oliva","#6B7A2F"],["Terracota","#C0583A"],["Rojo ladrillo","#A23B2A"],["Camel dorado","#C68E3F"],["Óxido","#B7472A"],["Mostaza","#D4A017"],["Calabaza","#D2691E"]],
+ "Otoño profundo":[["Petróleo profundo","#134E5E"],["Azul tinta cálido","#1F2E44"],["Verde bosque","#2F5233"],["Oliva oscuro","#4B5320"],["Naranja quemado","#CC5500"],["Borgoña cálido","#7B2D26"],["Cobre","#B5652B"],["Terracota oscuro","#A0442C"],["Mostaza oscura","#B8860B"],["Chocolate","#4A2C1D"]],
+ "Invierno frío":[["Azul real","#1F4FB4"],["Azul marino","#14213D"],["Esmeralda","#00875A"],["Verde pino","#0F4D3A"],["Rojo puro","#C8102E"],["Burdeos frío","#7A1F3D"],["Gris acero","#8A96A3"],["Turquesa frío","#0097A7"],["Violeta oscuro","#4B1F7A"],["Azul hielo","#D6ECF5"]],
+ "Invierno brillante":[["Azul eléctrico","#0055FF"],["Cobalto","#0047AB"],["Esmeralda brillante","#009B77"],["Verde pino brillante","#007A5E"],["Rojo cereza","#D2042D"],["Violeta profundo","#5A189A"],["Gris acero","#5F6B7A"],["Turquesa intenso","#00B7C7"],["Menta helado","#A8F0D8"],["Azul hielo","#D6ECF5"]],
+ "Invierno profundo":[["Azul tinta","#1B2A4A"],["Azul noche","#142039"],["Verde botella","#0B4F3C"],["Esmeralda oscuro","#046307"],["Rojo vino","#8B0A1A"],["Burdeos","#6D1A36"],["Pizarra","#3B4252"],["Petróleo frío","#0F4C5C"],["Ciruela","#4B1E3F"],["Berenjena","#3E1F47"]]
+};
+const ORDER_M={inocente:[0,2,8],huerfano:[1,3,6],guerrero:[5,1,4],bienhechor:[2,6,0],amante:[4,5,1],destructor:[5,4,1],sabio:[1,3,5],mago:[5,3,0],soberano:[1,5,4],bufon:[4,2,0],explorador:[3,2,6],creador:[4,2,0]};
+const COLOR_M={amante:"Los tonos más ricos y profundos de tu paleta: rojos vino, burdeos, ciruelas y azules intensos.",bufon:"Los tonos más vivos de tu paleta en prendas puntuales (camisa, medias, zapatillas) sobre una base neutra.",inocente:"Los tonos claros y luminosos de tu paleta, con blanco o crudo como base."};
+const ALTURA = {
+ baja:["Monocromo o tono sobre tono para alargar la figura","Tiro alto y largos al tobillo o por encima de la rodilla","Estampados pequeños y proporcionados","Calzado con un poco de taco o punta fina","Evitar largos midi pesados y abrigos muy largos"],
+ media:["Podés jugar con casi todos los largos","Elegí proporciones 1/3–2/3 (por ejemplo, prenda superior metida y pantalón de tiro alto)"],
+ alta:["Podés llevar largos midi, maxi y abrigos largos","Cortes horizontales (cinturones, color block) suavizan la verticalidad","Estampados y volúmenes grandes te sientan bien","Calzado plano sin miedo"]
+};
+const EDAD = {
+ 1:["Es la etapa para experimentar: probá tendencias en prendas baratas y invertí en básicos","Construí tu primera cápsula con buena calidad en pantalón, blazer y calzado","Cuidado con lo demasiado juvenil en entrevistas o trabajos formales"],
+ 2:["Etapa de consolidar tu identidad: invertí en sastrería y calzado de calidad","Un buen blazer y un abrigo atemporal sostienen tu imagen profesional","Actualizá los cortes de jean y anteojos cada pocos años"],
+ 3:["Priorizá la calidad del tejido y el calce perfecto: un arreglo de modista cambia todo","Acercá los colores de tu paleta al rostro (pañuelos, cuellos, aros)","Evitá vestir 'para tu edad': vestí para tu arquetipo con cortes actuales","Si las canas aparecen, revisá la paleta: suele enfriarse y suavizarse"],
+ 4:["Telas nobles y cómodas: cachemira, seda, lino y punto de calidad","Color cerca del rostro para dar luz; un labial en tu tono suma mucho","Calzado cómodo y actual (mocasines, zapatillas de cuero, botas bajas)","Mantené un detalle con personalidad: anteojos, joya o pañuelo firma","Si el pelo está canoso, tu paleta probablemente se enfrió: priorizá plata y tonos frescos"]
+};
+
+const PELO = {rubioceniza:{d:1,w:-1},rubiodorado:{d:1,w:1},cobrizo:{d:2.2,w:1.5},castclaro:{d:1.8,w:0},castmedio:{d:2.5,w:0},castoscuro:{d:3.3,w:0},negro:{d:4,w:-.5},canoso:{d:1.2,w:-1.2}};
+const OJOS = {azulclaro:{d:.5,w:-.5,b:1},azulgris:{d:1.2,w:-.5,b:0},verde:{d:1.5,w:.3,b:.7},avellana:{d:2.2,w:.5,b:0},marronclaro:{d:2.5,w:.3,b:0},marronoscuro:{d:3.4,w:0,b:0},negro:{d:4,w:-.2,b:.8}};
+
+function estacion(){
+ const p=PELO[$("pelo").value], o=OJOS[$("ojos").value], piel=+$("piel").value*1.33;
+ const sub={calido:2,neutro:0,frio:-2}[$("subtono").value];
+ const warm=sub+p.w+o.w*.5;
+ const depth=(p.d*1.2+o.d*.8+piel)/3;
+ const contrast=Math.abs(p.d-piel)+o.b*1.2;
+ const W = warm>0 || (warm===0 && p.w>=0);
+ let dom;
+ if(Math.abs(warm)>=3.2 && depth>0.9 && depth<3.2) dom="temp"; else if(depth<=1.25) dom="claro"; else if(depth>=2.85) dom="profundo";
+ else if(contrast>=2.6) dom="brillante"; else if(contrast<=1.0) dom="suave";
+ else dom = Math.abs(warm)>=2 ? "temp" : (contrast>=1.8?"brillante":"suave");
+ const map=W?{claro:"Primavera clara",brillante:"Primavera brillante",suave:"Otoño suave",profundo:"Otoño profundo",temp:depth<2?"Primavera cálida":"Otoño cálido"}
+            :{claro:"Verano claro",brillante:"Invierno brillante",suave:"Verano suave",profundo:"Invierno profundo",temp:depth<2?"Verano frío":"Invierno frío"};
+ return map[dom];
+}
+
+const $=id=>document.getElementById(id);
+function fill(){
+ const a1=$("arq1"),a2=$("arq2");
+ a2.innerHTML='<option value="">Ninguno</option>';
+ fillArq("","");
+ for(const k in PAL) $("estacion").add(new Option(k,k));
+ fillCuerpo("");
+}
+function fillArq(v1,v2){
+ const a1=$("arq1"),a2=$("arq2"),S=cur();
+ a1.innerHTML='<option value="" disabled>Elegí o hacé el cuestionario…</option>';a2.innerHTML='<option value="">Ninguno</option>';
+ for(const k in S){a1.add(new Option(S[k].n,k));a2.add(new Option(S[k].n,k));}
+ a1.value=S[v1]?v1:""; a2.value=S[v2]?v2:"";
+ const f7=sis()==="f7";
+ $("gen-m").disabled=f7; if(f7&&gen()==="m"){$("gen-f").checked=true;fillCuerpo($("cuerpo").value);}
+ $("sisHint").textContent=f7?"Arquetipos femeninos (Madre, Doncella, Cazadora, Mística, Reina, Sabia, Amante). Pensados para mujeres.":"Los 12 arquetipos de Carol Pearson, de raíz junguiana. Sirven para mujeres y hombres.";
+}
+function fillCuerpo(keep){
+ const g=gen(), sel=$("cuerpo"); sel.innerHTML='<option value="">—</option>';
+ for(const k in CUERPO[g]) sel.add(new Option(CUERPO[g][k].n,k));
+ sel.value = CUERPO[g][keep]?keep:"";
+ if($("bodypick")) drawBodyPick();
+}
+const gen=()=>document.querySelector('input[name=genero]:checked').value;
+const corto=n=>n.replace(/^(El|La) /,"");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const li=a=>`<ul class="list">${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+const sw=(a,cls="")=>`<div class="swatches ${cls}">${a.map(([n,h])=>`<div class="sw"><i style="background:${h}"></i>${esc(n)}</div>`).join("")}</div>`;
+
+let lastText="";
+function render(){
+ {const manual=$("estacion").value!=="auto";
+  const req=[["arq1","Arquetipo (elegilo o hacé el cuestionario)",!!cur()[$("arq1").value]],["edad","Edad"],["altura","Altura"],
+   ...(manual?[]:[["ojos","Color de ojos"],["pelo","Color de pelo"],["piel","Piel"],["subtono","Subtono"]]),
+   ["cuerpo","Tipo de cuerpo (tocá un dibujo)",!!CUERPO[gen()][$("cuerpo").value]]].map(r=>[r[0],r[1],r.length>2?r[2]:!!$(r[0]).value]);
+  const falta=req.filter(r=>!r[2]);
+  if(!CUERPO[gen()][$("cuerpo").value]) $("cuerpoHint").textContent="";
+  drawBodyPick();
+  if(falta.length){
+   lastText="";
+   $("informe").innerHTML=`<section class="card hero"><span class="eyebrow">Informe de estilo${$("nombre").value.trim()?" · "+esc($("nombre").value.trim()):""}</span>
+    <h2>Completá la ficha para ver el informe</h2>
+    <p class="sub" style="margin:0">El informe se arma solo apenas estén todos los datos. Falta${falta.length>1?"n":""}:</p>
+    <ul class="list">${falta.map(r=>`<li>${esc(r[1])}</li>`).join("")}</ul>
+    <p class="hint">${req.length-falta.length} de ${req.length} datos completos.</p></section>`;
+   return;
+  }
+ }
+ const S=cur(), g=gen(), gx=(o,k)=>g==="m"&&o[k+"M"]?o[k+"M"]:o[k], A=S[$("arq1").value], B=$("arq2").value&&$("arq2").value!==$("arq1").value?S[$("arq2").value]:null;
+ const autoS=estacion(), sKey=$("estacion").value==="auto"?autoS:$("estacion").value, P=PAL[sKey];
+ const C=CUERPO[g][$("cuerpo").value]; $("cuerpoHint").textContent=C.h; drawBodyPick();
+ const nombre=$("nombre").value.trim(), edad=$("edad").value, alt=$("altura").value;
+ const edadTxt=$("edad").selectedOptions[0].text, altTxt=$("altura").selectedOptions[0].text.split(" (")[0];
+ // colores para looks según arquetipo
+ const order={inocente:[9,0,7],huerfano:[6,4,2],guerrero:[0,5,4],bienhechor:[1,2,8],amante:[0,1,3],destructor:[5,6,0],sabio:[8,6,9],mago:[3,6,7],soberano:[5,7,4],bufon:[1,3,6],explorador:[4,6,5],creador:[1,6,4]}[A.base||$("arq1").value];
+ const male=g==="m", best=male&&PAL_M[sKey]?PAL_M[sKey]:P.best, baseK=A.base||$("arq1").value;
+ const cs=(male?ORDER_M[baseK]||[0,2,4]:order).map(i=>best[i]); const ns=[P.neu[3],P.neu[1],P.neu[0]];
+ const lk=s=>s.replace(/\{c(\d)\}/g,(_,i)=>cs[i-1][0].toLowerCase()).replace(/\{n(\d)\}/g,(_,i)=>ns[i-1][0].toLowerCase());
+ const occ=["Trabajo","Fin de semana","Evento"];
+ const dotsFor=(s)=>{const out=[];s.replace(/\{([cn])(\d)\}/g,(_,t,i)=>{out.push((t==="c"?cs:ns)[i-1][1])});return out;};
+ const prendas=g==="f"?A.pf:A.pm;
+ const toques=B?[...(g==="f"?B.pf:B.pm).slice(0,2),gx(B,"acc")[0],`Estampado: ${gx(B,"est")[0].toLowerCase()}`]:[];
+ const capsula = g==="f"
+   ? [`Blazer ${ns[0][0].toLowerCase()}`,`Pantalón recto ${ns[0][0].toLowerCase()}`,`Pantalón ${ns[1][0].toLowerCase()}`,`Jean oscuro`,`Camisa ${ns[2][0].toLowerCase()}`,`Blusa ${cs[0][0].toLowerCase()}`,`Remera ${cs[1][0].toLowerCase()}`,`Sweater ${cs[2][0].toLowerCase()}`,`Falda o vestido según tu cuerpo (${C.vest[0].toLowerCase()})`,`Abrigo largo ${ns[1][0].toLowerCase()}`,`${A.pf[A.pf.length-1]}`,`${gx(A,"acc")[0]}`]
+   : [`Saco ${ns[0][0].toLowerCase()}`,`Pantalón de vestir ${ns[0][0].toLowerCase()}`,`Chino ${ns[1][0].toLowerCase()}`,`Jean oscuro`,`Camisa ${ns[2][0].toLowerCase()}`,`Camisa ${cs[0][0].toLowerCase()}`,`Remera ${cs[1][0].toLowerCase()}`,`Sweater ${cs[2][0].toLowerCase()}`,`Campera ${ns[1][0].toLowerCase()}`,`Abrigo ${ns[0][0].toLowerCase()}`,`${A.pm[A.pm.length-1]}`,`${gx(A,"acc")[0]}`];
+
+ $("informe").innerHTML=`
+ <section class="card hero">
+  ${BRAND.logoInforme?`<img class="rlogo" src="${BRAND.logoInforme}" alt="${esc(BRAND.marca||"")}">`:""}
+  <span class="eyebrow">Informe de estilo${nombre?` · ${esc(nombre)}`:""}</span>
+  <h2>${esc(A.n)}${B?` con toque de ${esc(corto(B.n))}`:""}: estilo ${esc(A.estilo.toLowerCase())} en paleta ${esc(sKey)}</h2>
+  <p class="sub" style="margin:0">${esc(gx(A,"esencia"))}</p>
+  <div class="chips">
+   ${origenQuiz?`<span class="chip"><b>Arquetipo definido por cuestionario</b></span>`:""}
+   <span class="chip">Estación <b>${esc(sKey)}</b>${$("estacion").value==="auto"?"":" (indicada)"}</span>
+   <span class="chip">Cuerpo <b>${esc(C.n)}</b></span>
+   <span class="chip">Edad <b>${esc(edadTxt)}</b></span>
+   <span class="chip">Altura <b>${esc(altTxt)}</b></span>
+   <span class="chip">Metal <b>${esc(P.metal)}</b></span>
+  </div>
+ </section>
+
+ <section class="card">
+  <h3>Paleta personal</h3>
+  <p class="sub">${esc(sKey)}: ${esc(P.d)} ${$("estacion").value==="auto"?"Calculada a partir de ojos, pelo, piel y subtono; conviene confirmarla con prueba de telas frente al rostro.":""}</p>
+  <h4>Tus mejores colores${male?" (paleta masculina)":""}</h4>${sw(best)}
+  <h4>Neutros base</h4>${sw(P.neu)}
+  <div class="avoid"><h4>Lejos del rostro</h4>${sw(P.no)}</div>
+  <p class="sub" style="margin-top:12px"><b>Para tu arquetipo:</b> ${esc(male&&COLOR_M[baseK]?COLOR_M[baseK]:A.color)}</p>
+ </section>
+
+ <section class="card">
+  <h3>Prendas y texturas</h3>
+  <p class="sub">Palabras clave de tu imagen: ${gx(A,"claves").map(esc).join(" · ")}</p>
+  <div class="cols">
+   <div><h4>Prendas firma</h4>${li(prendas)}</div>
+   <div><h4>Telas</h4>${li(gx(A,"telas"))}<h4>Estampados</h4>${li(gx(A,"est"))}</div>
+   <div><h4>Accesorios</h4>${li(gx(A,"acc"))}${B?`<h4>Toque ${esc(corto(B.n))}</h4>${li(toques)}`:""}</div>
+  </div>
+  <div class="shadow"><b>Sombra a cuidar:</b> ${esc(gx(A,"sombra"))}</div>
+ </section>
+
+ <section class="card">
+  <div class="mq-big">${maniqui(SIL[g][$("cuerpo").value],true)}</div>
+  <h3>Cortes para tu cuerpo</h3>
+  <p class="sub">${esc(C.n)}. ${esc(C.obj)}</p>
+  <div class="cols">
+   <div><h4>Arriba</h4>${li(C.arriba)}</div>
+   <div><h4>Abajo</h4>${li(C.abajo)}</div>
+   <div><h4>${g==="f"?"Vestidos y conjuntos":"Trajes y conjuntos"}</h4>${li(C.vest)}<h4 class="no">Evitar</h4>${li(C.no)}</div>
+  </div>
+  <h4>Según tu altura</h4>${li((g==="m"?ALTURA_M:ALTURA)[alt])}
+ </section>
+
+ <section class="card">
+  <h3>Looks sugeridos</h3>
+  <p class="sub">Combinan prendas de tu arquetipo con colores de tu paleta. Adaptá los cortes a tu tipo de cuerpo.</p>
+  <div class="looks">${A.looks[g].map((s,i)=>`<div class="look"><span class="tag">${occ[i]}</span><div class="dots">${dotsFor(s).map(h=>`<i style="background:${h}"></i>`).join("")}</div><p>${esc(lk(s))}</p></div>`).join("")}</div>
+ </section>
+
+ <section class="card">
+  <h3>Armario cápsula</h3>
+  <p class="sub">Doce piezas que combinan entre sí y suman más de 30 conjuntos.</p>
+  <div class="capsule">${capsula.map(x=>`<div>${esc(x)}</div>`).join("")}</div>
+ </section>
+
+ <section class="card">
+  <h3>Ajustes por edad</h3>
+  ${li((g==="m"?EDAD_M:EDAD)[edad])}
+ </section>
+ ${(BRAND.firmaInforme||(BRAND.contacto&&(BRAND.contacto.whatsapp||BRAND.contacto.instagram||BRAND.contacto.web)))?`<section class="card firma">${BRAND.firmaInforme?`<b>${esc(BRAND.firmaInforme)}</b>`:""}${BRAND.contacto.whatsapp?`<span>WhatsApp: ${esc(BRAND.contacto.whatsapp)}</span>`:""}${BRAND.contacto.instagram?`<span>Instagram: ${esc(BRAND.contacto.instagram)}</span>`:""}${BRAND.contacto.web?`<span>${esc(BRAND.contacto.web)}</span>`:""}</section>`:""}`;
+
+ brandText($("informe"));
+ lastText=[`INFORME DE ESTILO${nombre?" — "+nombre:""}`,
+  `${A.n}${B?" + "+B.n:""} · ${A.estilo} · Estación: ${sKey} · Cuerpo: ${C.n} · Edad: ${edadTxt} · Altura: ${altTxt}`,
+  ``,`ESENCIA: ${gx(A,"esencia")}`,``,
+  `PALETA (${sKey}) — ${P.d}`,`Mejores colores: ${best.map(x=>x[0]).join(", ")}`,`Neutros: ${P.neu.map(x=>x[0]).join(", ")}`,`Evitar cerca del rostro: ${P.no.map(x=>x[0]).join(", ")}`,`Metal: ${P.metal}`,`Para tu arquetipo: ${A.color}`,``,
+  `PRENDAS FIRMA: ${prendas.join("; ")}`,`TELAS: ${gx(A,"telas").join(", ")}`,`ESTAMPADOS: ${gx(A,"est").join(", ")}`,`ACCESORIOS: ${gx(A,"acc").join(", ")}`,
+  B?`TOQUE ${B.n.toUpperCase()}: ${toques.join("; ")}`:"",`SOMBRA A CUIDAR: ${gx(A,"sombra")}`,``,
+  `CORTES (${C.n}) — ${C.obj}`,`Arriba: ${C.arriba.join("; ")}`,`Abajo: ${C.abajo.join("; ")}`,`Conjuntos: ${C.vest.join("; ")}`,`Evitar: ${C.no.join("; ")}`,`Altura: ${(g==="m"?ALTURA_M:ALTURA)[alt].join("; ")}`,``,
+  `LOOKS`,...A.looks[g].map((s,i)=>`${occ[i]}: ${lk(s)}`),``,
+  `CÁPSULA: ${capsula.join("; ")}`,``,`EDAD: ${(g==="m"?EDAD_M:EDAD)[edad].join("; ")}`,$("notas").value.trim()?`\nNOTAS: ${$("notas").value.trim()}`:""].filter(x=>x!==null).join("\n");
+ lastText=brandStr(lastText)+(BRAND.firmaInforme?"\n\n— "+BRAND.firmaInforme:"")+(BRAND.contacto&&BRAND.contacto.whatsapp?"\nWhatsApp: "+BRAND.contacto.whatsapp:"")+(BRAND.contacto&&BRAND.contacto.instagram?"\nInstagram: "+BRAND.contacto.instagram:"")+(BRAND.contacto&&BRAND.contacto.web?"\n"+BRAND.contacto.web:"");
+}
+
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1800);}
+$("copiar").addEventListener("click",()=>{
+ if(!lastText){toast("Completá la ficha primero");return;}
+ const fb=()=>{let ta=document.querySelector("textarea.fallback");if(!ta){ta=document.createElement("textarea");ta.className="fallback";ta.setAttribute("aria-label","Texto del informe");$("ficha").appendChild(ta);}ta.value=lastText;ta.select();toast("Seleccioná y copiá el texto");};
+ try{navigator.clipboard.writeText(lastText).then(()=>toast("Informe copiado"),fb);}catch(e){fb();}
+});
+$("verInforme").addEventListener("click",()=>$("informe").scrollIntoView({behavior:"smooth"}));
+document.querySelectorAll('input[name=genero]').forEach(r=>r.addEventListener("change",()=>{if(typeof quizEl!=="undefined"&&!quizEl.hidden){Q={mode:null,i:0,ans:[]};drawQuiz();}const map={reloj:"trapecio",trapecio:"reloj"};fillCuerpo(map[$("cuerpo").value]||$("cuerpo").value);render();}));
+let rq=0; const renderSoon=()=>{cancelAnimationFrame(rq);rq=requestAnimationFrame(()=>render());};
+$("ficha").addEventListener("input",e=>{if(e.target.tagName!=="SELECT")renderSoon();});
+$("ficha").addEventListener("change",renderSoon);
+
+/* ===== Cuestionario de arquetipo ===== */
+const BREVE=[
+ ["Tu sábado libre ideal",[["Recorrer un lugar que no conozco","explorador"],["Un taller de arte o crear algo con las manos","creador"],["Cocinar y reunir a los míos","bienhechor"],["Leer, estudiar o hacer un curso","sabio"],["Salir con amigos y reírme mucho","bufon"],["Un plan romántico o un día de spa","amante"]]],
+ ["En un grupo, la gente te busca porque…",[["Organizo y tomo decisiones","soberano"],["Escucho y contengo","bienhechor"],["Explico y aconsejo","sabio"],["Animo y hago reír","bufon"],["Defiendo y resuelvo","guerrero"],["Inspiro y ayudo a transformar","mago"]]],
+ ["Lo que más querés transmitir con tu imagen",[["Frescura y confianza","inocente"],["Cercanía, que soy una persona real","huerfano"],["Autoridad y criterio","soberano"],["Belleza y magnetismo","amante"],["Originalidad","creador"],["Libertad","explorador"],["Fuerza y rebeldía","destructor"]]],
+ ["La prenda que más te representa",[["Camisa blanca impecable","inocente sabio"],["Jean y remera","huerfano"],["Blazer estructurado","guerrero soberano"],["Algo de seda que cae suave","amante"],["Campera de cuero","destructor"],["Kimono o tapado largo","mago"],["Una pieza de diseño única","creador"],["Chaqueta utilitaria y botas","explorador"]]],
+ ["Tu estampado favorito",[["Florales pequeños o lunares","inocente"],["Rayas o cuadros clásicos","huerfano sabio"],["Animal print","amante"],["Étnicos o artesanales","explorador"],["Gráficos, tachas, algo rockero","destructor"],["Simbólicos o celestiales","mago"],["Abstractos o pinceladas","creador"],["Mezclas divertidas y coloridas","bufon"],["Liso, de muy buena calidad","soberano"]]],
+ ["Ante un problema, primero…",[["Lo enfrento de frente","guerrero"],["Lo analizo con calma","sabio"],["Busco apoyo en otros","huerfano"],["Confío en que va a salir bien","inocente"],["Lo veo como una oportunidad de transformación","mago"],["Rompo con lo viejo y empiezo de cero","destructor"],["Tomo el mando","soberano"]]],
+ ["Lo que más temés",[["Quedarme sola o excluida","huerfano"],["Perder el control","soberano"],["Perder mi libertad","explorador"],["Mostrarme débil","guerrero"],["Aburrirme","bufon"],["No ser amada","amante"],["Equivocarme por no saber","sabio"],["Que me consideren egoísta","bienhechor"],["Una vida sin propósito creativo","creador"],["Estancarme y no cambiar nunca","destructor mago"]]],
+ ["El cumplido que más te gustaría escuchar",[["«Sos auténtica»","explorador"],["«Sos tan buena persona»","bienhechor"],["«Qué inteligente sos»","sabio"],["«Sos muy valiente»","guerrero"],["«Qué atractiva estás»","amante"],["«Sos única»","creador"],["«Qué divertida sos»","bufon"],["«Sos luminosa»","inocente"],["«Qué elegante»","soberano"],["«Tenés algo mágico»","mago"],["«Sos real, sin vueltas»","huerfano"],["«Rompés moldes»","destructor"]]],
+ ["Tu espacio ideal",[["Luminoso, blanco y ordenado","inocente"],["Cálido, con plantas y mantas","bienhechor"],["Lleno de libros","sabio"],["Con objetos traídos de viajes","explorador"],["Un taller con materiales por todos lados","creador"],["Minimalista y elegante","soberano"],["Con velas, piedras y símbolos","mago"],["Industrial, oscuro, con carácter","destructor"],["Colorido y ecléctico","bufon"],["Romántico, con terciopelo y flores","amante"]]],
+ ["El accesorio del que no te separás",[["Perlas o una joya delicada","inocente"],["Un buen reloj","soberano"],["Mis anteojos","sabio"],["Aros grandes","amante"],["Cristales o piedras","mago"],["Anillos y cadenas","destructor"],["Mochila o sombrero","explorador"],["Una joya de autor","creador"],["Un pañuelo","bienhechor"],["Algo de color y divertido","bufon"],["Un cinturón firme","guerrero"],["Ninguno, voy a lo práctico","huerfano"]]],
+ ["Cuando te vestís a la mañana…",[["Busco rapidez y comodidad","huerfano"],["Me preparo para conquistar el día","guerrero"],["Quiero sentirme deseable","amante"],["Me divierto combinando","bufon"],["Elijo por intuición, según mi energía","mago"],["Elijo piezas que cuentan quién soy","creador"],["Voy a lo clásico y prolijo","sabio soberano"],["Pienso en estar presentable para los demás","bienhechor"]]],
+ ["La heroína con la que más te identificás",[["La que viaja sola por el mundo","explorador"],["La sabia consejera","sabio"],["La guerrera que defiende a los suyos","guerrero"],["La hechicera","mago"],["La reina","soberano"],["La enamorada","amante"],["La artista","creador"],["La que cuida a todos","bienhechor"],["La rebelde que derriba el sistema","destructor"],["La soñadora optimista","inocente"],["La sobreviviente","huerfano"],["La divertida del grupo","bufon"]]]
+];
+const COMPLETO={
+ inocente:["Confío en que las cosas van a salir bien","Me gustan las cosas simples y sinceras","Prefiero ver lo bueno de las personas"],
+ huerfano:["Valoro ser uno(a) más entre los demás, sin destacar","La vida me enseñó a ser realista","Me identifico con quienes atravesaron dificultades"],
+ guerrero:["Me gusta enfrentar desafíos y superar mis límites","Estoy dispuesto(a) a luchar para defender mis valores","Me siento vivo(a) cuando tengo una meta que conquistar"],
+ bienhechor:["Me hace feliz cuidar y ayudar a otros","Suelo anteponer las necesidades de los demás a las mías","La gente se siente contenida conmigo"],
+ amante:["Las relaciones son el centro de mi vida","Expreso fácilmente mis sentimientos","Veo la belleza en todo y disfruto de los sentidos"],
+ destructor:["Me cuesta seguir reglas que no comparto","Soltar lo que ya no sirve me resulta liberador","Cada tanto necesito reinventarme por completo"],
+ sabio:["Necesito entender el porqué de las cosas","Disfruto aprender y estudiar","Prefiero pensar antes de actuar"],
+ mago:["Creo que todo puede transformarse","Confío mucho en mi intuición","Me atrae lo simbólico, lo espiritual y lo misterioso"],
+ soberano:["Me siento cómodo(a) tomando decisiones y liderando","Me gusta el orden y la calidad","Asumo responsabilidades con naturalidad"],
+ bufon:["El humor es mi forma de vivir","Me aburre la rutina, necesito diversión","Me gusta hacer reír a los demás"],
+ explorador:["Necesito libertad y espacio propio","Me encanta descubrir lugares y experiencias nuevas","Me cuesta quedarme mucho tiempo en lo mismo"],
+ creador:["Necesito expresarme creando algo","Me gusta que lo mío sea original","Tengo muchas ideas y proyectos en mente"]
+};
+// mezcla fija de las 36 afirmaciones (alternando arquetipos)
+const BREVE7=[
+ ["Tu sábado libre ideal",[["Cocinar y reunir a los míos","madre"],["Pasear, mirar vidrieras, algo lindo y nuevo","doncella"],["Trekking o deporte al aire libre","cazadora"],["Meditar o un retiro en silencio","mistica"],["Una cena elegante o un evento social","reina"],["Leer o hacer un curso","sabia"],["Un plan romántico o un día de spa","amante"]]],
+ ["En un grupo, vos sos la que…",[["Cuida que todos estén bien","madre"],["Aporta entusiasmo y frescura","doncella"],["Va por su cuenta y resuelve sola","cazadora"],["Percibe lo que no se dice","mistica"],["Organiza y lidera","reina"],["Da la opinión sensata","sabia"],["Genera química y conexión","amante"]]],
+ ["Lo que más querés transmitir con tu imagen",[["Calidez","madre"],["Frescura","doncella"],["Independencia","cazadora"],["Paz","mistica"],["Autoridad","reina"],["Inteligencia","sabia"],["Magnetismo","amante"]]],
+ ["La prenda que más te representa",[["Un sweater suave y amplio","madre"],["Un vestido floreado","doncella"],["Pantalón cargo y zapatillas","cazadora"],["Un vestido largo de lino","mistica"],["Un traje sastre impecable","reina"],["Camisa y blazer de tweed","sabia"],["Un vestido envolvente de seda","amante"]]],
+ ["Tu estampado favorito",[["Tejidos texturados y florales suaves","madre"],["Florales pequeños y lunares","doncella"],["Liso o camuflaje","cazadora"],["Mandalas o celestiales","mistica"],["Liso de gran calidad","reina"],["Pied de poule o espiga","sabia"],["Animal print o florales grandes","amante"]]],
+ ["Lo que más temés",[["Que los míos sufran","madre"],["Perder la ilusión","doncella"],["Depender de alguien","cazadora"],["Perder mi paz interior","mistica"],["Perder mi lugar o el respeto","reina"],["Equivocarme por no saber","sabia"],["No ser deseada ni amada","amante"]]],
+ ["El cumplido que más te gustaría escuchar",[["«Qué cálida sos»","madre"],["«Sos encantadora»","doncella"],["«Sos fuerte e independiente»","cazadora"],["«Transmitís mucha paz»","mistica"],["«Qué elegante y segura»","reina"],["«Qué inteligente»","sabia"],["«Sos irresistible»","amante"]]],
+ ["Tu espacio ideal",[["Una cocina amplia, mantas y plantas","madre"],["Luminoso y con flores","doncella"],["Cerca de la naturaleza","cazadora"],["Un altar, velas y silencio","mistica"],["Elegante y ordenado","reina"],["Una biblioteca","sabia"],["Romántico, con terciopelo y espejos","amante"]]],
+ ["El accesorio del que no te separás",[["Un pañuelo o una joya con significado","madre"],["Perlas pequeñas o una vincha","doncella"],["Reloj deportivo o mochila","cazadora"],["Cristales o un collar de cuentas","mistica"],["Una joya fina","reina"],["Mis anteojos","sabia"],["Aros grandes y labial","amante"]]],
+ ["La heroína con la que más te identificás",[["La madre protectora","madre"],["La joven soñadora","doncella"],["La arquera libre del bosque","cazadora"],["La sacerdotisa","mistica"],["La reina","reina"],["La anciana sabia","sabia"],["La amante apasionada","amante"]]]
+];
+const COMPLETO7={
+ madre:["Cuidar a otros le da sentido a mi vida","Suelo pensar primero en las necesidades de los demás","Me gusta que mi casa sea un refugio para todos"],
+ doncella:["Me entusiasma lo nuevo y me sorprendo con facilidad","Conservo una mirada ilusionada de la vida","Me gusta sentirme fresca, liviana y femenina"],
+ cazadora:["Valoro muchísimo mi independencia","Me siento bien en la naturaleza y en movimiento","Prefiero resolver las cosas por mi cuenta"],
+ mistica:["Necesito momentos de silencio y soledad","Lo espiritual ocupa un lugar central en mi vida","Confío en mi intuición más que en la lógica"],
+ reina:["Me siento cómoda liderando y tomando decisiones","Me gusta rodearme de cosas bellas y de calidad","Cuido mi imagen porque representa quién soy"],
+ sabia:["Necesito entender el porqué de las cosas","Disfruto estudiar y aprender","La gente suele pedirme consejo"],
+ amante:["Disfruto intensamente de los sentidos","Expreso mis emociones con facilidad","Me gusta sentirme atractiva y deseada"]
+};
+const BREVE_M=BREVE.map(q=>[q[0],q[1].slice()]);
+const setQ=(i,t,o)=>{BREVE_M[i]=[t||BREVE[i][0],o];};
+setQ(0,null,[["Recorrer un lugar que no conozco","explorador"],["Un taller o proyecto con las manos","creador"],["Un asado o una comida con los míos","bienhechor"],["Leer, estudiar o hacer un curso","sabio"],["Salir con amigos y reírme mucho","bufon"],["Un plan en pareja, buen vino y buena música","amante"]]);
+setQ(2,null,[["Frescura y confianza","inocente"],["Cercanía, que soy un tipo real","huerfano"],["Autoridad y criterio","soberano"],["Atractivo y magnetismo","amante"],["Originalidad","creador"],["Libertad","explorador"],["Fuerza y rebeldía","destructor"]]);
+setQ(3,null,[["Camisa blanca impecable","inocente sabio"],["Jean y remera","huerfano"],["Saco estructurado","guerrero soberano"],["Camisa de lino o seda de caída suave","amante"],["Campera de cuero","destructor"],["Tapado largo o camisa mao","mago"],["Una prenda de diseño única","creador"],["Chaqueta utilitaria y botas","explorador"]]);
+setQ(4,"Tu estampado o textura favorita",[["Liso, de muy buena calidad","soberano"],["Rayas finas o vichy","inocente"],["Cuadros escoceses o franela","huerfano"],["Príncipe de Gales, espiga o tweed","sabio"],["Liso técnico o camuflaje","guerrero"],["Étnicos o artesanales","explorador"],["Gráficos o de bandas, algo rockero","destructor"],["Geométricos o simbólicos","mago"],["Abstractos o color block","creador"],["Camisas estampadas divertidas","bufon"],["Texturas ricas: terciopelo, gamuza, punto fino","amante"]]);
+setQ(6,null,[["Quedarme solo o excluido","huerfano"],["Perder el control","soberano"],["Perder mi libertad","explorador"],["Mostrarme débil","guerrero"],["Aburrirme","bufon"],["No ser amado","amante"],["Equivocarme por no saber","sabio"],["Que me consideren egoísta","bienhechor"],["Una vida sin propósito creativo","creador"],["Estancarme y no cambiar nunca","destructor mago"]]);
+setQ(7,null,[["«Sos auténtico»","explorador"],["«Sos un gran tipo»","bienhechor"],["«Qué inteligente sos»","sabio"],["«Sos muy valiente»","guerrero"],["«Qué atractivo estás»","amante"],["«Sos único»","creador"],["«Qué divertido sos»","bufon"],["«Transmitís confianza y buena onda»","inocente"],["«Qué elegante»","soberano"],["«Tenés algo magnético»","mago"],["«Sos real, sin vueltas»","huerfano"],["«Rompés moldes»","destructor"]]);
+setQ(8,null,[["Luminoso, blanco y ordenado","inocente"],["Cálido, con madera y plantas","bienhechor"],["Lleno de libros","sabio"],["Con objetos traídos de viajes","explorador"],["Un taller con herramientas y materiales","creador"],["Minimalista y elegante","soberano"],["Con objetos antiguos y símbolos","mago"],["Industrial, oscuro, con carácter","destructor"],["Colorido y ecléctico","bufon"],["Luz baja, cuero y buena música","amante"]]);
+setQ(9,null,[["Una pulsera o cadena fina","inocente"],["Un buen reloj","soberano"],["Mis anteojos","sabio"],["Un buen perfume","amante"],["Un anillo con piedra o significado","mago"],["Anillos y cadenas","destructor"],["Mochila o sombrero","explorador"],["Un accesorio de diseño de autor","creador"],["Una bufanda o pañuelo de bolsillo","bienhechor"],["Medias o anteojos de color","bufon"],["Un cinturón firme","guerrero"],["Ninguno, voy a lo práctico","huerfano"]]);
+setQ(10,null,[["Busco rapidez y comodidad","huerfano"],["Me preparo para conquistar el día","guerrero"],["Quiero sentirme atractivo","amante"],["Me divierto combinando","bufon"],["Elijo por intuición, según mi energía","mago"],["Elijo prendas que cuentan quién soy","creador"],["Voy a lo clásico y prolijo","sabio soberano"],["Pienso en estar presentable para los demás","bienhechor"]]);
+setQ(11,"El héroe con el que más te identificás",[["El que viaja solo por el mundo","explorador"],["El sabio consejero","sabio"],["El guerrero que defiende a los suyos","guerrero"],["El mago","mago"],["El rey","soberano"],["El enamorado","amante"],["El artista","creador"],["El que cuida a todos","bienhechor"],["El rebelde que derriba el sistema","destructor"],["El soñador optimista","inocente"],["El sobreviviente","huerfano"],["El divertido del grupo","bufon"]]);
+const qBreve=()=>sis()==="f7"?BREVE7:(gen()==="m"?BREVE_M:BREVE);
+const qComp=()=>{const C=sis()==="f7"?COMPLETO7:COMPLETO,m=gen()==="m";return [0,1,2].flatMap(i=>Object.keys(C).map(k=>[C[k][i].replace(/o\(a\)/g,m?"o":"a"),k]));};
+let quizResult=null;
+let origenQuiz=false, Q={mode:null,i:0,ans:[]};
+const quizEl=$("quiz");
+function abrirQuiz(){Q={mode:null,i:0,ans:[]};quizEl.hidden=false;$("informe").hidden=true;drawQuiz();quizEl.scrollIntoView({behavior:"smooth",block:"start"});}
+function cerrarQuiz(){quizEl.hidden=true;$("informe").hidden=false;}
+function total(){return Q.mode==="breve"?qBreve().length:qComp().length;}
+function drawQuiz(){
+ if(!Q.mode){
+  quizEl.innerHTML=`<span class="eyebrow">Cuestionario de arquetipo</span>
+  <h3>¿Qué arquetipo guía tu estilo?</h3>
+  <p class="sub">Sistema: <b>${sis()==="f7"?"7 arquetipos femeninos":"12 arquetipos junguianos"}</b> · versión <b>${gen()==="m"?"masculina":"femenina"}</b> (cambialo en la ficha). El resultado muestra tu perfil con todos los arquetipos y los tres más activos, y podés pasarlo directo al informe.</p>
+  <div class="modes">
+   <button type="button" class="mode" data-mode="breve"><b>Breve · ${qBreve().length} preguntas</b><span>Preguntas de elección sobre gustos, prendas y forma de ser. Unos 3 minutos.</span></button>
+   <button type="button" class="mode" data-mode="completo"><b>Completo · ${qComp().length} afirmaciones</b><span>Escala del 1 al 5, tres afirmaciones por arquetipo, como un cuestionario de arquetipos dominantes. Unos 6 minutos.</span></button>
+  </div>
+  <div class="qnav"><button type="button" class="btn ghost" data-act="cerrar">Volver al informe</button></div>`;
+  return;
+ }
+ if(Q.i>=total()){drawResult();return;}
+ const pct=Math.round(Q.i/total()*100);
+ let body;
+ if(Q.mode==="breve"){
+  const [q,opts]=qBreve()[Q.i];
+  body=`<p class="qtext">${esc(q)}</p><div class="opts">${opts.map((o,j)=>`<button type="button" class="opt${Q.ans[Q.i]===j?" sel":""}" data-opt="${j}">${esc(o[0])}</button>`).join("")}</div>`;
+ }else{
+  const [q]=qComp()[Q.i];
+  const lab=["Nada","Poco","Algo","Bastante","Totalmente"];
+  body=`<p class="sub" style="margin:0">¿Cuánto te describe esta frase?</p><p class="qtext">${esc(q)}</p><div class="likert">${lab.map((l,j)=>`<button type="button" class="opt${Q.ans[Q.i]===j+1?" sel":""}" data-opt="${j+1}"><b>${j+1}</b>${l}</button>`).join("")}</div>`;
+ }
+ quizEl.innerHTML=`<div class="qnav"><span class="eyebrow">Cuestionario ${Q.mode}</span><span class="qcount">${Q.i+1} / ${total()}</span></div>
+  <div class="progress"><i style="width:${pct}%"></i></div>${body}
+  <div class="qnav"><button type="button" class="btn ghost" data-act="atras">${Q.i?"← Anterior":"← Cambiar versión"}</button><button type="button" class="btn ghost" data-act="cerrar">Salir</button></div>`;
+}
+function scores(){
+ const S=cur(),sc={},mx={};for(const k in S){sc[k]=0;mx[k]=0;}
+ if(Q.mode==="breve"){
+  qBreve().forEach(([,opts],qi)=>{
+   const best={};opts.forEach(o=>o[1].split(" ").forEach((k,n)=>{best[k]=Math.max(best[k]||0,n?1:2)}));
+   for(const k in best) mx[k]+=best[k];
+   const a=Q.ans[qi]; if(a==null) return;
+   opts[a][1].split(" ").forEach((k,n)=>sc[k]+=n?1:2);
+  });
+ }else{
+  qComp().forEach(([,k],qi)=>{mx[k]+=4;sc[k]+=(Q.ans[qi]||1)-1;});
+ }
+ return Object.keys(S).map(k=>[k,mx[k]?Math.round(sc[k]/mx[k]*100):0]).sort((a,b)=>b[1]-a[1]);
+}
+function drawResult(){
+ const ARQ=cur(), r=scores(), top=r.slice(0,3); quizResult=r;
+ quizEl.innerHTML=`<span class="eyebrow">Resultado</span>
+  <h3>Tu perfil: ${top.map(t=>esc(corto(ARQ[t[0]].n))).join(", ")}</h3>
+  <p class="sub">El primero define tu estilo base y el segundo aporta el toque. El tercero aparece en detalles y en ciertos contextos.</p>
+  <div class="profile">${top.map((t,i)=>`<div><span class="qcount">${["Dominante","Secundario","Tercero"][i]} · ${t[1]}%</span><b>${esc(ARQ[t[0]].n)}</b>${esc(gen()==="m"&&ARQ[t[0]].esenciaM?ARQ[t[0]].esenciaM:ARQ[t[0]].esencia)}</div>`).join("")}</div>
+  <h4>Todos los arquetipos</h4>
+  <div class="bars">${r.map((t,i)=>`<div class="bar${i<3?" top":""}"><span>${esc(corto(ARQ[t[0]].n))}</span><div class="track"><i style="width:${t[1]}%"></i></div><span>${t[1]}%</span></div>`).join("")}</div>
+  <p class="hint">El cuestionario orienta y abre la conversación: la mirada de la asesora y el diálogo con la persona completan la lectura.</p>
+  <div class="qnav"><button type="button" class="btn" data-act="usar" data-a="${top[0][0]}" data-b="${top[1][0]}">Usar en el informe</button><button type="button" class="btn ghost" data-act="repetir">Repetir</button></div>`;
+}
+quizEl.addEventListener("click",e=>{
+ const b=e.target.closest("button"); if(!b) return;
+ if(b.dataset.mode){Q.mode=b.dataset.mode;Q.i=0;Q.ans=[];drawQuiz();return;}
+ if(b.dataset.opt!=null){Q.ans[Q.i]=+b.dataset.opt;b.classList.add("sel");setTimeout(()=>{Q.i++;drawQuiz();},160);return;}
+ const a=b.dataset.act;
+ if(a==="atras"){if(Q.i>0)Q.i--;else Q.mode=null;drawQuiz();}
+ else if(a==="cerrar") cerrarQuiz();
+ else if(a==="repetir"){Q={mode:null,i:0,ans:[]};drawQuiz();}
+ else if(a==="usar"){$("arq1").value=b.dataset.a;$("arq2").value=b.dataset.b;origenQuiz=true;cerrarQuiz();render();$("informe").scrollIntoView({behavior:"smooth",block:"start"});toast("Arquetipo aplicado al informe");}
+});
+$("abrirQuiz").addEventListener("click",abrirQuiz);
+$("arq1").addEventListener("change",()=>{origenQuiz=false;});
+$("arq2").addEventListener("change",()=>{origenQuiz=false;});
+
+/* ===== Fichas guardadas ===== */
+let coll=null, fichas=[], currentId=null, confirmDel=null, modo="local", editMode=false;
+const LS="espejo-fichas";
+const FIELDS=["nombre","edad","altura","ojos","pelo","piel","subtono","estacion","cuerpo","arq1","arq2","notas"];
+function lsRead(){try{return JSON.parse(localStorage.getItem(LS)||"[]")}catch(e){return []}}
+function lsWrite(a){const j=JSON.stringify(a);if(window.__nlSave)window.__nlSave(j);try{localStorage.setItem(LS,j);return true}catch(e){return !!window.__nlSave}}
+async function initStore(){
+ if(window.__nlReady){try{await window.__nlReady}catch(e){}}
+ fichas=lsRead(); drawFichas();
+ if(!window.claude?.use && !lsOk()) status("Este navegador no permite guardar fichas. Abrí el archivo en Chrome o Safari (no desde la vista previa de WhatsApp o Archivos).",true);
+ try{
+  if(!window.claude?.use) return;
+  const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+  if(!db||!user) return;
+  const uid=await user.id(); if(!uid) return;
+  coll=db.collection("data/users/"+uid);
+  coll.onSnapshot(snap=>{modo="cuenta";fichas=snap.docs.map(d=>Object.assign({id:d.id},d.data()));drawFichas();},
+   ()=>{coll=null;modo="local";fichas=lsRead();drawFichas();});
+ }catch(e){}
+}
+function snapshotFicha(){
+ const d={}; FIELDS.forEach(f=>d[f]=$(f).value);
+ d.genero=gen(); d.sistema=sis(); d.origenQuiz=origenQuiz; d.fecha=new Date().toISOString();
+ d.quiz=origenQuiz&&quizResult?quizResult.slice(0,5):null;
+ return d;
+}
+let memFichas=null;
+function lsOk(){try{const k="__t";localStorage.setItem(k,"1");localStorage.removeItem(k);return true}catch(e){return false}}
+async function guardar(){
+ const d=snapshotFicha();
+ if(!d.nombre.trim()){status("Escribí el nombre de la persona para poder guardar.",true);$("nombre").focus();return;}
+ // editando una ficha abierta desde «Mis fichas»: se actualiza esa ficha aunque cambie el nombre.
+ // si no, y el nombre cambió respecto de la última guardada, es una ficha nueva (no pisa la anterior)
+ const abierta=fichas.find(x=>x.id===currentId);
+ if(!editMode&&(!currentId||!abierta||(abierta.nombre||"").trim().toLowerCase()!==d.nombre.trim().toLowerCase())) currentId="f"+Date.now().toString(36);
+ if(editMode&&!currentId) currentId="f"+Date.now().toString(36);
+ $("guardar").disabled=true; $("guardar").textContent="Guardando…";
+ let ok=false, err="";
+ if(coll){
+  try{await coll.doc(currentId).set(d);ok=true;}catch(e){err=(e&&e.code)||"";}
+ } else if(sbUser){
+  try{const r=await sbc.from(SBT()).upsert({user_id:sbUser.id,id:currentId,nombre:d.nombre,data:d,updated_at:new Date().toISOString()},{onConflict:"user_id,id"});
+   if(r.error) throw r.error; ok=true;
+   fichas=fichas.filter(x=>x.id!==currentId); fichas.unshift(Object.assign({id:currentId},d)); drawFichas();
+  }catch(e){err="nube";}
+ }
+ if(!ok){
+  const a=lsRead().filter(x=>x.id!==currentId);a.push(Object.assign({id:currentId},d));
+  if(lsWrite(a)){ok=true;if(!coll&&!sbUser){fichas=a;}}
+  else{memFichas=(memFichas||fichas).filter(x=>x.id!==currentId);memFichas.push(Object.assign({id:currentId},d));fichas=memFichas;}
+  drawFichas();
+ }
+ $("guardar").disabled=false; $("guardar").textContent="Guardar ficha";
+ const hora=new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+ if(ok){editMode=true;drawEditing(d.nombre.trim());status(`Ficha de ${d.nombre.trim()} guardada (${hora}).`+(err==="nube"?" Sin conexión con tu cuenta: quedó guardada en este dispositivo; subila después desde «Mis fichas».":(coll&&err?" (en este dispositivo)":"")));toast("Ficha guardada");}
+ else status("Este navegador no permite guardar datos (suele pasar al abrir el archivo desde WhatsApp, Archivos o una vista previa). La ficha queda solo hasta cerrar la página: abrila en Chrome o Safari, o usá «Descargar copia».",true);
+}
+function status(t,bad){const el=$("saveStatus");el.textContent=t;el.style.color=bad?"var(--warn)":"var(--ok)";el.hidden=false;}
+function cargar(id){
+ const d=fichas.find(x=>x.id===id); if(!d) return null;
+ document.querySelector(`input[name=sistema][value="${d.sistema||"j12"}"]`).checked=true;
+ document.querySelector(`input[name=genero][value="${d.genero||"f"}"]`).checked=true;
+ fillCuerpo(d.cuerpo); fillArq(d.arq1,d.arq2);
+ FIELDS.forEach(f=>{if(d[f]!=null&&f!=="arq1"&&f!=="arq2"&&f!=="cuerpo")$(f).value=d[f];});
+ $("cuerpo").value=d.cuerpo; origenQuiz=!!d.origenQuiz; quizResult=d.quiz||null;
+ currentId=id; editMode=true; confirmDel=null; $("saveStatus").hidden=true;
+ cerrarQuiz(); cerrarPanel(); render(); drawFichas(); drawEditing(d.nombre);
+ return d;
+}
+function verFicha(id){ if(cargar(id)) setTimeout(()=>$("informe").scrollIntoView({behavior:"smooth",block:"start"}),60); }
+function editarFicha(id){ if(cargar(id)) setTimeout(()=>{$("ficha").scrollIntoView({behavior:"smooth",block:"start"});$("nombre").focus({preventScroll:true});},60); }
+function drawEditing(nombre){
+ const el=$("editing");
+ if(!editMode||!currentId){el.hidden=true;return;}
+ el.innerHTML=`<span>Editando la ficha de <b>${esc(nombre||"")}</b>. «Guardar ficha» actualiza esta ficha.</span><button type="button" class="mini" id="comoNueva">Guardar como nueva</button>`;
+ el.hidden=false;
+}
+async function borrar(id){
+ try{
+  if(coll) await coll.doc(id).delete();
+  else if(sbUser){const r=await sbc.from(SBT()).delete().eq("id",id); if(r.error) throw r.error; fichas=fichas.filter(x=>x.id!==id);}
+  else{const a=lsRead().filter(x=>x.id!==id);lsWrite(a);fichas=a;}
+  if(currentId===id){currentId=null;editMode=false;drawEditing();}
+  confirmDel=null; drawFichas(); toast("Ficha borrada");
+ }catch(e){toast("No se pudo borrar");}
+}
+function nueva(){
+ currentId=null; editMode=false; origenQuiz=false; quizResult=null;
+ $("nombre").value=""; $("notas").value=""; $("estacion").value="auto"; $("saveStatus").hidden=true;
+ ["edad","altura","ojos","pelo","piel","subtono","arq1","arq2","cuerpo"].forEach(id=>$(id).value="");
+ drawEditing(); cerrarPanel(); drawFichas(); render();
+ $("ficha").scrollIntoView({behavior:"smooth",block:"start"}); $("nombre").focus({preventScroll:true});
+}
+function abrirPanel(){ $("panel").hidden=false; document.body.style.overflow="hidden"; drawFichas(); }
+function cerrarPanel(){ $("panel").hidden=true; document.body.style.overflow=""; confirmDel=null; }
+function drawFichas(){
+ const el=$("fichas");
+ const q=($("buscar").value||"").trim().toLowerCase();
+ const all=[...fichas].sort((a,b)=>(b.fecha||"").localeCompare(a.fecha||""));
+ $("fichasCount").textContent=all.length;
+ $("donde").textContent=(modo==="cuenta"?"Guardadas en tu cuenta, privadas: solo vos las ves.":modo==="nube"?"Guardadas en tu cuenta: las ves en todos tus dispositivos.":"Guardadas en este dispositivo.")+` ${all.length} ficha${all.length===1?"":"s"}.`;
+ const list=all.filter(f=>{ if(!q) return true; const a=(f.sistema==="f7"?ARQ7:ARQ)[f.arq1];
+   return [f.nombre,a&&a.n,f.notas,f.estacion].join(" ").toLowerCase().includes(q); });
+ el.innerHTML=list.length?list.map(f=>{
+   const a=(f.sistema==="f7"?ARQ7:ARQ)[f.arq1]; const fe=f.fecha?new Date(f.fecha).toLocaleDateString("es-AR"):"";
+   const c=(CUERPO[f.genero||"f"]||{})[f.cuerpo];
+   return `<div class="fcard${f.id===currentId?" cur":""}"><div><b>${esc(f.nombre||"Sin nombre")}</b><small>${esc(a?a.n:"")}${c?" · "+esc(c.n):""}</small><small>Actualizada ${esc(fe)}${f.notas?" · "+esc(f.notas.slice(0,60))+(f.notas.length>60?"…":""):""}</small></div>
+    <div class="fbtns">${confirmDel===f.id
+     ?`<span class="hint" style="align-self:center">¿Borrar definitivamente?</span><button type="button" class="mini danger" data-del="${f.id}">Sí, borrar</button><button type="button" class="mini" data-cancel="1">No</button>`
+     :`<button type="button" class="mini primary" data-ver="${f.id}">Ver informe</button><button type="button" class="mini" data-edit="${f.id}">Editar</button><button type="button" class="mini danger" data-ask="${f.id}">Borrar</button>`}</div></div>`;}).join("")
+  :(all.length?`<p class="empty">Ninguna ficha coincide con «${esc(q)}».</p>`:`<p class="empty">Todavía no hay fichas. Completá los datos y tocá «Guardar ficha».</p>`);
+}
+$("fichas").addEventListener("click",e=>{
+ const b=e.target.closest("button"); if(!b) return;
+ if(b.dataset.ver) verFicha(b.dataset.ver);
+ else if(b.dataset.edit) editarFicha(b.dataset.edit);
+ else if(b.dataset.ask){confirmDel=b.dataset.ask;drawFichas();}
+ else if(b.dataset.del) borrar(b.dataset.del);
+ else if(b.dataset.cancel){confirmDel=null;drawFichas();}
+});
+$("buscar").addEventListener("input",drawFichas);
+$("topFichas").addEventListener("click",abrirPanel);
+$("formFichas").addEventListener("click",abrirPanel);
+$("topNueva").addEventListener("click",nueva);
+$("cerrarPanel").addEventListener("click",cerrarPanel);
+$("panel").addEventListener("click",e=>{if(e.target.id==="panel")cerrarPanel();});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("panel").hidden)cerrarPanel();});
+$("editing").addEventListener("click",e=>{if(e.target.id==="comoNueva"){currentId=null;editMode=false;guardar();}});
+$("guardar").addEventListener("click",guardar);
+$("bodypick").addEventListener("click",e=>{const b=e.target.closest("button[data-body]");if(!b)return;$("cuerpo").value=b.dataset.body;render();});
+/* Copia de seguridad (solo fuera de Claude, donde las fichas viven en el navegador) */
+if(!window.claude?.use){
+ $("backup").hidden=false;
+ $("exportar").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(lsRead(),null,1)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="fichas-espejo-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();
+  toast("Copia descargada");
+ });
+ $("importar").addEventListener("change",async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{const inc=JSON.parse(await f.text()); if(!Array.isArray(inc)) throw 0;
+   const m=new Map(lsRead().map(x=>[x.id,x])); inc.forEach(x=>x&&x.id&&m.set(x.id,x));
+   const a=[...m.values()]; lsWrite(a); fichas=a; drawFichas(); toast(inc.length+" fichas restauradas");
+  }catch(err){toast("Ese archivo no es una copia de fichas válida");}
+  e.target.value="";
+ });
+}
+$("nueva").addEventListener("click",nueva);
+document.querySelectorAll('input[name=sistema]').forEach(r=>r.addEventListener("change",()=>{
+ origenQuiz=false; quizResult=null;
+ const m={bienhechor:"madre",inocente:"doncella",explorador:"cazadora",guerrero:"cazadora",mago:"mistica",soberano:"reina",sabio:"sabia",amante:"amante",madre:"bienhechor",doncella:"inocente",cazadora:"explorador",mistica:"mago",reina:"soberano",sabia:"sabio"};
+ fillArq(m[$("arq1").value]||$("arq1").value, m[$("arq2").value]||$("arq2").value);
+ if(!quizEl.hidden){Q={mode:null,i:0,ans:[]};drawQuiz();}
+ render();
+}));
+
+/* ===== Cuenta en la nube (Supabase), solo en la versión web publicada ===== */
+let sbc=null, sbUser=null, recuperando=false;
+const SBT=()=>(BRAND.supabase&&BRAND.supabase.tabla)||"fichas";
+function cuentaMsg(t,bad){const m=document.getElementById("cuentaMsg"); if(m){m.textContent=t;m.style.color=bad?"var(--warn)":"var(--ok)";}}
+function drawCuenta(){
+ const el=$("cuenta"); if(!sbc){el.hidden=true;return;} el.hidden=false;
+ if(recuperando){
+  el.innerHTML=`<h5>Nueva contraseña</h5><input type="password" id="cNueva" placeholder="Nueva contraseña (mínimo 6 caracteres)" autocomplete="new-password"><div class="row"><button type="button" class="mini primary" data-c="guardarClave">Guardar contraseña</button></div><p class="msg" id="cuentaMsg"></p>`;return;}
+ if(sbUser){
+  const loc=lsRead().filter(l=>!fichas.some(f=>f.id===l.id));
+  el.innerHTML=`<h5>Tu cuenta</h5><p class="msg" style="color:var(--ink)">Conectada como <b>${esc(sbUser.email||"")}</b>. Tus fichas se sincronizan en todos tus dispositivos.</p>
+   <div class="row">${loc.length?`<button type="button" class="mini primary" data-c="subir">Subir ${loc.length} ficha${loc.length>1?"s":""} de este dispositivo</button>`:""}<button type="button" class="mini" data-c="salir">Cerrar sesión</button></div><p class="msg" id="cuentaMsg"></p>`;
+ } else {
+  el.innerHTML=`<h5>Tu cuenta</h5><p class="msg" style="color:var(--muted)">Ingresá para tener tus fichas en el celu y en la compu. Sin cuenta, se guardan solo en este dispositivo.</p>
+   <input type="email" id="cEmail" placeholder="Correo electrónico" autocomplete="email">
+   <input type="password" id="cClave" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password">
+   <div class="row"><button type="button" class="mini primary" data-c="entrar">Ingresar</button><button type="button" class="mini" data-c="crear">Crear cuenta</button><button type="button" class="linkbtn" data-c="olvide">Olvidé mi contraseña</button></div><p class="msg" id="cuentaMsg"></p>`;
+ }
+}
+async function sbLoad(){
+ const r=await sbc.from(SBT()).select("id,data,updated_at").order("updated_at",{ascending:false});
+ if(r.error){cuentaMsg("No se pudieron traer tus fichas. Revisá tu conexión.",true);return;}
+ fichas=r.data.map(x=>Object.assign({id:x.id},x.data)); drawFichas(); drawCuenta();
+}
+async function sbSet(u){
+ const antes=sbUser&&sbUser.id; sbUser=u;
+ if(u){modo="nube"; if(antes!==u.id) await sbLoad(); else drawCuenta();}
+ else {modo="local"; fichas=lsRead(); drawFichas(); drawCuenta();}
+}
+async function sbInit(){
+ const cfg=BRAND.supabase; if(window.claude?.use||!cfg||!window.supabase) return;
+ try{
+  sbc=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  sbc.auth.onAuthStateChange((ev,ses)=>{ if(ev==="PASSWORD_RECOVERY"){recuperando=true;abrirPanel();} setTimeout(()=>sbSet(ses?ses.user:null),0); });
+  const {data}=await sbc.auth.getSession(); await sbSet(data.session?data.session.user:null);
+ }catch(e){sbc=null;}
+}
+const ERRS={"Invalid login credentials":"Correo o contraseña incorrectos.","Email not confirmed":"Falta confirmar tu correo: revisá tu casilla (y la carpeta de spam).","User already registered":"Ese correo ya tiene cuenta. Tocá «Ingresar».","Password should be at least 6 characters.":"La contraseña tiene que tener al menos 6 caracteres.","Failed to fetch":"No hay conexión con el servidor. Revisá tu internet y probá de nuevo."};
+const trad=m=>ERRS[m]||m;
+$("cuenta").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-c]"); if(!b) return; const a=b.dataset.c;
+ const email=($("cEmail")||{}).value?.trim(), clave=($("cClave")||{}).value;
+ const volver=location.origin+location.pathname;
+ b.disabled=true;
+ try{
+  if(a==="entrar"){ if(!email||!clave){cuentaMsg("Completá correo y contraseña.",true);return;}
+   const r=await sbc.auth.signInWithPassword({email,password:clave}); if(r.error) cuentaMsg(trad(r.error.message),true); else toast("Sesión iniciada"); }
+  else if(a==="crear"){ if(!email||!clave){cuentaMsg("Completá correo y contraseña.",true);return;}
+   const r=await sbc.auth.signUp({email,password:clave,options:{emailRedirectTo:volver}});
+   if(r.error) cuentaMsg(trad(r.error.message),true);
+   else if(!r.data.session) cuentaMsg("Listo. Te mandamos un correo para confirmar la cuenta: abrilo, tocá el enlace y después ingresá acá.");
+   else toast("Cuenta creada"); }
+  else if(a==="olvide"){ if(!email){cuentaMsg("Escribí tu correo arriba y volvé a tocar «Olvidé mi contraseña».",true);return;}
+   const r=await sbc.auth.resetPasswordForEmail(email,{redirectTo:volver}); cuentaMsg(r.error?trad(r.error.message):"Te mandamos un correo para elegir una contraseña nueva.",!!r.error); }
+  else if(a==="guardarClave"){ const n=$("cNueva").value; if(!n||n.length<6){cuentaMsg("Mínimo 6 caracteres.",true);return;}
+   const r=await sbc.auth.updateUser({password:n}); if(r.error) cuentaMsg(trad(r.error.message),true); else {recuperando=false;drawCuenta();toast("Contraseña actualizada");} }
+  else if(a==="salir"){ await sbc.auth.signOut(); toast("Sesión cerrada"); }
+  else if(a==="subir"){ const loc=lsRead().filter(l=>!fichas.some(f=>f.id===l.id));
+   const rows=loc.map(l=>{const d=Object.assign({},l);delete d.id;return {user_id:sbUser.id,id:l.id,nombre:d.nombre||"",data:d,updated_at:d.fecha||new Date().toISOString()};});
+   const r=await sbc.from(SBT()).upsert(rows,{onConflict:"user_id,id"}); if(r.error) cuentaMsg("No se pudieron subir. Probá de nuevo.",true); else {await sbLoad(); toast(rows.length+" fichas subidas a tu cuenta");} }
+ } finally { b.disabled=false; }
+});
+
+fill(); render(); initStore().then(sbInit); setTimeout(()=>$("informe").classList.remove("first"),600);
+</script>
+
+<script>
+if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}
+(function(){
+ const box=document.getElementById("install"),btn=document.getElementById("btnInstalar"),ios=document.getElementById("iosHint");
+ if(matchMedia("(display-mode: standalone)").matches||navigator.standalone) return;
+ let ev=null;
+ addEventListener("beforeinstallprompt",e=>{e.preventDefault();ev=e;box.hidden=false;btn.hidden=false;});
+ btn.addEventListener("click",async()=>{if(!ev)return;ev.prompt();await ev.userChoice;ev=null;box.hidden=true;});
+ if(/iphone|ipad|ipod/i.test(navigator.userAgent)){box.hidden=false;btn.hidden=true;ios.hidden=false;}
+ addEventListener("appinstalled",()=>{box.hidden=true;});
+})();
+</script>
+</body>
+</html>
