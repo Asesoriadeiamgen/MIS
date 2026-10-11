@@ -8,6 +8,7 @@ const SECTIONS = [
   { href: "/servicios", label: "Servicios" },
   { href: "/formaciones", label: "Formaciones" },
   { href: "/colorimetria", label: "Colorimetría" },
+  { href: "/estilo", label: "Test de estilo" },
   { href: "/testimonios", label: "Testimonios" },
   { href: "/blog", label: "Blog" },
   { href: "/libros", label: "Ebooks" },
