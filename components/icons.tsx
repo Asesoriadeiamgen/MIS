@@ -128,6 +128,15 @@ export function IconColorimetria({ className }: IconProps) {
   );
 }
 
+export function IconEstilo({ className }: IconProps) {
+  return (
+    <svg {...common} className={className} aria-hidden="true">
+      <path d="M12 6.5a2 2 0 1 0-2-2" />
+      <path d="M12 6.5v1.8L3.5 14a1.3 1.3 0 0 0 .8 2.3h15.4a1.3 1.3 0 0 0 .8-2.3L12 8.3" />
+    </svg>
+  );
+}
+
 export function IconFaq({ className }: IconProps) {
   return (
     <svg {...common} className={className} aria-hidden="true">
